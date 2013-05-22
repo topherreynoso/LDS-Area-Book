@@ -18,7 +18,7 @@
   </div>
   <% if @families.count > 0 %>
     <div class="span2 dropdown">
-      <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Remove family</a>
+      <a class="dropdown-toggle btn btn-medium btn-warning" data-toggle="dropdown" href="#">Remove family</a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
         <% @families.each do |family| %>
           <li><%= link_to family.name, watch_path(:remove_family => family.id) %></li>

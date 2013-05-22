@@ -6,12 +6,12 @@
   <td class="twofifty"><%= family.children %></td>
   <td class="hundred">
   	<% if family.activities.where("visit = ?", true).count > 0 %>
-  		<%= family.activities.where("visit = ?", true).first.activity_date %>
+  		<%= family.activities.where("visit = ?", true).first.activity_date.strftime("%m/%d/%y") %>
   	<% end %>
   </td>
   <td class="hundred">
   	<% if family.activities.where("visit = ?", false).count > 0 %>
-  	  <%= family.activities.where("visit = ?", false).first.activity_date %>
+  	  <%= family.activities.where("visit = ?", false).first.activity_date.strftime("%m/%d/%y") %>
   	<% end %>
   </td>
   <td class="fivehundred">

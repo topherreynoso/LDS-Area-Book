@@ -11,7 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130521070531) do
+ActiveRecord::Schema.define(version: 20130522050625) do
+
+  create_table "activities", force: true do |t|
+    t.integer  "family_id"
+    t.integer  "user_id"
+    t.date     "activity_date"
+    t.string   "notes"
+    t.string   "reported_by"
+    t.boolean  "visit",         default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "families", force: true do |t|
+    t.string   "name"
+    t.string   "phone"
+    t.string   "email"
+    t.string   "address"
+    t.string   "children"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "investigator", default: false
+    t.boolean  "watched",      default: false
+    t.boolean  "archived",     default: false
+  end
+
+  add_index "families", ["name"], name: "index_families_on_name"
 
   create_table "users", force: true do |t|
     t.string   "name"

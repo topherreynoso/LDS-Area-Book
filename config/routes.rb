@@ -1,11 +1,20 @@
 AreaBook::Application.routes.draw do
   resources :users
+  resources :families
+  resources :activities
   resources :sessions, only: [:new, :create, :destroy]
 
   root to: 'static_pages#home'
 
-  match '/help',    to: 'static_pages#help', via: 'get'
-  match '/newuser', to: 'users#new', 		 via: 'get'
-  match '/signin',  to: 'sessions#new', 	 via: 'get'
-  match '/signout', to: 'sessions#destroy',	 via: 'delete'
+  match '/help',      	  to: 'static_pages#help', 		  via: 'get'
+  match '/newuser',   	  to: 'users#new', 		   		    via: 'get'
+  match '/signin',    	  to: 'sessions#new', 	   		  via: 'get'
+  match '/signout',		    to: 'sessions#destroy',  		  via: 'delete'
+  match '/ward',		      to: 'families#ward',     		  via: 'get'
+  match '/investigators', to: 'families#investigators', via: 'get'
+  match '/watch',         to: 'families#watch',         via: 'get'
+  match '/newfamily',	    to: 'families#new',      		  via: 'get'
+  match '/newactivity',	  to: 'activities#new',			    via: 'get'
+  match '/reports',       to: 'activities#reports',     via: 'get'
+  match '/archive',       to: 'activities#archive',     via: 'get'
 end

@@ -148,3 +148,64 @@ input {
     }
   }
 }
+
+/* Tables */
+
+table{
+  overflow: auto;  
+}
+
+thead { 
+  display: block;
+  margin:0px;
+  cell-spacing:0px;
+  left:0px;
+  overflow: scroll;
+}
+
+tbody { 
+  display: block;
+  overflow: scroll;
+  height: 400px;
+}
+
+.fiftyhigh {
+  height: 50px;
+}
+
+.fifty {
+  width: 50px;
+}
+
+.hundred {
+  width: 100px;
+}
+
+.hundredfifty {
+  width: 150px;
+}
+
+.twofifty {
+  width: 250px;
+}
+
+.fivehundred {
+  width: 500px;
+}
+
+.twelvehundred {
+  width: 1200px;
+}
+
+.fourteenfifty {
+  width: 1450px;
+}
+
+.eighteenfifty {
+  width: 1850px;
+}
+
+td { 
+  margin: 0px;
+  cell-spacing: 0px;
+}

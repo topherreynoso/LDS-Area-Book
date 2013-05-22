@@ -1,0 +1,39 @@
+<ul class="nav nav-tabs">
+  <li><%= link_to "Ward List", ward_path %></li>
+  <li><%= link_to "Investigators", investigators_path %></li>
+  <li class="active"><%= link_to "Watch List", watch_path %></li>
+  <li><%= link_to "Find Report", reports_path %></li>
+  <li><%= link_to "Create Report", newactivity_path %></li>
+  <li><%= link_to "Archive", archive_path %></li>
+</ul>
+<h2>The Watch List includes all families the ward is focusing efforts on. Please add or remove families, as appropriate.</h2>
+<div class="row">
+  <div class="span2 dropdown">
+    <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Add family</a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+      <% @unwatched_families.each do |family| %>
+        <li><%= link_to family.name, watch_path(:add_family => family.id) %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% if @families.count > 0 %>
+    <div class="span2 dropdown">
+      <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Remove family</a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        <% @families.each do |family| %>
+          <li><%= link_to family.name, watch_path(:remove_family => family.id) %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <div class="span2">
+      <%= link_to "Remove family", "#", class: "btn btn-medium btn-primary" %>
+    </div>
+  <% end %>
+</div>
+<h4>&nbsp</h4>
+<% if @families.count > 0 %>
+  <%= render 'families_list' %>
+<% else %>
+  <h3>No families on watch list</h3>  
+<% end %>

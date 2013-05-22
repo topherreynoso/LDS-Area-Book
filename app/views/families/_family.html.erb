@@ -1,0 +1,22 @@
+<tr>
+  <td class="twofifty"><%= link_to family.name, edit_family_path(family) %></td>
+	<td class="hundredfifty"><%= family.phone %></td>
+  <td class="twofifty"><%= family.email %></td>
+	<td class="twofifty"><%= family.address %></td>
+  <td class="twofifty"><%= family.children %></td>
+  <td class="hundred">
+  	<% if family.activities.where("visit = ?", true).count > 0 %>
+  		<%= family.activities.where("visit = ?", true).first.activity_date %>
+  	<% end %>
+  </td>
+  <td class="hundred">
+  	<% if family.activities.where("visit = ?", false).count > 0 %>
+  	  <%= family.activities.where("visit = ?", false).first.activity_date %>
+  	<% end %>
+  </td>
+  <td class="fivehundred">
+  	<% if family.activities.count > 0 %>
+  	  <%= family.activities.first.notes %>
+	  <% end %>
+  </td>
+</tr>

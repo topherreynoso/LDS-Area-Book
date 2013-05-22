@@ -1,4 +1,13 @@
 <% provide(:title, 'Add User') %>
+<ul class="nav nav-tabs">
+  <li><%= link_to "Ward List", ward_path %></li>
+  <li><%= link_to "Investigators", investigators_path %></li>
+  <li><%= link_to "Watch List", watch_path %></li>
+  <li><%= link_to "Find Report", reports_path %></li>
+  <li><%= link_to "Create Report", newactivity_path %></li>
+  <li><%= link_to "Archive", archive_path %></li>
+</ul>
+
 <h1>Add User</h1>
 <div class="row">
   <div class="span6 offset3">

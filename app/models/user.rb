@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :integer          not null, primary key
+#  name            :string(255)
+#  email           :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#  password_digest :string(255)
+#  remember_token  :string(255)
+#  admin           :boolean          default(FALSE)
+#
+
 class User < ActiveRecord::Base
   before_save { self.email = email.downcase }
   before_save :create_remember_token
@@ -9,6 +23,8 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :password_confirmation, presence: true
   validates :password, length: { minimum: 6 }
+
+  default_scope order: 'name ASC'
 
   private
 

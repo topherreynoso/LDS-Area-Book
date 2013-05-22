@@ -1,0 +1,16 @@
+<ul class="nav nav-tabs">
+  <li><%= link_to "Ward List", ward_path %></li>
+  <li class="active"><%= link_to "Investigators", investigators_path %></li>
+  <li><%= link_to "Watch List", watch_path %></li>
+  <li><%= link_to "Find Report", reports_path %></li>
+  <li><%= link_to "Create Report", newactivity_path %></li>
+  <li><%= link_to "Archive", archive_path %></li>
+</ul>
+<h2>The Investigators List includes all non-member families. As you learn information about a family, please update here.</h2>
+<% if @families.count > 0 %>
+  <%= render 'families_list' %>
+<% else %>
+  <h4>No investigators.</h4>
+<% end %>
+<h4>&nbsp</h4>
+<%= link_to "New Family", newfamily_path, class: "btn btn-medium btn-primary" %>

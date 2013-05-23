@@ -10,7 +10,6 @@ class ActivitiesController < ApplicationController
   	@activity.user_id = current_user.id
   	family = Family.find(@activity.family_id)
     if @activity.save
-      flash[:success] = "New activity reported for #{family.name}."
       if family.investigator?
       	redirect_to investigators_path
       else
@@ -29,7 +28,6 @@ class ActivitiesController < ApplicationController
     @activity = Activity.find(params[:id])
     family = Family.find(@activity.family_id)
     if @activity.update_attributes(activity_params)
-      flash[:success] = "Activity information updated for #{family.name}."
       redirect_to reports_path(:family_id => family.id)
     else
       render 'edit'
@@ -75,15 +73,11 @@ class ActivitiesController < ApplicationController
     if params[:archive_family]
       archive_family = Family.find(params[:archive_family])
       archive_family.archived = true
-      if archive_family.save
-        flash[:success] = "Successfully archived #{archive_family.name}."
-      end
+      archive_family.save
     elsif params[:unarchive_id]
       unarchive_family = Family.find(params[:unarchive_id])
       unarchive_family.archived = false
-      if unarchive_family.save
-        flash[:success] = "Successfully unarchived #{unarchive_family.name}."
-      end
+      unarchive_family.save
     end
     @families = Family.where("archived = ?", true)
     if params[:family_id]

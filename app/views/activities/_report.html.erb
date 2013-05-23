@@ -1,0 +1,95 @@
+<% if !@activities || @selected_family %>
+  <div class="row">
+    <div class="span11" style="overflow: auto;">
+      <table class="table table-condensed">
+        <thead class="fourteenfifty">  
+          <tr>
+            <th class="twofifty">Family Name</th>  
+            <th class="hundredfifty">Family Phone</th>  
+            <th class="twofifty">Family Email</th>
+            <th class="twofifty">Family Address</th>
+            <th class="twofifty">Child Names</th>
+            <th class="hundred">Member?</th>
+          </tr>
+        </thead>
+        <tbody class="fiftyhigh fourteenfifty">
+          <% if @selected_family %>
+            <tr>
+              <td class="twofifty"><%= link_to @selected_family.name, edit_family_path(@selected_family) %></td>
+              <td class="hundredfifty"><%= @selected_family.phone %></td>
+              <td class="twofifty"><%= @selected_family.email %></td>
+              <td class="twofifty"><%= @selected_family.address %></td>
+              <td class="twofifty"><%= @selected_family.children %></td>
+              <td class="hundred">
+                <% if @selected_family.investigator %>
+                  False
+                <% else %>
+                  True
+                <% end %>
+              </td>
+            </tr>          
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span11" style="overflow: auto;">
+      <table class="table table-condensed table-hover">
+        <thead class="twelvehundred">  
+          <tr>  
+            <th class="hundred">Visited?</th>
+            <th class="hundred">Date</th>
+            <th class="fivehundred">Notes</th>
+            <th class="twofifty">Reported By</th>
+            <th class="twofifty">Input By</th>
+          </tr>  
+        </thead>
+        <tbody class="twelvehundred threehundredhigh">
+          <% if @activities && @activities.count > 0 %> 
+            <%= render @activities %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="span11" style="overflow: auto;">
+      <center><h5>
+        <% if @report_date %>
+          <% if @report_date < 12.months.ago %>
+            Annual Report
+          <% elsif @report_date < 6.months.ago %>
+            Semi-Annual Report
+          <% elsif @report_date < 3.months.ago %>
+            Quarterly Report
+          <% elsif @report_date < 1.month.ago %>
+            Monthly Report
+          <% elsif @report_date < 1.week.ago %>
+            Weekly Report
+          <% end %>
+        <% else %>
+          All Activity
+        <% end %>
+      </h5></center>
+      <table class="table table-condensed table-hover">
+        <thead class="fourteenfifty">  
+          <tr>  
+            <th class="twofifty">Family Name</th>  
+            <th class="hundred">Visited?</th>
+            <th class="hundred">Date</th>
+            <th class="fivehundred">Notes</th>
+            <th class="twofifty">Reported By</th>
+            <th class="twofifty">Input By</th>  
+          </tr>  
+        </thead>
+        <tbody class="fourteenfifty threeeightytwohigh"> 
+          <% if @activities && @activities.count > 0 %>
+            <%= render @activities %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

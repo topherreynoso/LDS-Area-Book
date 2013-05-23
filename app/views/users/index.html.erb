@@ -1,18 +1,23 @@
 <% provide(:title, 'All users') %>
-<ul class="nav nav-tabs">
-  <li><%= link_to "Ward List", ward_path %></li>
-  <li><%= link_to "Investigators", investigators_path %></li>
-  <li><%= link_to "Watch List", watch_path %></li>
-  <li><%= link_to "Find Report", reports_path %></li>
-  <li><%= link_to "Create Report", newactivity_path %></li>
-  <li><%= link_to "Archive", archive_path %></li>
-</ul>
-<h1>All users</h1>
-
-<%= will_paginate %>
-
-<ul class="users">
-  <%= render @users %>
-</ul>
-
-<%= will_paginate %>
+<div class="row">
+  <div class="offset1 span9">
+    <ul class="nav nav-tabs">
+      <li><%= link_to "Ward List", ward_path %></li>
+      <li><%= link_to "Investigators", investigators_path %></li>
+      <li><%= link_to "Watch List", watch_path %></li>
+      <li><%= link_to "Find Report", reports_path %></li>
+      <li><%= link_to "Create Report", newactivity_path %></li>
+      <li><%= link_to "Archive", archive_path %></li>
+    </ul>
+  </div>
+</div>
+<div class="container">
+  <fullbody class="span11 fivethirtyhigh">
+    <h1>All users</h1>
+    <%= will_paginate %>
+    <ul class="users">
+      <%= render @users %>
+    </ul>
+    <%= will_paginate %>
+  </fullbody>
+</div>

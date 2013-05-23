@@ -18,6 +18,9 @@ html {
 
 body {
   padding-top: 60px;
+  height: 100%;
+  background:  url('main-bkgd.jpg');
+  background-size: 100% 100%;
 }
 
 section {
@@ -33,6 +36,27 @@ textarea {
   h1 {
     margin-bottom: 10px;
   }
+}
+
+fullbody {
+  overflow:           auto;
+  width:              100%;
+  margin-top:         -25px;
+  padding-top:        10px;
+  padding-bottom:     10px;
+  padding-left:       10px;
+  padding-right:      5px;
+  background:         url('gradient-tan-bottom.png') repeat-y;
+  background-size:    100%;
+  border-style:       solid;
+  border-width:       7px;
+  border-color:       white;
+  -o-box-shadow:       -5px 5px 5px rgba(0,0,0,0.6);
+  -icab-box-shadow:    -5px 5px 5px rgba(0,0,0,0.6);
+  -khtml-box-shadow:   -5px 5px 5px rgba(0,0,0,0.6);
+  -moz-box-shadow:     -5px 5px 5px rgba(0,0,0,0.6);
+  -webkit-box-shadow:  -5px 5px 5px rgba(0,0,0,0.6);
+  box-shadow:          -5px 5px 5px rgba(0,0,0,0.6);
 }
 
 /* typography */
@@ -65,18 +89,28 @@ p {
 
 /* header */
 
+header {
+  -o-box-shadow:      0px 5px 4px rgba(0,0,0,0.4);
+  -icab-box-shadow:   0px 5px 4px rgba(0,0,0,0.4);
+  -khtml-box-shadow:  0px 5px 4px rgba(0,0,0,0.4);
+  -moz-box-shadow:    0px 5px 4px rgba(0,0,0,0.4);
+  -webkit-box-shadow: 0px 5px 4px rgba(0,0,0,0.4);
+  box-shadow:         0px 5px 4px rgba(0,0,0,0.4);
+}
+
 #logo {
   float: left;
   margin-right: 10px;
   font-size: 1.7em;
-  color: white;
+  color: rgba(77, 100, 142, 1.0);
   text-transform: uppercase;
+  text-shadow: 1px 1px 0em white;
   letter-spacing: -1px;
   padding-top: 9px;
   font-weight: bold;
   line-height: 1;
   &:hover {
-    color: white;
+    color: rgba(77, 100, 142, 1.0);
     text-decoration: none;
   }
 }
@@ -84,14 +118,15 @@ p {
 /* footer */
 
 footer {
-  margin-top: 45px;
+  margin-top: 20px;
   padding-top: 5px;
   border-top: 1px solid $grayMediumLight;
-  color: $grayLight;
+  color: $grayMediumLight;
   a {
-    color: $gray;
+    color: $grayMediumLight;
     &:hover { 
-      color: $grayDarker;
+      color: $grayLight;
+      text-decoration: none;
     }
   }  
   small { 
@@ -173,6 +208,18 @@ tbody {
   height: 50px;
 }
 
+.threehundredhigh {
+  height: 302px;
+}
+
+.threeeightytwohigh {
+  height: 366px;
+}
+
+.fivethirtyhigh {
+  height: 530px;
+}
+
 .fifty {
   width: 50px;
 }
@@ -208,4 +255,50 @@ tbody {
 td { 
   margin: 0px;
   cell-spacing: 0px;
+}
+
+/* Nav-tabs */
+.nav-tabs {
+  li {
+    -o-box-shadow:      -1px 4px 2px rgba(0,0,0,0.8);
+    -icab-box-shadow:   -1px 4px 2px rgba(0,0,0,0.8);
+    -khtml-box-shadow:  -1px 4px 2px rgba(0,0,0,0.8);
+    -moz-box-shadow:    -1px 4px 2px rgba(0,0,0,0.8);
+    -webkit-box-shadow: -1px 4px 2px rgba(0,0,0,0.8);
+    box-shadow:         -1px 4px 2px rgba(0,0,0,0.8);
+    padding-right:      3px;
+    a {
+      color: white;
+      background-color: gray;
+      text-shadow: 0.1em 0.1em 0em black;
+      &:hover {
+        color: black;
+        text-shadow: 0.1em 0.1em 0em white;
+      }
+    }
+  }
+
+  .active a, .active > a:hover {
+    background-color: white;
+    text-shadow: 0.1em 0.1em 0em white;
+  }
+}
+
+/* Drop up buttons */
+.bottom-up {
+  top: auto; 
+  bottom: 100%;
+}
+
+.navbar .dropdown-menu.bottom-up:before { 
+  border-bottom: 0px solid transparent !important; 
+  border-top: 7px solid rgba(0, 0, 0, 0.2); 
+  top: auto !important; 
+  bottom: -7px; 
+}
+
+.navbar .dropdown-menu.bottom-up:after { 
+  border-bottom: 0px solid transparent !important; 
+  border-top: 6px solid white; 
+  top: auto !important; bottom: -6px; 
 }

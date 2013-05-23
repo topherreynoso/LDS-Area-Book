@@ -1,106 +1,39 @@
-<% provide(:title, 'Find Report') %>
-<ul class="nav nav-tabs">
-  <li><%= link_to "Ward List", ward_path %></li>
-  <li><%= link_to "Investigators", investigators_path %></li>
-  <li><%= link_to "Watch List", watch_path %></li>
-  <li><%= link_to "Find Report", reports_path %></li>
-  <li><%= link_to "Create Report", newactivity_path %></li>
-  <li class="active"><%= link_to "Archive", archive_path %></li>
-</ul>
-<h1>Archived Records</h1>
+<% provide(:title, 'Archive') %>
 <div class="row">
-  <% if @families.count > 0 %>
-    <div class="span2 dropdown">
-      <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Find by family</a>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-        <% @families.each do |family| %>
-          <li><%= link_to family.name, archive_path(:family_id => family.id) %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% else %>
-    <div class="span2">
-      <a class="btn btn-medium btn-primary" href="#">Find by family</a>
-    </div>
-  <% end %>
-  <% if @selected_family %>
-    <div class="offset8 span2">
-      <%= link_to "Unarchive Family", archive_path(:unarchive_id => @selected_family.id), class: "btn btn-medium btn-warning" %>
-    </div>
-  <% end %>
+  <div class="offset1 span9">
+    <ul class="nav nav-tabs">
+      <li><%= link_to "Ward List", ward_path %></li>
+      <li><%= link_to "Investigators", investigators_path %></li>
+      <li><%= link_to "Watch List", watch_path %></li>
+      <li><%= link_to "Find Report", reports_path %></li>
+      <li><%= link_to "Create Report", newactivity_path %></li>
+      <li class="active"><%= link_to "Archive", archive_path %></li>
+    </ul>
+  </div>
 </div>
-<h4>&nbsp</h4>
-
-<% if @selected_family %>
-  <div class="row">
-    <div class="span12" style="overflow: auto;">
-      <table class="table table-condensed">
-        <thead class="fourteenfifty">  
-          <tr>
-            <th class="twofifty">Family Name</th>  
-            <th class="hundredfifty">Family Phone</th>  
-            <th class="twofifty">Family Email</th>
-            <th class="twofifty">Family Address</th>
-            <th class="twofifty">Child Names</th>
-            <th class="hundred">Member?</th>
-          </tr>
-        </thead>
-        <tbody class="fiftyhigh fourteenfifty">
-          <tr>
-            <td class="twofifty"><%= link_to @selected_family.name, edit_family_path(@selected_family) %></td>
-            <td class="hundredfifty"><%= @selected_family.phone %></td>
-            <td class="twofifty"><%= @selected_family.email %></td>
-            <td class="twofifty"><%= @selected_family.address %></td>
-            <td class="twofifty"><%= @selected_family.children %></td>
-            <td class="hundred">
-              <% if @selected_family.investigator %>
-                False
-              <% else %>
-                True
-              <% end %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-<% end %>
-
-<% if @activities && @activities.count > 0 %>
-  <div class="row">
-    <div class="span12" style="overflow: auto;">
-      <table class="table table-condensed table-hover">
-        <% if @selected_family %>
-          <thead class="twelvehundred">  
-            <tr>  
-              <th class="hundred">Visited?</th>
-              <th class="hundred">Date</th>
-              <th class="fivehundred">Notes</th>
-              <th class="twofifty">Reported By</th>
-              <th class="twofifty">Input By</th>
-            </tr>  
-          </thead>
-          <tbody class="twelvehundred"> 
-            <%= render @activities %>
-          </tbody>
-        <% else %>
-          <thead class="fourteenfifty">  
-            <tr>  
-              <th class="twofifty">Family Name</th>  
-              <th class="hundred">Visited?</th>
-              <th class="hundred">Date</th>
-              <th class="fivehundred">Notes</th>
-              <th class="twofifty">Reported By</th>
-              <th class="twofifty">Input By</th>  
-            </tr>  
-          </thead>
-          <tbody class="fourteenfifty"> 
-            <%= render @activities %>
-          </tbody>
-        <% end %>
-      </table>
-    </div>
-  </div>
-<% else %>
-  <h3>Select an archived family above.</h3>
-<% end %>
+<div class="container">
+  <fullbody class="span11">
+    <%= render 'report' %>
+    <% if @families.count > 0 %>
+      <div class="span2 dropdown">
+        <h5>
+          <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Lookup Family</a>
+          <ul class="dropdown-menu bottom-up" role="menu" aria-labelledby="dropdownMenu">
+            <% @families.each do |family| %>
+              <li><%= link_to family.name, archive_path(:family_id => family.id) %></li>
+            <% end %>
+          </ul>
+        </h5>
+      </div>
+    <% else %>
+      <div class="span2">
+        <h5><a class="btn btn-medium btn-primary" href="#">Lookup Family</a></h5>
+      </div>
+    <% end %>
+    <% if @selected_family %>
+      <div class="span2">
+        <h5><%= link_to "Unarchive Family", archive_path(:unarchive_id => @selected_family.id), class: "btn btn-medium btn-warning" %></h5>
+      </div>
+    <% end %>
+  </fullbody>
+</div>

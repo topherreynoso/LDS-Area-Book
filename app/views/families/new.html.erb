@@ -1,37 +1,47 @@
 <% provide(:title, 'Add Family') %>
-<ul class="nav nav-tabs">
-  <li><%= link_to "Ward List", ward_path %></li>
-  <li><%= link_to "Investigators", investigators_path %></li>
-  <li><%= link_to "Watch List", watch_path %></li>
-  <li><%= link_to "Find Report", reports_path %></li>
-  <li><%= link_to "Create Report", newactivity_path %></li>
-  <li><%= link_to "Archive", archive_path %></li>
-</ul>
-<h1>Add Family</h1>
 <div class="row">
-  <div class="span6 offset3">
-    <%= form_for(@family) do |f| %>
-      <%= render 'shared/error_messages' %>
-      <%= f.label :name, "Family Name (e.g. Smith, Joe & Jane)" %>
-      <%= f.text_field :name %>
-      <%= f.label :phone, "Phone (e.g. 123-456-7890)" %>
-      <%= f.text_field :phone %>
-      <%= f.label :email %>
-      <%= f.text_field :email %>
-      <%= f.label :address, "Address (street only, e.g. 1234 Street St. #23)" %>
-      <%= f.text_field :address %>
-      <%= f.label :children, "Names of Children (if applicable)" %>
-      <%= f.text_field :children %>
-      <div class="row">
-      	<div class="span1">
-      	  <%= f.label :investigator, "Investigator?" %>
-      	</div>
-      	<div class="span1">
-      	  &nbsp&nbsp<%= f.check_box :investigator %>
-      	</div>
-      </div>
-      <h4>&nbsp</h4>
-      <%= f.submit "Create Record", class: "btn btn-medium btn-primary" %>
-    <% end %>
+  <div class="offset1 span9">
+    <ul class="nav nav-tabs">
+      <li><%= link_to "Ward List", ward_path %></li>
+      <li><%= link_to "Investigators", investigators_path %></li>
+      <li><%= link_to "Watch List", watch_path %></li>
+      <li><%= link_to "Find Report", reports_path %></li>
+      <li><%= link_to "Create Report", newactivity_path %></li>
+      <li><%= link_to "Archive", archive_path %></li>
+    </ul>
   </div>
+</div>
+<div class="container">
+  <fullbody class="span11">
+    <div class="offset3 span5">
+      <center><h4>Add Family</h4></center>
+      <%= form_for(@family) do |f| %>
+        <%= render 'shared/error_messages' %>
+        <%= f.label :name, "Family Name (e.g. Smith, Joe & Jane)" %>
+        <%= f.text_field :name %>
+        <%= f.label :phone, "Phone (e.g. 123-456-7890)" %>
+        <%= f.text_field :phone %>
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+        <%= f.label :address, "Address (street only, e.g. 1234 Street St. #23)" %>
+        <%= f.text_field :address %>
+        <%= f.label :children, "Names of Children (if applicable)" %>
+        <%= f.text_field :children %>
+        <div class="row">
+          <div class="span1">
+            <%= f.label :investigator, "Investigator?" %>
+          </div>
+          <div class="span1">
+            &nbsp&nbsp<%= f.check_box :investigator %>
+          </div>
+        </div>
+        <h2>&nbsp</h2>
+        <div class="row">
+          <div class="span1">
+            <%= f.submit "Create Record", class: "btn btn-medium btn-primary" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </fullbody>
 </div>

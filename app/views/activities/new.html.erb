@@ -1,35 +1,55 @@
 <% provide(:title, 'Create Report') %>
-<ul class="nav nav-tabs">
-  <li><%= link_to "Ward List", ward_path %></li>
-  <li><%= link_to "Investigators", investigators_path %></li>
-  <li><%= link_to "Watch List", watch_path %></li>
-  <li><%= link_to "Find Report", reports_path %></li>
-  <li class="active"><%= link_to "Create Report", newactivity_path %></li>
-  <li><%= link_to "Archive", archive_path %></li>
-</ul>
-<h1>Report New Activity</h1>
 <div class="row">
-  <div class="span6 offset3">
-    <%= form_for(@activity) do |f| %>
-      <%= render 'shared/error_messages' %>
-      <%= f.label :family_id, "Family contacted/visited" %>
-      <%= f.collection_select(:family_id, Family.all, :id, :name) %>
-      <%= f.label :activity_date, "Date contacted/visited" %>
-      <%= f.date_select :activity_date %>
-      <%= f.label :reported_by, "Person(s) who contacted/visited" %>
-      <%= f.text_field :reported_by %>
-      <%= f.label :notes, "Notes" %>
-      <%= f.text_area :notes, :rows => "3", :placeholder => "max 250" %>
-      <div class="row">
-      	<div class="span3">
-      	  <%= f.label :visit, "Check if someone actually visited and met with this family." %>
-      	</div>
-      	<div class="span1">
-      	  &nbsp&nbsp<%= f.check_box :visit %>
-      	</div>
-      </div>
-      <h4>&nbsp</h4>
-      <%= f.submit "Create Record", class: "btn btn-medium btn-primary" %>
-    <% end %>
+  <div class="offset1 span9">
+    <ul class="nav nav-tabs">
+      <li><%= link_to "Ward List", ward_path %></li>
+      <li><%= link_to "Investigators", investigators_path %></li>
+      <li><%= link_to "Watch List", watch_path %></li>
+      <li><%= link_to "Find Report", reports_path %></li>
+      <li class="active"><%= link_to "Create Report", newactivity_path %></li>
+      <li><%= link_to "Archive", archive_path %></li>
+    </ul>
   </div>
 </div>
+<div class="container">
+  <fullbody class="span11">
+    <div class="offset3 span5">
+      <center><h4>Report New Activity</h4></center>
+      <%= form_for(@activity) do |f| %>
+        <%= render 'shared/error_messages' %>
+          <%= f.label :family_id, "Family contacted/visited" %>
+          <%= f.collection_select(:family_id, Family.all, :id, :name) %>
+          <%= f.label :activity_date, "Date contacted/visited" %>
+          <div class="row">
+            <div class="span2">
+              <%= f.text_field :activity_date, :value=> Date.today.strftime('%m/%d/%y'), :id => "dp" %>
+            </div>
+          </div>
+          <%= f.label :reported_by, "Person(s) who contacted/visited the family above" %>
+          <%= f.text_field :reported_by %>
+          <%= f.label :notes, "Notes" %>
+          <%= f.text_area :notes, :rows => "3", :placeholder => "max 250" %>
+          <div class="row">
+            <div class="span3">
+              <%= f.label :visit, "Check if someone actually visited and met with this family." %>
+            </div>
+            <div class="span1">
+              &nbsp&nbsp<%= f.check_box :visit %>
+            </div>
+          </div>
+          <h7>&nbsp</h7>
+          <div class="row">
+            <div class="span2">
+              <h5><%= f.submit "Create Record", class: "btn btn-medium btn-primary" %></h5>
+            </div>
+          </div>
+        <% end %>
+      </div>    
+  </fullbody>
+</div>
+<script>
+  $("#dp").datepicker({
+    format: 'mm/dd/yy',
+    autoclose: true,
+  })
+</script>

@@ -17,9 +17,8 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = "Profile updated"
       sign_in @user
-      redirect_to @user
+      redirect_to root_path
     else
       render 'edit'
     end
@@ -31,7 +30,6 @@ class UsersController < ApplicationController
       @user.admin = true
     end
     if @user.save
-      flash[:success] = "New account created for #{@user.name}."
       redirect_to root_path
     else
       render 'new'
@@ -40,7 +38,6 @@ class UsersController < ApplicationController
 
   def destroy
     User.find(params[:id]).destroy
-    flash[:success] = "User destroyed."
     redirect_to users_url
   end
 

@@ -1,5 +1,5 @@
 class FamiliesController < ApplicationController
-  before_action :signed_in_user, only: [:ward, :new, :create, :edit, :update, :destroy]
+  before_action :signed_in_user, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy]
 
   def ward
   	members = Family.where("investigator = ?", false)
@@ -15,15 +15,11 @@ class FamiliesController < ApplicationController
     if params[:add_family]
       new_family = Family.find(params[:add_family])
       new_family.watched = true
-      if new_family.save
-        flash[:success] = "Added #{new_family.name} to watch list."
-      end
+      new_family.save
     elsif params[:remove_family]
       remove_family = Family.find(params[:remove_family])
       remove_family.watched = false
-      if remove_family.save
-        flash[:success] = "Removed #{remove_family.name} from watch list."
-      end
+      remove_family.save
     end
     watched = Family.where("watched = ?", true)
     @families = watched.where("archived = ?", false)
@@ -38,7 +34,6 @@ class FamiliesController < ApplicationController
   def create
   	@family = Family.new(family_params)
     if @family.save
-      flash[:success] = "New record created for #{@family.name}."
       if @family.investigator?
       	redirect_to investigators_path
       else
@@ -56,7 +51,6 @@ class FamiliesController < ApplicationController
   def update
   	@family = Family.find(params[:id])
     if @family.update_attributes(family_params)
-      flash[:success] = "Information updated for #{@family.name}."
       if @family.investigator?
       	redirect_to investigators_path
       else

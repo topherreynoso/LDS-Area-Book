@@ -1,11 +1,21 @@
-<ul class="nav nav-tabs">
-  <li class="active"><%= link_to "Ward List", ward_path %></li>
-  <li><%= link_to "Investigators", investigators_path %></li>
-  <li><%= link_to "Watch List", watch_path %></li>
-  <li><%= link_to "Find Report", reports_path %></li>
-  <li><%= link_to "Create Report", newactivity_path %></li>
-  <li><%= link_to "Archive", archive_path %></li>
-</ul>
-<h2>The Ward List contains all families for which we currently have records. As you learn information about a family, please update here.</h2>
-<%= render 'families_list' %>
-<%= link_to "New Family", newfamily_path, class: "btn btn-medium btn-primary" %>
+<% provide(:title, 'Ward List') %>
+<div class="row">
+  <div class="offset1 span9">
+	  <ul class="nav nav-tabs">
+  	  <li class="active"><%= link_to "Ward List", ward_path %></li>
+  	  <li><%= link_to "Investigators", investigators_path %></li>
+      <li><%= link_to "Watch List", watch_path %></li>
+      <li><%= link_to "Find Report", reports_path %></li>
+  	  <li><%= link_to "Create Report", newactivity_path %></li>
+  	  <li><%= link_to "Archive", archive_path %></li>
+	  </ul>
+  </div>
+</div>
+<div class="container">
+  <fullbody class="span11">
+    <%= render 'families_list' %>
+    <div class="span2">
+      <h5><%= link_to "Add Family", newfamily_path, class: "btn btn-medium btn-primary" %></h5>
+    </div>
+  </fullbody>
+</div>

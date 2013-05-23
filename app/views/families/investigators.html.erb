@@ -1,16 +1,21 @@
-<ul class="nav nav-tabs">
-  <li><%= link_to "Ward List", ward_path %></li>
-  <li class="active"><%= link_to "Investigators", investigators_path %></li>
-  <li><%= link_to "Watch List", watch_path %></li>
-  <li><%= link_to "Find Report", reports_path %></li>
-  <li><%= link_to "Create Report", newactivity_path %></li>
-  <li><%= link_to "Archive", archive_path %></li>
-</ul>
-<h2>The Investigators List includes all non-member families. As you learn information about a family, please update here.</h2>
-<% if @families.count > 0 %>
-  <%= render 'families_list' %>
-<% else %>
-  <h4>No investigators.</h4>
-<% end %>
-<h4>&nbsp</h4>
-<%= link_to "New Family", newfamily_path, class: "btn btn-medium btn-primary" %>
+<% provide(:title, 'Investigators') %>
+<div class="row">
+  <div class="offset1 span9">
+	<ul class="nav nav-tabs">
+  	  <li><%= link_to "Ward List", ward_path %></li>
+  	  <li class="active"><%= link_to "Investigators", investigators_path %></li>
+      <li><%= link_to "Watch List", watch_path %></li>
+      <li><%= link_to "Find Report", reports_path %></li>
+  	  <li><%= link_to "Create Report", newactivity_path %></li>
+  	  <li><%= link_to "Archive", archive_path %></li>
+	</ul>
+  </div>
+</div>
+<div class="container">
+  <fullbody class="span11">
+  	<%= render 'families_list' %>
+	<div class="span2">
+	  <h5><%= link_to "Add Family", newfamily_path, class: "btn btn-medium btn-primary" %></h5>
+	</div>
+  </fullbody>
+</div>

@@ -14,14 +14,14 @@ $grayMediumLight: #eaeaea;
 
 html {
   overflow-y: scroll;
-  background-image: url('/assets/bkgd-bottom.jpg') repeat-y;
+  background-image: url(image_path('bkgd-bottom.jpg')) repeat-y;
   background-size: 100%; 
 }
 
 body {
   padding-top: 60px;
   height: 100%;
-  background-image:  url('/assets/main-bkgd.jpg');
+  background-image:  url(image_path('main-bkgd.jpg'));
   background-size: 100% 100%;
 }
 
@@ -47,7 +47,7 @@ fullbody {
   padding-bottom:     10px;
   padding-left:       10px;
   padding-right:      5px;
-  background:         url('/assets/gradient-tan-bottom.png');
+  background:         url(image_path('gradient-tan-bottom.png'));
   background-size:    100%;
   border-style:       solid;
   border-width:       7px;

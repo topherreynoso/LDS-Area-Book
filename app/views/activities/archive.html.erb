@@ -18,7 +18,7 @@
       <div class="span2 dropdown">
         <h5>
           <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Lookup Family</a>
-          <ul class="dropdown-menu bottom-up" role="menu" aria-labelledby="dropdownMenu">
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
             <% @families.each do |family| %>
               <li><%= link_to family.name, archive_path(:family_id => family.id) %></li>
             <% end %>

@@ -4907,13 +4907,13 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
 /* universal */
 html {
   overflow-y: scroll;
-  background: url("bkgd-bottom.jpg") repeat-y;
+  background-image: url(/url(/assets/bkgd-bottom.jpg)) repeat-y;
   background-size: 100%; }
 
 body {
   padding-top: 60px;
   height: 100%;
-  background: url("main-bkgd.jpg");
+  background-image: url(/url(/assets/main-bkgd.jpg));
   background-size: 100% 100%; }
 
 section {
@@ -4934,7 +4934,7 @@ fullbody {
   padding-bottom: 10px;
   padding-left: 10px;
   padding-right: 5px;
-  background: url("gradient-tan-bottom.png") repeat-y;
+  background-image: url(/url(/assets/gradient-tan-bottom.png));
   background-size: 100%;
   border-style: solid;
   border-width: 7px;

@@ -4,9 +4,9 @@
       The form contains <%= pluralize(@user.errors.count, "error") %>.
     </div>
     <ul>
-    <% @user.errors.full_messages.each do |msg| %>
-      <li>* <%= msg %></li>
-    <% end %>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li>* <%= msg %></li>
+      <% end %>
     </ul>
   </div>
 <% elsif @family && @family.errors.any? %>
@@ -15,9 +15,20 @@
       The form contains <%= pluralize(@family.errors.count, "error") %>.
     </div>
     <ul>
-    <% @family.errors.full_messages.each do |msg| %>
-      <li>* <%= msg %></li>
-    <% end %>
+      <% @family.errors.full_messages.each do |msg| %>
+        <li>* <%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% elsif @activity && @activity.errors.any? %>
+  <div id="error_explanation">
+    <div class="alert alert-error">
+      The form contains <%= pluralize(@activity.errors.count, "error") %>.
+    </div>
+    <ul>
+      <% @activity.errors.full_messages.each do |msg| %>
+        <li>* <%= msg %></li>
+      <% end %>
     </ul>
   </div>
 <% end %>

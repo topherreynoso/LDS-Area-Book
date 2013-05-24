@@ -6,18 +6,21 @@ class ActivitiesController < ApplicationController
   end
 
   def create
+    date = params[:activity][:activity_date]
+    params[:activity][:activity_date] = Date.strptime(date, "%m/%d/%y")
   	@activity = Activity.new(activity_params)
   	@activity.user_id = current_user.id
-  	family = Family.find(@activity.family_id)
     if @activity.save
-      if family.investigator?
-      	redirect_to investigators_path
-      else
-      	redirect_to ward_path
-      end
+      redirect_to reports_path(:family_id => @activity.family_id)
     else
       render 'new'
     end
+  end
+
+  def destroy
+    family_id = Activity.find(params[:id]).family_id
+    Activity.find(params[:id]).destroy
+    redirect_to reports_path(:family_id => family_id)
   end
 
   def edit
@@ -25,10 +28,11 @@ class ActivitiesController < ApplicationController
   end
 
   def update
+    date = params[:activity][:activity_date]
+    params[:activity][:activity_date] = Date.strptime(date, "%m/%d/%y")
     @activity = Activity.find(params[:id])
-    family = Family.find(@activity.family_id)
     if @activity.update_attributes(activity_params)
-      redirect_to reports_path(:family_id => family.id)
+      redirect_to reports_path(:family_id => @activity.family_id)
     else
       render 'edit'
     end

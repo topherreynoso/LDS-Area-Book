@@ -62,6 +62,8 @@ class FamiliesController < ApplicationController
   end
 
   def destroy
+    Family.find(params[:id]).destroy
+    redirect_to archive_path
   end
 
   private

@@ -14,7 +14,6 @@
 #
 
 class Activity < ActiveRecord::Base
-
   belongs_to :family
   
   validates :family_id,  presence: true

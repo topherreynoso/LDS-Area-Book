@@ -6,7 +6,7 @@
       <li><%= link_to "Investigators", investigators_path %></li>
       <li class="active"><%= link_to "Watch List", watch_path %></li>
       <li><%= link_to "Find Report", reports_path %></li>
-      <li><%= link_to "Create Report", newactivity_path %></li>
+      <li><%= link_to "Report Activity", newactivity_path %></li>
       <li><%= link_to "Archive", archive_path %></li>
     </ul>
   </div>
@@ -15,25 +15,21 @@
   <fullbody class="span11">
     <%= render 'families_list' %>
     <div class="span2 dropdown">
-      <h5>
-        <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Add Family</a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-          <% @unwatched_families.each do |family| %>
-            <li><%= link_to family.name, watch_path(:add_family => family.id) %></li>
-          <% end %>
-        </ul>
-      </h5>
+      <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Add Family</a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        <% @unwatched_families.each do |family| %>
+          <li><%= link_to family.name, watch_path(:add_family => family.id) %></li>
+        <% end %>
+      </ul>
     </div>
     <% if @families.count > 0 %>
       <div class="span2 dropdown">
-        <h5>
-          <a class="dropdown-toggle btn btn-medium btn-warning" data-toggle="dropdown" href="#">Remove Family</a>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-            <% @families.each do |family| %>
-              <li><%= link_to family.name, watch_path(:remove_family => family.id) %></li>
-            <% end %>
-          </ul>
-        </h5>
+        <a class="dropdown-toggle btn btn-medium btn-warning" data-toggle="dropdown" href="#">Remove Family</a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+          <% @families.each do |family| %>
+            <li><%= link_to family.name, watch_path(:remove_family => family.id) %></li>
+          <% end %>
+        </ul>
       </div>
     <% end %>
   </fullbody>

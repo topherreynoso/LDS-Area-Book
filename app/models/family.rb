@@ -22,7 +22,7 @@ class Family < ActiveRecord::Base
   	end 
   }
 
-  has_many :activities
+  has_many :activities, dependent: :destroy
 
   validates :name,  presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

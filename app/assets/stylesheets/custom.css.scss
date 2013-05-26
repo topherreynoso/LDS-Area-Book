@@ -189,7 +189,7 @@ input {
 /* Tables */
 
 table{
-  overflow: hidden;  
+  overflow: hidden; 
 }
 
 thead { 
@@ -202,7 +202,8 @@ thead {
 
 tbody { 
   display: block;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
   height: 400px;
 }
 

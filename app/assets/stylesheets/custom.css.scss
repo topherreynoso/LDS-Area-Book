@@ -22,7 +22,8 @@ body {
   padding-top: 60px;
   height: 100%;
   background:  url('main-bkgd-0c4370be15f14010246f984798b5e5da.jpg');
-  background-size: 100% 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 section {
@@ -188,7 +189,7 @@ input {
 /* Tables */
 
 table{
-  overflow: auto;  
+  overflow: hidden;  
 }
 
 thead { 
@@ -196,12 +197,12 @@ thead {
   margin:0px;
   cell-spacing:0px;
   left:0px;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 tbody { 
   display: block;
-  overflow: scroll;
+  overflow: hidden;
   height: 400px;
 }
 
@@ -259,14 +260,15 @@ td {
 }
 
 /* Nav-tabs */
+
 .nav-tabs {
   li {
-    -o-box-shadow:      -1px 4px 2px rgba(0,0,0,0.8);
-    -icab-box-shadow:   -1px 4px 2px rgba(0,0,0,0.8);
-    -khtml-box-shadow:  -1px 4px 2px rgba(0,0,0,0.8);
-    -moz-box-shadow:    -1px 4px 2px rgba(0,0,0,0.8);
-    -webkit-box-shadow: -1px 4px 2px rgba(0,0,0,0.8);
-    box-shadow:         -1px 4px 2px rgba(0,0,0,0.8);
+    -o-box-shadow:      -3px 3px 3px rgba(0,0,0,0.8);
+    -icab-box-shadow:   -3px 3px 3px rgba(0,0,0,0.8);
+    -khtml-box-shadow:  -3px 3px 3px rgba(0,0,0,0.8);
+    -moz-box-shadow:    -3px 3px 3px rgba(0,0,0,0.8);
+    -webkit-box-shadow: -3px 3px 3px rgba(0,0,0,0.8);
+    box-shadow:         -3px 3px 3px rgba(0,0,0,0.8);
     padding-right:      3px;
     a {
       color: white;
@@ -286,6 +288,7 @@ td {
 }
 
 /* Drop up buttons */
+
 .bottom-up {
   top: auto; 
   bottom: 100%;

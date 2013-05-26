@@ -4907,14 +4907,15 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
 /* universal */
 html {
   overflow-y: scroll;
-  background-image: url("/assets/bkgd-bottom.jpg") repeat-y;
+  background: url("bkgd-bottom-8bcf59ea994219c5fc74e97e9fb6e2de.jpg") repeat-y;
   background-size: 100%; }
 
 body {
   padding-top: 60px;
   height: 100%;
-  background-image: url("/assets/main-bkgd.jpg");
-  background-size: 100% 100%; }
+  background: url("main-bkgd-0c4370be15f14010246f984798b5e5da.jpg");
+  background-size: cover;
+  background-repeat: no-repeat; }
 
 section {
   overflow: auto; }
@@ -4934,7 +4935,7 @@ fullbody {
   padding-bottom: 10px;
   padding-left: 10px;
   padding-right: 5px;
-  background: url("/assets/gradient-tan-bottom.png");
+  background: url("gradient-tan-bottom-6de9fd7bfc4fa2ba705fbc95a7012b30.png") repeat-y;
   background-size: 100%;
   border-style: solid;
   border-width: 7px;
@@ -5044,18 +5045,18 @@ input {
 
 /* Tables */
 table {
-  overflow: auto; }
+  overflow: hidden; }
 
 thead {
   display: block;
   margin: 0px;
   cell-spacing: 0px;
   left: 0px;
-  overflow: scroll; }
+  overflow: hidden; }
 
 tbody {
   display: block;
-  overflow: scroll;
+  overflow: hidden;
   height: 400px; }
 
 .fiftyhigh {
@@ -5100,12 +5101,12 @@ td {
 
 /* Nav-tabs */
 .nav-tabs li {
-  -o-box-shadow: -1px 4px 2px rgba(0, 0, 0, 0.8);
-  -icab-box-shadow: -1px 4px 2px rgba(0, 0, 0, 0.8);
-  -khtml-box-shadow: -1px 4px 2px rgba(0, 0, 0, 0.8);
-  -moz-box-shadow: -1px 4px 2px rgba(0, 0, 0, 0.8);
-  -webkit-box-shadow: -1px 4px 2px rgba(0, 0, 0, 0.8);
-  box-shadow: -1px 4px 2px rgba(0, 0, 0, 0.8);
+  -o-box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.8);
+  -icab-box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.8);
+  -khtml-box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.8);
+  -moz-box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.8);
+  box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.8);
   padding-right: 3px; }
   .nav-tabs li a {
     color: white;
@@ -5134,6 +5135,10 @@ td {
   border-top: 6px solid white;
   top: auto !important;
   bottom: -6px; }
+
+/* Datepicker */
+.datepicker-dropdown {
+  height: 222px; }
 /*
   Place all the styles related to the matching controller here.
   They will automatically be included in application.css.

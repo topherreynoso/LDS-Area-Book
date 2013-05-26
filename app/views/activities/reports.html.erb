@@ -16,22 +16,24 @@
     <%= render 'report' %>
     <div class="span2 dropdown">
       <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Find by date</a>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+      <ul class="dropdown-menu bottom-up" role="menu" aria-labelledby="dropdownMenu">
         <li><%= link_to "In the last week", reports_path(:activity_date => 1.week.ago) %></li>
         <li><%= link_to "In the last month", reports_path(:activity_date => 1.month.ago) %></li>
         <li><%= link_to "In the last quarter", reports_path(:activity_date => 3.months.ago) %></li>
         <li><%= link_to "In the last six months", reports_path(:activity_date => 6.months.ago) %></li>
         <li><%= link_to "In the last year", reports_path(:activity_date => 12.months.ago) %></li>
       </ul>
+      &nbsp&nbsp&nbsp&nbspor
     </div>
-    <div class="span2 dropdown">
-      <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Find by family</a>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-        <% Family.where("archived = ?", false).each do |family| %>
-          <li><%= link_to family.name, reports_path(:family_id => family.id) %></li>
-        <% end %>
-      </ul>
+    <div class="span2">
+      <%= collection_select(nil, :family_id, Family.where("archived = ?", false), :id, :name, {:prompt => "Select a family"}, 
+                            {:onchange => "redirect_to_family(this.value)", :class => "btn btn-medium btn-secondary"}) %>
     </div>
+    <%= javascript_tag do %>
+      function redirect_to_family(familyId){
+        window.location = "<%= reports_path %>?family_id=" + familyId;
+      } 
+    <% end %>
     <div class="span2">
       <%= link_to "Show All", reports_path, class: "btn btn-medium btn-secondary" %>
     </div>

@@ -14,23 +14,23 @@
 <div class="container">
   <fullbody class="span11">
     <%= render 'families_list' %>
-    <div class="span2 dropdown">
-      <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Add Family</a>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-        <% @unwatched_families.each do |family| %>
-          <li><%= link_to family.name, watch_path(:add_family => family.id) %></li>
-        <% end %>
-      </ul>
+    <div class="span2">
+      <%= collection_select(nil, :family_id, @unwatched_families, :id, :name, {:prompt => "Add family"}, 
+                            {:onchange => "redirect_to_watch(this.value)", :class => "btn btn-medium btn-secondary"}) %>
     </div>
-    <% if @families.count > 0 %>
-      <div class="span2 dropdown">
-        <a class="dropdown-toggle btn btn-medium btn-warning" data-toggle="dropdown" href="#">Remove Family</a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-          <% @families.each do |family| %>
-            <li><%= link_to family.name, watch_path(:remove_family => family.id) %></li>
-          <% end %>
-        </ul>
-      </div>
+    <%= javascript_tag do %>
+      function redirect_to_watch(familyId){
+        window.location = "<%= watch_path %>?add_family=" + familyId;
+      } 
+    <% end %>
+    <div class="span2">
+      <%= collection_select(nil, :family_id, @families, :id, :name, {:prompt => "Remove family"}, 
+                            {:onchange => "redirect_to_unwatch(this.value)", :class => "btn btn-medium btn-secondary"}) %>
+    </div>
+    <%= javascript_tag do %>
+      function redirect_to_unwatch(familyId){
+        window.location = "<%= watch_path %>?remove_family=" + familyId;
+      } 
     <% end %>
   </fullbody>
 </div>

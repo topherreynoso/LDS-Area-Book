@@ -14,19 +14,14 @@
 <div class="container">
   <fullbody class="span11">
     <%= render 'report' %>
-    <% if @families.count > 0 %>
-      <div class="span2 dropdown">
-        <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Lookup Family</a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-          <% @families.each do |family| %>
-            <li><%= link_to family.name, archive_path(:family_id => family.id) %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% else %>
-      <div class="span2">
-        <a class="btn btn-medium btn-primary" href="#">Lookup Family</a>
-      </div>
+    <div class="span2">
+      <%= collection_select(nil, :family_id, Family.where("archived = ?", true), :id, :name, {:prompt => "Select a family"}, 
+                            {:onchange => "redirect_to_archive(this.value)", :class => "btn btn-medium btn-secondary"}) %>
+    </div>
+    <%= javascript_tag do %>
+      function redirect_to_archive(familyId){
+        window.location = "<%= archive_path %>?family_id=" + familyId;
+      } 
     <% end %>
     <% if @selected_family %>
       <div class="span2">

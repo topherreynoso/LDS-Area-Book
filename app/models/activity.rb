@@ -19,8 +19,8 @@ class Activity < ActiveRecord::Base
   validates :family_id,  presence: true
   validates :user_id, presence: true
   validates :activity_date, presence: true
-  validates :notes, presence: true
-  validates :reported_by, presence: true
+  validates :notes, presence: true, length: { maximum: 250 }
+  validates :reported_by, presence: true, length: { maximum: 100 }
 
   default_scope order: 'activity_date DESC'
 end

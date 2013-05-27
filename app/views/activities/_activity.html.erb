@@ -10,7 +10,13 @@
     <td class="hundred"><%= activity.activity_date.strftime("%m/%d/%y") %></td>
     <td class="fivehundred"><%= activity.notes %></td>
     <td class="twofifty"><%= activity.reported_by %></td>
-    <td class="twofifty"><%= User.find(activity.user_id).name %></td>
+    <td class="twofifty">
+      <% if User.find(activity.user_id) %>
+        <%= User.find(activity.user_id).name %>
+      <% else %>
+        User deleted
+      <% end %>
+    </td>
   </tr>
 <% else %>
   <tr>  
@@ -25,6 +31,11 @@
     <td class="hundred"><%= activity.activity_date.strftime("%m/%d/%y") %></td>
     <td class="fivehundred"><%= activity.notes %></td>
     <td class="twofifty"><%= activity.reported_by %></td>
-    <th class="twofifty"><%= User.find(activity.user_id).name %></td>
+    <th class="twofifty">
+      <% if User.find(activity.user_id) %>
+        <%= User.find(activity.user_id).name %>
+      <% else %>
+        User deleted
+    </td>
   </tr>  
 <% end %>

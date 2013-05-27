@@ -14,11 +14,9 @@
 <div class="container">
   <fullbody class="span11 fivethirtyhigh">
     <h1>All users</h1>
-    <%= will_paginate %>
-    <ul class="users">
+    <ul class="users" style="height:400px;">
       <%= render @users %>
     </ul>
-    <%= will_paginate %>
     <h5><%= link_to "Add User", newuser_path, class: "btn btn-medium btn-primary" %></h5>
   </fullbody>
 </div>

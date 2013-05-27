@@ -1,6 +1,28 @@
 <li>
-  <%= link_to user.name, user %>
+  <div class="span3">
+  	<%= link_to user.name, edit_user_path(user) %>
+  </div>
   <% if current_user.admin? && !current_user?(user) %>
-    | <%= link_to "delete", user, method: :delete, data: { confirm: "Are you sure you want to delete this user?" } %>
+    <div class="span1">
+      <% if user.active? %>
+      	<%= link_to("Deactivate", user_path(user, "user[active]" => false), :method => :put, :class => "btn btn-small btn-warning", 
+                    :confirm => "Deactivate #{user.name}?") %>
+      <% else %>
+      	<%= link_to("Activate", user_path(user, "user[active]" => true), :method => :put, :class => "btn btn-small btn-primary", 
+                    :confirm => "Activate #{user.name}?") %>
+      <% end %>
+    </div>
+    <div class ="span2">
+      <% if user.admin? %>
+    	  <%= link_to("Revoke Admin", user_path(user, "user[admin]" => false), :method => :put, :class => "btn btn-small btn-warning", 
+                    :confirm => "Revoke admin rights from #{user.name}?") %>
+      <% else %>
+        <%= link_to("Make Admin", user_path(user, "user[admin]" => true), :method => :put, :class => "btn btn-small btn-warning", 
+                    :confirm => "Make #{user.name} and administrator?") %>
+      <% end %>
+    </div>
+    <div class="offset3 span1">
+      <%= link_to "delete", user, method: :delete, class: "btn btn-small btn-danger", data: { confirm: "Delete #{user.name}?" } %>
+    </div>
   <% end %>
 </li>

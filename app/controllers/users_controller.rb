@@ -16,11 +16,20 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(user_params)
-      sign_in @user
-      redirect_to root_path
+    if current_user?(@user)
+      if @user.update_attributes(user_params)
+        sign_in current_user
+        redirect_to root_path
+      else
+        render 'edit'
+      end
     else
-      render 'edit'
+      @user.is_admin_applying_update = true
+      if @user.update_attributes(admin_user_params)
+        redirect_to users_path
+      else
+        render 'edit'
+      end
     end
   end
 
@@ -47,6 +56,10 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 
+    def admin_user_params
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin, :active)
+    end
+
     # Before filters
 
     def signed_in_user
@@ -58,7 +71,7 @@ class UsersController < ApplicationController
 
     def correct_user
       @user = User.find(params[:id])
-      redirect_to(root_path) unless current_user?(@user)
+      redirect_to(root_path) unless (current_user?(@user) || current_user.admin?)
     end
 
     def admin_user

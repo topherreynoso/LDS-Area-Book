@@ -17,39 +17,39 @@
       <center><h4>Edit Activity</h4></center>
       <%= form_for(@activity) do |f| %>
         <%= render 'shared/error_messages' %>
-          <%= f.label :family_id, "Family contacted/visited" %>
-          <%= f.collection_select(:family_id, Family.where("archived = ?", false), :id, :name) %>
-          <%= f.label :activity_date, "Date contacted/visited" %>
-          <div class="row">
-            <div class="span2 input-append date datepicker" data-date="current">
-              <%= f.text_field :activity_date, :value => Date.today.strftime('%m/%d/%y'), :readonly => true %>
-              <span class="add-on"><i class="icon-th"></i></span>
-            </div>
+        <%= f.label :family_id, "Family contacted/visited" %>
+        <%= f.collection_select(:family_id, Family.where("archived = ?", false), :id, :name) %>
+        <%= f.label :activity_date, "Date contacted/visited" %>
+        <div class="row">
+          <div class="span2 input-append date datepicker" data-date="current">
+            <%= f.text_field :activity_date, :value => Date.today.strftime('%m/%d/%y'), :readonly => true %>
+            <span class="add-on"><i class="icon-th"></i></span>
           </div>
-          <%= f.label :reported_by, "Person(s) who contacted/visited the family above" %>
-          <%= f.text_field :reported_by %>
-          <%= f.label :notes, "Notes" %>
-          <%= f.text_area :notes, :rows => "3", :placeholder => "max 250" %>
-          <div class="row">
-            <div class="span3">
-              <%= f.label :visit, "Check if someone actually visited and met with this family." %>
-            </div>
-            <div class="span1">
-              &nbsp&nbsp<%= f.check_box :visit %>
-            </div>
+        </div>
+        <%= f.label :reported_by, "Person(s) who contacted/visited the family above" %>
+        <%= f.text_field :reported_by %>
+        <%= f.label :notes, "Notes" %>
+        <%= f.text_area :notes, :rows => "3", :placeholder => "max 250" %>
+        <div class="row">
+          <div class="span3">
+            <%= f.label :visit, "Check if someone actually visited and met with this family." %>
           </div>
-          <h7>&nbsp</h7>
-          <div class="row">
-            <div class="span2">
-              <%= f.submit "Update Record", class: "btn btn-medium btn-primary" %>
-            </div>
-            <div class="span2">
-              <%= link_to "Delete Activity", @activity, method: :delete, class: "btn btn-medium btn-danger",
-                          data: { confirm: "Are you sure you want to delete this activity record?" } %>
-            </div>
+          <div class="span1">
+            &nbsp&nbsp<%= f.check_box :visit %>
           </div>
-        <% end %>
-      </div>    
+        </div>
+        <h7>&nbsp</h7>
+        <div class="row">
+          <div class="span2">
+            <%= f.submit "Update Record", class: "btn btn-medium btn-primary" %>
+          </div>
+          <div class="span2">
+            <%= link_to "Delete Activity", @activity, method: :delete, class: "btn btn-medium btn-danger",
+                        data: { confirm: "Are you sure you want to delete this activity record?" } %>
+          </div>
+        </div>
+      <% end %>
+    </div>    
   </fullbody>
 </div>
 <script type="text/javascript">

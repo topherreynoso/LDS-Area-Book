@@ -4,7 +4,7 @@ AreaBook::Application.routes.draw do
   resources :activities
   resources :sessions, only: [:new, :create, :destroy]
 
-  root to: 'static_pages#home'
+  root to: 'static_pages#index'
 
   match '/help',      	  to: 'static_pages#help', 		  via: 'get'
   match '/newuser',   	  to: 'users#new', 		   		    via: 'get'

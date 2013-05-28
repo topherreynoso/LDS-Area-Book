@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
 
-  def home
+  def index
   	if signed_in?
   	  redirect_to ward_path
   	end

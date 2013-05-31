@@ -1,6 +1,9 @@
 AreaBook::Application.routes.draw do
   resources :users
-  resources :families
+  resources :families do
+    collection { post :import }
+    collection { post :confirm }
+  end
   resources :activities
   resources :sessions, only: [:new, :create, :destroy]
 
@@ -11,6 +14,7 @@ AreaBook::Application.routes.draw do
   match '/signin',    	  to: 'sessions#new', 	   		  via: 'get'
   match '/signout',		    to: 'sessions#destroy',  		  via: 'delete'
   match '/ward',		      to: 'families#ward',     		  via: 'get'
+  match '/import',        to: 'families#import',        via: 'get'
   match '/investigators', to: 'families#investigators', via: 'get'
   match '/watch',         to: 'families#watch',         via: 'get'
   match '/newfamily',	    to: 'families#new',      		  via: 'get'

@@ -1,14 +1,13 @@
 class FamiliesController < ApplicationController
   before_action :signed_in_user, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy]
+  before_action :admin_user, only: [:import]
 
   def ward
-  	members = Family.where("investigator = ?", false)
-    @families = members.where("archived = ?", false)
+  	@families = Family.where("investigator = ? and archived = ?", false, false)
   end
 
   def investigators
-    investigators = Family.where("investigator = ?", true)
-  	@families = investigators.where("archived = ?", false)
+    @families = Family.where("investigator = ? and archived = ?", true, false)
   end
 
   def watch
@@ -21,10 +20,78 @@ class FamiliesController < ApplicationController
       remove_family.watched = false
       remove_family.save
     end
-    watched = Family.where("watched = ?", true)
-    @families = watched.where("archived = ?", false)
-    unwatched = Family.where("watched = ?", false)
-    @unwatched_families = unwatched.where("archived = ?", false)
+    @families = Family.where("watched = ? and archived = ?", true, false)
+    @unwatched_families = Family.where("watched = ? and archived = ?", false, false)
+  end
+
+  def import
+    if params[:file]
+      import_families = Family.import(params[:file])
+      if import_families.nil? || import_families.count == 0
+        flash[:success] = "All items up to date. No import necessary."
+        redirect_to root_path
+      else
+        @ward_families = Family.where("archived = ? and investigator = ?", false, false)
+        @archived_families = Family.where("archived = ? and investigator = ?", true, false)
+        @add_families = []
+        @remove_families = []
+        @update_families = []
+        import_families.each do |family|
+          if Family.exists?(family.id)
+            if family.changed?
+              @update_families << family
+            else
+              @remove_families << family
+            end
+          else
+            @add_families << family
+          end
+        end
+      end
+    end
+  end
+
+  def confirm
+    add_families = params[:add_families] if params[:add_families]
+    remove_families = params[:remove_families] if params[:remove_families]
+    update_families = params[:update_families] if params[:update_families]
+    if add_families && add_families.count > 0
+      add_families.each do |f|
+        if f[1][:confirmed_change] == "1"
+          family = Family.new
+          family.name = f[1][:name]
+          family.phone = f[1][:phone]
+          family.email = f[1][:email]
+          family.address = f[1][:address]
+          family.children = f[1][:children]
+          family.save
+        end
+      end
+    end
+    if remove_families && remove_families.count > 0
+      remove_families.each do |f|
+        if f[1][:confirmed_change] == "1"
+          family = Family.find(f[1][:id].to_i)
+          family.confirmed_change = false
+          family.archived = true
+          family.save
+        end
+      end
+    end
+    if update_families && update_families.count > 0
+      update_families.each do |f|
+        if f[1][:confirmed_change] == "1"
+          family = Family.find(f[1][:id].to_i)
+          family.phone = f[1][:phone]
+          family.email = f[1][:email]
+          family.address = f[1][:address]
+          family.children = f[1][:children]
+          family.archived = f[1][:archived]
+          family.save
+        end
+      end
+    end
+    redirect_to root_path
   end
 
   def new
@@ -79,6 +146,10 @@ class FamiliesController < ApplicationController
         store_location
         redirect_to signin_url, notice: "Please sign in."
       end
+    end
+
+    def admin_user
+      redirect_to(root_path) unless current_user.admin?
     end
 
 end

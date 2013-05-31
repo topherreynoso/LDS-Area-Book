@@ -1,0 +1,162 @@
+<center><h3>Proposed Changes</h3></center>
+<%= form_tag confirm_families_path do %>
+  <% if @add_families.count > 0 %>
+    <div class="span4"><h4>Add Selected Families:</h4></div>
+  	<div class="offset3 span3">
+      <%= collection_select(nil, :family_id, @ward_families, :id, :name, {:prompt => "Current Ward Families"}) %>
+    </div>
+    <div class="row">
+  	  <div class="span11" style="overflow: auto;">
+        <table class="table table-condensed table-hover">
+          <thead style="width: 1150px;">  
+            <tr>  
+              <th class="twofifty">Family Name</th>  
+              <th class="hundredfifty">Family Phone</th>  
+          	  <th class="twofifty">Family Email</th>
+          	  <th class="twofifty">Family Address</th>
+          	  <th class="twofifty">Child Names</th>  
+        	</tr>  
+      	  </thead>
+      	  <tbody style="width: 1150px; height: 150px;"> 
+      	  	<% @add_families.each_with_index do |family,i| %>
+      	  	  <%= fields_for "add_families[#{i}]", family do |f| %>
+      	  		<tr>
+  			  	  <td class="twofifty">
+  			  	  	<label class="checkbox">
+  	  	  			  <%= f.check_box :confirmed_change %>
+  	  	  			  <%= family.name %>
+  	  	  			</label>
+  			  	  </td>
+			  	  <td class="hundredfifty"><%= family.phone %></td>
+  			  	  <td class="twofifty"><%= family.email %></td>
+			  	  <td class="twofifty"><%= family.address %></td>
+  			  	  <td class="twofifty"><%= family.children %></td>
+				</tr>
+				<%= f.hidden_field :id %>
+  	  	  		<%= f.hidden_field :name %>
+  	  	  		<%= f.hidden_field :phone %>
+  	  	  		<%= f.hidden_field :email %>
+  	  	  		<%= f.hidden_field :address %>
+  	  	  		<%= f.hidden_field :children %>
+  	  	  		<%= f.hidden_field :investigator %>
+  	  	  		<%= f.hidden_field :watched %>
+  	  	  		<%= f.hidden_field :archived %>
+			  <% end %>
+			<% end %>
+      	  </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+  <% if @remove_families.count > 0 %>
+  	<div class="span4"><h4>Archive Selected Families:</h4></div>
+  	<div class="offset3 span3">
+      <%= collection_select(nil, :family_id, @archived_families, :id, :name, {:prompt => "Current Archived Families"}) %>
+  	</div>
+  	<div class="row">
+  	  <div class="span11" style="overflow: auto;">
+        <table class="table table-condensed table-hover">
+          <thead style="width: 1150px;">  
+            <tr>  
+              <th class="twofifty">Family Name</th>  
+              <th class="hundredfifty">Family Phone</th>  
+          	  <th class="twofifty">Family Email</th>
+          	  <th class="twofifty">Family Address</th>
+          	  <th class="twofifty">Child Names</th>  
+        	</tr>  
+      	  </thead>
+      	  <tbody style="width: 1150px; height: 150px;"> 
+      	  	<% @remove_families.each_with_index do |family,i| %>
+      	  	  <%= fields_for "remove_families[#{i}]", family do |f| %>
+      	  		<tr>
+  			  	  <td class="twofifty">
+  			  	  	<label class="checkbox">
+  	  	  			  <%= f.check_box :confirmed_change %>
+  	  	  			  <%= family.name %>
+  	  	  			</label>
+  			  	  </td>
+			  	  <td class="hundredfifty"><%= family.phone %></td>
+  			  	  <td class="twofifty"><%= family.email %></td>
+			  	  <td class="twofifty"><%= family.address %></td>
+  			  	  <td class="twofifty"><%= family.children %></td>
+				</tr>
+				<%= f.hidden_field :id %>
+  	  	  		<%= f.hidden_field :name %>
+  	  	  		<%= f.hidden_field :phone %>
+  	  	  		<%= f.hidden_field :email %>
+  	  	  		<%= f.hidden_field :address %>
+  	  	  		<%= f.hidden_field :children %>
+  	  	  		<%= f.hidden_field :investigator %>
+  	  	  		<%= f.hidden_field :watched %>
+  	  	  		<%= f.hidden_field :archived %>
+			  <% end %>
+			<% end %>
+      	  </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+  <% if @update_families.count > 0 %>
+  	<div class="span10"><h4>Update Selected Families:</h4></div>
+
+	<div class="row">
+  	  <div class="span11" style="overflow: auto;">
+        <table class="table table-condensed table-hover">
+          <thead style="width: 1450px;">  
+            <tr>  
+              <th class="twofifty">Family Name</th>  
+              <th class="hundredfifty">Family Phone</th>  
+          	  <th class="twofifty">Family Email</th>
+          	  <th class="twofifty">Family Address</th>
+          	  <th class="twofifty">Child Names</th>
+          	  <th class="hundred">Archived?</th> 
+          	  <th class="hundred">Date Added</th>
+          	  <th class="hundred">Date Updated</th> 
+        	</tr>  
+      	  </thead>
+      	  <tbody style="width: 1450px; height: 150px;"> 
+      	  	<% @update_families.each_with_index do |family,i| %>
+      	  	  <%= fields_for "update_families[#{i}]", family do |f| %>
+      	  		<tr>
+  			  	  <td class="twofifty"><%= family.name %></td>
+			  	  <td class="hundredfifty"><% if family.phone_changed? %><%= family.phone_was %><% else %><%= family.phone %><% end %></td>
+  			  	  <td class="twofifty"><% if family.email_changed? %><%= family.email_was %><% else %><%= family.email %><% end %></td>
+			  	  <td class="twofifty"><% if family.address_changed? %><%= family.address_was %><% else %><%= family.address %><% end %></td>
+  			  	  <td class="twofifty"><% if family.children_changed? %><%= family.children_was %><% else %><%= family.children %><% end %></td>
+  			  	  <td class="hundred"><% if family.archived_changed? %><%= family.archived_was %><% else %><%= family.archived %><% end %></td>
+  			  	  <td class="hundred"><%= family.created_at.strftime("%m/%d/%y") %></td>
+  			  	  <td class="hundred"><%= family.updated_at.strftime("%m/%d/%y") %></td>
+				</tr>
+				<tr>
+				  	<td class="twofifty">
+				  	  <label class="checkbox">
+				  	  	<%= f.check_box :confirmed_change %>
+				  	  	<strong>UPDATE TO:</strong>
+				  	  </label>
+				  	</td>
+				  	<td class="hundredfifty"><% if family.phone_changed? %><%= family.phone %><% else %>No change<% end %></td>
+				  	<td class="twofifty"><% if family.email_changed? %><%= family.email %><% else %>No change<% end %></td>
+			  	  	<td class="twofifty"><% if family.address_changed? %><%= family.address %><% else %>No change<% end %></td>
+  			  	  	<td class="twofifty"><% if family.children_changed? %><%= family.children %><% else %>No change<% end %></td>
+  			  	  	<td class="hundred"><% if family.archived_changed? %><%= family.archived %><% else %>No change<% end %></td>
+  			  	  	<td class="hundred">&nbsp</td>
+  			  	  	<td class="hundred">&nbsp</td>
+  			  	</tr>
+				<%= f.hidden_field :id %>
+  	  	  		<%= f.hidden_field :name %>
+  	  	  		<%= f.hidden_field :phone %>
+  	  	  		<%= f.hidden_field :email %>
+  	  	  		<%= f.hidden_field :address %>
+  	  	  		<%= f.hidden_field :children %>
+  	  	  		<%= f.hidden_field :investigator %>
+  	  	  		<%= f.hidden_field :watched %>
+  	  	  		<%= f.hidden_field :archived %>
+			  <% end %>
+			<% end %>
+      	  </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+  <%= submit_tag "Import Selected", class: "btn btn-medium btn-primary" %>
+<% end %>

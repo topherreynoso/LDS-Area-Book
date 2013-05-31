@@ -27,7 +27,10 @@ class FamiliesController < ApplicationController
   def import
     if params[:file]
       import_families = Family.import(params[:file])
-      if import_families.nil? || import_families.count == 0
+      if import_families == false
+        flash[:error] = "The selected csv file is not properly formatted. Please redownload and select the latest ward csv."
+        redirect_to import_path
+      elsif import_families.nil? || import_families.count == 0
         flash[:success] = "All items up to date. No import necessary."
         redirect_to root_path
       else

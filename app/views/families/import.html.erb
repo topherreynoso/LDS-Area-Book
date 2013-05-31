@@ -30,7 +30,7 @@
       <div class="offset3 span6">
         <%= form_tag import_families_path, multipart: true do %>
           <%= label_tag "Select the ward CSV file" %>
-          <%= file_field_tag :file %>
+          <%= file_field_tag :file, :accept => 'text/csv' %>
           <%= submit_tag "Import List", class: "btn btn-medium btn-primary" %>
         <% end %>
       </div>

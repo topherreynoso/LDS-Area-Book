@@ -35,6 +35,7 @@ class Family < ActiveRecord::Base
     import_families = []
     all_family_names = []
     CSV.foreach(file.path, headers: true) do |row|
+      return false if row.headers[0] != "Family Name"
       new_info = { "name" => nil, "phone" => nil, "email" => nil, "address" => nil, "children" => nil }
       new_info["name"] = row["Couple Name"]
       all_family_names << new_info["name"]

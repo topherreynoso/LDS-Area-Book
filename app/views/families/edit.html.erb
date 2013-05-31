@@ -44,7 +44,10 @@
             <%= link_to "View Report", reports_path(:family_id => @family.id), class: "btn btn-medium btn-secondary" %>
           </div>
           <div class="span2">
-            <%= link_to "Archive Family", archive_path(:archive_family => @family.id, :family_id => @family.id), class: "btn btn-medium btn-danger", data: { confirm: "Are you sure you want to archive this family and all activity records associated with this family?" } %>
+            <%= link_to "Archive Family", archive_path(:archive_family => @family.id, :family_id => @family.id), class: "btn btn-medium btn-warning",
+                        confirm: "Are you sure you want to archive this family and all of its activity records?", "data-confirm-fade" => true, 
+                        "data-confirm-title" => "Archive #{@family.name}", "data-confirm-proceed" => "Archive", 
+                        "data-confirm-proceed-class" => "btn-warning" %>
           </div>
         </div>
       <% end %>

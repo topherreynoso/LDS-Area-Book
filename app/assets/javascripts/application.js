@@ -17,6 +17,7 @@
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.es
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.fr
+//= require twitter/bootstrap/rails/confirm
 //= require turbolinks
 //= require_tree .
 

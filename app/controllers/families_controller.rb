@@ -1,6 +1,6 @@
 class FamiliesController < ApplicationController
   before_action :signed_in_user, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy]
-  before_action :admin_user, only: [:import]
+  before_action :admin_user, only: [:import, :confirm]
 
   def ward
   	@families = Family.where("investigator = ? and archived = ?", false, false)

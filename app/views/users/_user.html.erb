@@ -5,24 +5,33 @@
   <% if current_user.admin? && !current_user?(user) %>
     <div class="span1">
       <% if user.active? %>
-      	<%= link_to("Deactivate", user_path(user, "user[active]" => false), :method => :put, :class => "btn btn-small btn-warning", 
-                    :confirm => "Deactivate #{user.name}?") %>
+      	<%= link_to "Deactivate", user_path(user, "user[active]" => false), :method => :put, :class => "btn btn-small btn-warning",
+                    confirm: "Deactivated users cannot log in. Are you sure you want to deactivate this user?", "data-confirm-fade" => true, 
+                    "data-confirm-title" => "Deactivate #{user.name}", "data-confirm-proceed" => "Deactivate", 
+                    "data-confirm-proceed-class" => "btn-warning" %> 
       <% else %>
-      	<%= link_to("Activate", user_path(user, "user[active]" => true), :method => :put, :class => "btn btn-small btn-primary", 
-                    :confirm => "Activate #{user.name}?") %>
+      	<%= link_to "Activate", user_path(user, "user[active]" => true), :method => :put, :class => "btn btn-small btn-primary", 
+                    confirm: "Activating a user allows them to log in. Are you sure you want to activate this user?", "data-confirm-fade" => true, 
+                    "data-confirm-title" => "Activate #{user.name}", "data-confirm-proceed" => "Activate" %>
       <% end %>
     </div>
     <div class ="span2">
       <% if user.admin? %>
-    	  <%= link_to("Revoke Admin", user_path(user, "user[admin]" => false), :method => :put, :class => "btn btn-small btn-warning", 
-                    :confirm => "Revoke admin rights from #{user.name}?") %>
+    	  <%= link_to "Revoke Admin", user_path(user, "user[admin]" => false), :method => :put, :class => "btn btn-small btn-warning",
+                    confirm: "Are you sure you want to revoke this user's administrative rights?", "data-confirm-fade" => true, 
+                    "data-confirm-title" => "Revoke #{user.name}'s Admin Rights", "data-confirm-proceed" => "Revoke", 
+                    "data-confirm-proceed-class" => "btn-warning" %> 
       <% else %>
-        <%= link_to("Make Admin", user_path(user, "user[admin]" => true), :method => :put, :class => "btn btn-small btn-warning", 
-                    :confirm => "Make #{user.name} and administrator?") %>
+        <%= link_to "Make Admin", user_path(user, "user[admin]" => true), :method => :put, :class => "btn btn-small btn-warning",
+                    confirm: "Are you sure you want to make this user an administrator?", "data-confirm-fade" => true, 
+                    "data-confirm-title" => "Make #{user.name} an Admin", "data-confirm-proceed" => "Proceed", 
+                    "data-confirm-proceed-class" => "btn-warning" %>
       <% end %>
     </div>
     <div class="offset3 span1">
-      <%= link_to "delete", user, method: :delete, class: "btn btn-small btn-danger", data: { confirm: "Delete #{user.name}?" } %>
+      <%= link_to "Delete", user, method: :delete, class: "btn btn-small btn-danger", 
+                  confirm: "You should only delete users that were created in error. It is recommended that you deactivate any users who have created reports in the past. Are you sure you want to delete this user?", "data-confirm-fade" => true, 
+                  "data-confirm-title" => "Delete #{user.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
     </div>
   <% end %>
 </li>

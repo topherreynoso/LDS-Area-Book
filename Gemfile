@@ -7,6 +7,7 @@ gem 'bcrypt-ruby', '3.0.1'
 gem 'will_paginate', '3.0.4'
 gem 'bootstrap-will_paginate', '0.0.9'
 gem 'bootstrap-datepicker-rails'
+gem 'twitter-bootstrap-rails-confirm'
 
 group :development, :test do
   gem 'sqlite3', '1.3.7'

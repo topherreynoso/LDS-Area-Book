@@ -25,11 +25,16 @@
     <% end %>
     <% if @selected_family %>
       <div class="span2">
-        <%= link_to "Unarchive Family", archive_path(:unarchive_id => @selected_family.id), class: "btn btn-medium btn-warning" %>
+        <%= link_to "Unarchive Family", archive_path(:unarchive_id => @selected_family.id), class: "btn btn-medium btn-warning",
+                    confirm: "Are you sure you want to unarchive this family?", "data-confirm-fade" => true, 
+                    "data-confirm-title" => "Unarchive #{@selected_family.name}", "data-confirm-proceed" => "Unarchive", 
+                    "data-confirm-proceed-class" => "btn-warning" %>
       </div>
       <div class="offset4 span2">
         <%= link_to "Delete Family", @selected_family, method: :delete, class: "btn btn-medium btn-danger",
-                          data: { confirm: "Are you sure you want to delete this family and all of its activity records?" } %>
+                    confirm: "Are you sure you want to delete this family and all of its activity records?", "data-confirm-fade" => true, 
+                    "data-confirm-title" => "Delete #{@selected_family.name}", "data-confirm-proceed" => "Delete", 
+                    "data-confirm-proceed-class" => "btn-danger" %>
       </div>
     <% end %>
   </fullbody>

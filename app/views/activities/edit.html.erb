@@ -21,8 +21,8 @@
         <%= f.collection_select(:family_id, Family.where("archived = ?", false), :id, :name) %>
         <%= f.label :activity_date, "Date contacted/visited" %>
         <div class="row">
-          <div class="span2 input-append date datepicker" data-date="current">
-            <%= f.text_field :activity_date, :value => Date.today.strftime('%m/%d/%y'), :readonly => true %>
+          <div class="span2 input-append date datepicker" data-date="<%= @activity.activity_date.strftime('%m/%d/%y') %>" >
+            <%= f.text_field :activity_date, :value => @activity.activity_date.strftime('%m/%d/%y'), :readonly => true %>
             <span class="add-on"><i class="icon-th"></i></span>
           </div>
         </div>
@@ -56,5 +56,5 @@
   $('.datepicker').datepicker({
     format: 'mm/dd/yy',
     autoclose: true
-  })
+  });
 </script>

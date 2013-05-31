@@ -2,9 +2,17 @@
   <tr>
     <td class="hundred">
       <% if activity.visit? %>
-        <%= link_to "Yes", edit_activity_path(activity) %>
+        <% if @selected_family.archived? %>
+          Yes
+        <% else %>
+          <%= link_to "Yes", edit_activity_path(activity) %>
+        <% end %>
       <% else %>
-        <%= link_to "No", edit_activity_path(activity) %>
+        <% if @selected_family.archived? %>
+          No
+        <% else %>
+          <%= link_to "No", edit_activity_path(activity) %>
+        <% end %>
       <% end %>
     </td>
     <td class="hundred"><%= activity.activity_date.strftime("%m/%d/%y") %></td>

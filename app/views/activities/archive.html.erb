@@ -32,7 +32,7 @@
       </div>
       <div class="offset4 span2">
         <%= link_to "Delete Family", @selected_family, method: :delete, class: "btn btn-medium btn-danger",
-                    confirm: "Are you sure you want to delete this family and all of its activity records?", "data-confirm-fade" => true, 
+                    confirm: "Are you sure you want to permanently delete this family and all of its activity records?", "data-confirm-fade" => true, 
                     "data-confirm-title" => "Delete #{@selected_family.name}", "data-confirm-proceed" => "Delete", 
                     "data-confirm-proceed-class" => "btn-danger" %>
       </div>

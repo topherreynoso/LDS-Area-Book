@@ -133,11 +133,11 @@
 				  	  	      <strong>UPDATE TO:</strong>
 				  	        </label>
 				  	      </td>
-				  	      <td class="hundredfifty"><% if family.phone_changed? %><%= family.phone %><% else %>No change<% end %></td>
-				  	      <td class="twofifty"><% if family.email_changed? %><%= family.email %><% else %>No change<% end %></td>
-			  	        <td class="twofifty"><% if family.address_changed? %><%= family.address %><% else %>No change<% end %></td>
-  			    	    <td class="twofifty"><% if family.children_changed? %><%= family.children %><% else %>No change<% end %></td>
-  			 	  	    <td class="hundred"><% if family.archived_changed? %><%= family.archived %><% else %>No change<% end %></td>
+				  	      <td class="hundredfifty"><strong><% if family.phone_changed? %><%= family.phone %><% else %>No change<% end %></strong></td>
+				  	      <td class="twofifty"><strong><% if family.email_changed? %><%= family.email %><% else %>No change<% end %></strong></td>
+			  	        <td class="twofifty"><strong><% if family.address_changed? %><%= family.address %><% else %>No change<% end %></strong></td>
+  			    	    <td class="twofifty"><strong><% if family.children_changed? %><%= family.children %><% else %>No change<% end %></strong></td>
+  			 	  	    <td class="hundred"><strong><% if family.archived_changed? %><%= family.archived %><% else %>No change<% end %></strong></td>
   			 	  	    <td class="hundred">&nbsp</td>
   		  	  	    <td class="hundred">&nbsp</td>
   		  	      </tr>

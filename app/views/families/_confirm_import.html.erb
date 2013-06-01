@@ -1,7 +1,9 @@
 <center><h3>Proposed Changes</h3></center>
 <%= form_tag confirm_families_path do %>
   <% if @add_families.count > 0 %>
-    <div class="span4"><h4>Add Selected Families:</h4></div>
+    <div class="span4">
+      <h4><a href="#" data-toggle="tooltip" id="add_tip">Add Selected Families:</a></h4>
+    </div>
   	<div class="offset3 span3">
       <%= collection_select(nil, :family_id, @ward_families, :id, :name, {:prompt => "Current Ward Families"}) %>
     </div>
@@ -49,7 +51,9 @@
     </div>
   <% end %>
   <% if @remove_families.count > 0 %>
-  	<div class="span4"><h4>Archive Selected Families:</h4></div>
+  	<div class="span4">
+      <h4><a href="#" data-toggle="tooltip" id="archive_tip">Archive Selected Families:</a></h4>
+    </div>
   	<div class="offset3 span3">
       <%= collection_select(nil, :family_id, @archived_families, :id, :name, {:prompt => "Current Archived Families"}) %>
   	</div>
@@ -97,7 +101,9 @@
     </div>
   <% end %>
   <% if @update_families.count > 0 %>
-  	<div class="span10"><h4>Update Selected Families:</h4></div>
+  	<div class="span10">
+      <h4><a href="#" data-toggle="tooltip" id="update_tip">Update Selected Families:</a></h4>
+    </div>
 	  <div class="row">
   	  <div class="span11" style="overflow: auto;">
         <table class="table table-condensed table-hover">
@@ -159,3 +165,17 @@
   <% end %>
   <%= submit_tag "Import Selected", class: "btn btn-medium btn-primary" %>
 <% end %>
+<script>
+  $('#add_tip').tooltip({ 
+    placement: 'right',
+    title: 'Suggested families to add to the ward. These families are not found in the ward area book. Make sure there is not a misspelled name that already exists.'
+  });
+  $('#archive_tip').tooltip({ 
+    placement: 'right',
+    title: 'Families suggested for archiving. These families are not found in the imported ward list. Make sure they are not investigators before archiving.'
+  });
+  $('#update_tip').tooltip({ 
+    placement: 'right',
+    title: 'Updates suggested for existing families. Current information will be listed first and updated information is listed in bold below the family name.'
+  });
+</script>

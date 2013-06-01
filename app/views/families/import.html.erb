@@ -17,21 +17,35 @@
       <%= render 'confirm_import' %>
     <% else %>
       <center><h3>Update Ward List</h3></center>
-      <h1>&nbsp</h1>
+      <h2>&nbsp</h2>
       <div class="offset2 span7">
-        <h4>
-          <%= link_to "Click here", "https://lds.org/directory/services/ludrs/unit/member-list/93157/csv?includeOptedOut=true" %> to download the latest ward list from <%= link_to "lds.org", "http://www.lds.org" %>, you may be prompted to log in to your LDS account. After the download is complete select the latest ward list csv file below.<p>
-          You will be prompted before any changes are made.
-        </h4>
+        <div class="span1">
+          <h4>Step 1:</h4>
+        </div>
+        <div class="span5">
+          <%= link_to "Download CSV", "https://lds.org/directory/services/ludrs/unit/member-list/93157/csv?includeOptedOut=true",
+                              class: "btn btn-medium btn-success" %>
+        </div>
+        <div class="span6">
+          <h5>
+            Download the latest ward list from <%= link_to "lds.org", "http://www.lds.org" %> by clicking the button above. You may be prompted to log in to your LDS account.
+          </h5>
+        </div>
       </div>
-      <div class="span10">
-        <h3>&nbsp</h3>
-      </div>
-      <div class="offset3 span6">
+      <div class="span6"><h4>&nbsp</h4></div>
+      <div class="offset2 span7">
+        <div class="span1">
+          <h4>Step 2:</h4>
+        </div>
         <%= form_tag import_families_path, multipart: true do %>
-          <%= label_tag "Select the ward CSV file" %>
-          <%= file_field_tag :file, :accept => 'text/csv' %>
-          <%= submit_tag "Import List", class: "btn btn-medium btn-primary" %>
+          <div class="span4">
+            <%= file_field_tag :file, :accept => 'text/csv' %><p>
+          </div>
+          <div class="span6">
+            <h5>Select the csv file you downloaded in step 1 and press the button below. You will be asked to confirm any changes to the ward list.</h5>
+            <h5>&nbsp</h5>
+            <%= submit_tag "Import", class: "btn btn-medium btn-primary" %>
+          </div>
         <% end %>
       </div>
     <% end %>

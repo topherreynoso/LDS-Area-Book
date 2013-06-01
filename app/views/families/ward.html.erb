@@ -18,8 +18,8 @@
       <%= link_to "Add Family", newfamily_path, class: "btn btn-medium btn-primary" %>
     </div>
     <% if current_user.admin? %>
-      <div class="offset6 span2">
-        <%= link_to "Import Updates", import_path, class: "btn btn-medium btn-warning" %>
+      <div class="span2">
+        <%= link_to "MLS Update", import_path, class: "btn btn-medium btn-success" %>
       </div>
     <% end %>
   </fullbody>

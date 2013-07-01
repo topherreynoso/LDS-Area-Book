@@ -83,6 +83,7 @@ GEM
     mime-types (1.23)
     minitest (4.7.4)
     multi_json (1.7.3)
+    newrelic_rpm (3.6.5.130)
     nokogiri (1.5.9)
     pg (0.14.1)
     polyglot (0.3.3)
@@ -167,6 +168,7 @@ DEPENDENCIES
   coffee-rails (= 4.0.0)
   jbuilder (= 1.0.1)
   jquery-rails (= 2.2.1)
+  newrelic_rpm
   pg (= 0.14.1)
   rails (= 4.0.0.rc1)
   rails3_serve_static_assets!

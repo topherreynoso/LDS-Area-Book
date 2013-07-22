@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130530211628) do
+ActiveRecord::Schema.define(version: 20130722212747) do
 
   create_table "activities", force: true do |t|
     t.integer  "family_id"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 20130530211628) do
     t.boolean  "confirmed_change", default: false
   end
 
+  add_index "families", ["archived"], name: "index_families_on_archived"
+  add_index "families", ["investigator"], name: "index_families_on_investigator"
   add_index "families", ["name"], name: "index_families_on_name"
 
   create_table "users", force: true do |t|

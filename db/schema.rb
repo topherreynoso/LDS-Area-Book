@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130723045001) do
+ActiveRecord::Schema.define(version: 20130723194501) do
 
   create_table "activities", force: true do |t|
     t.integer  "family_id"
@@ -23,6 +23,10 @@ ActiveRecord::Schema.define(version: 20130723045001) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "activities", ["activity_date"], name: "index_activities_on_activity_date"
+  add_index "activities", ["family_id"], name: "index_activities_on_family_id"
+  add_index "activities", ["visit"], name: "index_activities_on_visit"
 
   create_table "families", force: true do |t|
     t.string   "name"
@@ -39,6 +43,12 @@ ActiveRecord::Schema.define(version: 20130723045001) do
   end
 
   add_index "families", ["archived"], name: "index_families_on_archived"
+<<<<<<< HEAD
+=======
+  add_index "families", ["investigator", "archived"], name: "by_archived_ward_list"
+  add_index "families", ["investigator", "archived"], name: "by_investigator_list"
+  add_index "families", ["investigator", "archived"], name: "by_ward_list"
+>>>>>>> adding_master
   add_index "families", ["investigator"], name: "index_families_on_investigator"
   add_index "families", ["name"], name: "index_families_on_name"
 

@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 20130723045001) do
     t.boolean  "confirmed_change", default: false
   end
 
+  add_index "families", ["archived"], name: "index_families_on_archived"
+  add_index "families", ["investigator"], name: "index_families_on_investigator"
   add_index "families", ["name"], name: "index_families_on_name"
 
   create_table "users", force: true do |t|

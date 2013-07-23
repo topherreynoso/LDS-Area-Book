@@ -1,0 +1,31 @@
+<% provide(:title, "Edit Ward") %> 
+<div class="row">
+  <div class="offset1 span9">
+    <ul class="nav nav-tabs">
+      <li><%= link_to "Ward List", wardlist_path %></li>
+      <li><%= link_to "Investigators", investigators_path %></li>
+      <li><%= link_to "Watch List", watch_path %></li>
+      <li><%= link_to "Find Report", reports_path %></li>
+      <li><%= link_to "Report Activity", newactivity_path %></li>
+      <li><%= link_to "Archive", archive_path %></li>
+    </ul>
+  </div>
+</div>
+<div class="container">
+  <fullbody class="span11">
+    <div class="offset3 span5">
+      <h1>&nbsp</h1>
+      <center><h4>Update Ward</h4></center>
+      <%= form_for(@ward) do |f| %>
+        <%= render 'shared/error_messages' %>
+        <%= "Ward name (e.g. Newport Beach 2nd)" %>
+        <%= f.text_field :name %>
+        <h5><%= "Unit number: #{@ward.unit}" %></h5>
+        <h5>&nbsp</h5>
+        <%= f.submit "Save changes", class: "btn btn-medium btn-primary" %>
+      <% end %>
+      <h2>&nbsp</h2>
+      <h4>&nbsp</h4>
+    </div>
+  </fullbody>
+</div>

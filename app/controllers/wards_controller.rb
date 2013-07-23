@@ -28,6 +28,23 @@ class WardsController < ApplicationController
     redirect_to wards_path
   end
 
+  def edit
+    @ward = Ward.find(params[:id])
+  end
+
+  def update
+    @ward = Ward.find(params[:id])
+    if @ward.update_attributes(ward_params)
+      if current_user.master?
+        redirect_to wards_path
+      else
+        redirect_to users_path
+      end
+    else
+      render 'edit'
+    end
+  end
+
   def switch
   	if params[:ward_id]
   	  ward = Ward.find(params[:ward_id])

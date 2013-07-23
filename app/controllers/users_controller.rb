@@ -55,6 +55,7 @@ class UsersController < ApplicationController
       if !existing_user.nil?
         @user = existing_user
         @user.active = true
+        @user.is_admin_applying_update = true
       end
       @user.ward_id = current_ward.id
       @user.admin = true if User.all.count == 0 || User.find_by_ward_id(current_ward.id).nil?

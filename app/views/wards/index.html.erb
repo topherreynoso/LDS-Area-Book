@@ -1,4 +1,4 @@
-<% provide(:title, 'All Users') %>
+<% provide(:title, 'All Wards') %>
 <div class="row">
   <div class="offset1 span9">
     <ul class="nav nav-tabs">
@@ -13,16 +13,10 @@
 </div>
 <div class="container">
   <fullbody class="span11 fivethirtyhigh">
-    <% if current_ward.nil? %>
-      <h1>All users</h1>
-    <% else %>
-      <h1>Ward users</h1>
-    <% end %>
+    <h1>All wards</h1>
     <ul class="users" style="height:400px;">
-      <% if !@users.nil? %>
-        <%= render @users %>
-      <% end %>
+      <%= render @wards %>
     </ul>
-    <h5><%= link_to "Add User", newuser_path, class: "btn btn-medium btn-primary" %></h5>
+    <h5><%= link_to "Add Ward", newward_path, class: "btn btn-medium btn-primary" %></h5>
   </fullbody>
 </div>

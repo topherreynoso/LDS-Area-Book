@@ -28,7 +28,24 @@
                     "data-confirm-proceed-class" => "btn-warning" %>
       <% end %>
     </div>
-    <div class="offset3 span1">
+    <div class ="span2">
+      <% if current_user.master? %>
+        <% if user.master? %>
+          <%= link_to "Revoke Master", user_path(user, "user[master]" => false), :method => :put, :class => "btn btn-small btn-warning",
+                      confirm: "Are you sure you want to revoke this user's master access?", "data-confirm-fade" => true, 
+                      "data-confirm-title" => "Revoke #{user.name}'s Master Access", "data-confirm-proceed" => "Revoke", 
+                      "data-confirm-proceed-class" => "btn-warning" %> 
+        <% else %>
+          <%= link_to "Make Master", user_path(user, "user[master]" => true), :method => :put, :class => "btn btn-small btn-warning",
+                      confirm: "Are you sure you want to grant master access to this user?", "data-confirm-fade" => true, 
+                      "data-confirm-title" => "Grant #{user.name} Master Access", "data-confirm-proceed" => "Proceed", 
+                      "data-confirm-proceed-class" => "btn-warning" %>
+        <% end %>
+      <% else %>
+        &nbsp
+      <% end %>
+    </div>
+    <div class="offset1 span1">
       <%= link_to "Delete", user, method: :delete, class: "btn btn-small btn-danger", 
                   confirm: "You should only delete users that were created in error. It is recommended that you deactivate any users who have created reports in the past. Are you sure you want to permanently delete this user?", "data-confirm-fade" => true, 
                   "data-confirm-title" => "Delete #{user.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>

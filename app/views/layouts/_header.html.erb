@@ -1,7 +1,11 @@
 <header class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
-      <%= link_to "Ward Area Book", root_path, id: "logo" %>
+      <% if current_ward.nil? %>
+        <%= link_to "Ward Area Book", root_path, id: "logo" %>
+      <% else %>
+        <%= link_to "#{current_ward.name}", root_path, id: "logo" %>
+      <% end %>
       <nav>
         <ul class="nav pull-right">
           <li><%= link_to "Home", root_path %></li>
@@ -9,6 +13,9 @@
           <% if signed_in? %>
             <% if current_user.admin? %>
               <li><%= link_to "Users", users_path %></li>
+            <% end %>
+            <% if current_user.master? %>
+              <li><%= link_to "Wards", wards_path %></li>
             <% end %>
             <li id="fat-menu" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">

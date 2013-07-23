@@ -107,7 +107,7 @@ class FamiliesController < ApplicationController
       if @family.investigator?
       	redirect_to investigators_path
       else
-      	redirect_to ward_path
+      	redirect_to wardlist_path
       end
     else
       render 'new'
@@ -124,7 +124,7 @@ class FamiliesController < ApplicationController
       if @family.investigator?
       	redirect_to investigators_path
       else
-      	redirect_to ward_path
+      	redirect_to wardlist_path
       end
     else
       render 'edit'

@@ -34,4 +34,26 @@ module SessionsHelper
   def store_location
     session[:return_to] = request.url
   end
+
+  def set_ward(ward)
+    if !ward.nil?
+      if ward.id == current_user.ward_id || current_user.master?
+        cookies.permanent[:ward_token] = ward.ward_token
+        Apartment::Database.switch(ward.unit)
+        self.current_ward = ward
+      end
+    else
+      cookies.permanent[:ward_token] = nil
+      Apartment::Database.switch()
+      self.current_ward = nil
+    end
+  end
+
+  def current_ward=(ward)
+    @current_ward = ward
+  end
+
+  def current_ward
+    @current_ward ||= Ward.find_by(ward_token: cookies[:ward_token])
+  end
 end

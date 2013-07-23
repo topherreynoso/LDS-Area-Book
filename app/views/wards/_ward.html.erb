@@ -1,0 +1,20 @@
+<li>
+  <div class="span3">
+  	<%= link_to ward.name, edit_ward_path(ward) %>
+  </div>
+  <div class="span2">
+    Unit #: <%= ward.unit %>
+  </div>
+  <div class ="span2">
+    <% if ward == current_ward %>
+      <%= link_to "Unload Data", changeward_path, :class => "btn btn-small btn-warning" %>
+    <% else %>
+      <%= link_to "Load Data", changeward_path(:ward_id => ward.id), :class => "btn btn-small btn-success" %>
+    <% end %>
+  </div> 
+  <div class="offset2 span1">
+    <%= link_to "Delete", ward, method: :delete, class: "btn btn-small btn-danger", 
+                confirm: "Are you sure you want to permanently delete this ward and all of its records?", "data-confirm-fade" => true, 
+                "data-confirm-title" => "Delete #{ward.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
+  </div>
+</li>

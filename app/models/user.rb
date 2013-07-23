@@ -11,10 +11,13 @@
 #  remember_token  :string(255)
 #  admin           :boolean          default(FALSE)
 #  active          :boolean          default(TRUE)
+#  master          :boolean          default(FALSE)
+#  ward_id         :integer
 #
 
 class User < ActiveRecord::Base
   attr_accessor :is_admin_applying_update
+  belongs_to :ward
 
   before_save { self.email = email.downcase }
   before_save :create_remember_token

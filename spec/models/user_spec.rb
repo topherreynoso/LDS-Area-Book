@@ -11,6 +11,8 @@
 #  remember_token  :string(255)
 #  admin           :boolean          default(FALSE)
 #  active          :boolean          default(TRUE)
+#  master          :boolean          default(FALSE)
+#  ward_id         :integer
 #
 
 require 'spec_helper'

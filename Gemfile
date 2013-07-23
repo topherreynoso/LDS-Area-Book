@@ -9,6 +9,7 @@ gem 'bootstrap-will_paginate', '0.0.9'
 gem 'bootstrap-datepicker-rails'
 gem 'twitter-bootstrap-rails-confirm'
 gem 'newrelic_rpm'
+gem 'apartment'
 
 group :development, :test do
   gem 'sqlite3', '1.3.7'

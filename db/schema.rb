@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130530211628) do
+ActiveRecord::Schema.define(version: 20130723045001) do
 
   create_table "activities", force: true do |t|
     t.integer  "family_id"
@@ -49,9 +49,22 @@ ActiveRecord::Schema.define(version: 20130530211628) do
     t.string   "remember_token"
     t.boolean  "admin",           default: false
     t.boolean  "active",          default: true
+    t.boolean  "master",          default: false
+    t.integer  "ward_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
+
+  create_table "wards", force: true do |t|
+    t.string   "name"
+    t.string   "unit"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "ward_token"
+  end
+
+  add_index "wards", ["name"], name: "index_wards_on_name"
+  add_index "wards", ["ward_token"], name: "index_wards_on_ward_token"
 
 end

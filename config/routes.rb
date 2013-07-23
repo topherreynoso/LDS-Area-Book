@@ -5,15 +5,18 @@ AreaBook::Application.routes.draw do
     collection { post :confirm }
   end
   resources :activities
+  resources :wards
   resources :sessions, only: [:new, :create, :destroy]
 
   root to: 'static_pages#index'
 
   match '/help',      	  to: 'static_pages#help', 		  via: 'get'
   match '/newuser',   	  to: 'users#new', 		   		    via: 'get'
+  match '/newward',       to: 'wards#new',              via: 'get'
+  match '/changeward',    to: 'wards#switch',           via: 'get'
   match '/signin',    	  to: 'sessions#new', 	   		  via: 'get'
   match '/signout',		    to: 'sessions#destroy',  		  via: 'delete'
-  match '/ward',		      to: 'families#ward',     		  via: 'get'
+  match '/wardlist',      to: 'families#ward',     		  via: 'get'
   match '/import',        to: 'families#import',        via: 'get'
   match '/investigators', to: 'families#investigators', via: 'get'
   match '/watch',         to: 'families#watch',         via: 'get'

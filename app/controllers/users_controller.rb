@@ -4,7 +4,12 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: [:new, :create, :destroy, :index]
 
   def index
-    @users = User.paginate(page: params[:page])
+    if current_user.master? && current_ward == nil
+      @users = User.all
+    else
+      @users = User.where(:ward_id => current_ward.id)
+    end
+    @users = @users.paginate(page: params[:page]) if !@users.nil?
   end
 
   def new
@@ -25,7 +30,13 @@ class UsersController < ApplicationController
       end
     else
       @user.is_admin_applying_update = true
-      if @user.update_attributes(admin_user_params)
+      update_params = nil
+      if current_user.master?
+        update_params = master_user_params
+      else 
+        update_params = admin_user_params
+      end
+      if @user.update_attributes(update_params)
         redirect_to users_path
       else
         render 'edit'
@@ -35,13 +46,24 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if User.all.count == 0
-      @user.admin = true
-    end
-    if @user.save
-      redirect_to root_path
-    else
+    existing_user = User.find_by_email(@user.email)
+    if !existing_user.nil? && existing_user.active?
+      flash.now[:error] = 'That email address is already associated with an active user in another ward. That ward must deactivate this user 
+                          account before you can add it to your ward.'
       render 'new'
+    else
+      if !existing_user.nil?
+        @user = existing_user
+        @user.active = true
+      end
+      @user.ward_id = current_ward.id
+      @user.admin = true if User.all.count == 0 || User.find_by_ward_id(current_ward.id).nil?
+      @user.master = true if User.all.count == 0
+      if @user.save
+        redirect_to root_path
+      else
+        render 'new'
+      end
     end
   end
 
@@ -58,6 +80,10 @@ class UsersController < ApplicationController
 
     def admin_user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin, :active)
+    end
+
+    def master_user_params
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin, :active, :master)
     end
 
     # Before filters

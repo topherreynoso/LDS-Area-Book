@@ -1,6 +1,9 @@
 <li>
   <div class="span3">
-  	<%= link_to user.name, edit_user_path(user) %>
+  	<h5><%= link_to user.name, edit_user_path(user) %></h5>
+    <% if !user.ward_id.nil? && Ward.where(:id => user.ward_id).present? %>
+      <h5 style="font-weight:normal;"><%= Ward.find(user.ward_id).name %></h5>
+    <% end %>
   </div>
   <% if current_user.admin? && !current_user?(user) %>
     <div class="span1">

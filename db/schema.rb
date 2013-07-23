@@ -43,12 +43,9 @@ ActiveRecord::Schema.define(version: 20130723194501) do
   end
 
   add_index "families", ["archived"], name: "index_families_on_archived"
-<<<<<<< HEAD
-=======
   add_index "families", ["investigator", "archived"], name: "by_archived_ward_list"
   add_index "families", ["investigator", "archived"], name: "by_investigator_list"
   add_index "families", ["investigator", "archived"], name: "by_ward_list"
->>>>>>> adding_master
   add_index "families", ["investigator"], name: "index_families_on_investigator"
   add_index "families", ["name"], name: "index_families_on_name"
 

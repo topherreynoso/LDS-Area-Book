@@ -1,8 +1,8 @@
 class ChangeOptionsFamilyIndex < ActiveRecord::Migration
   def up
-  	add_index :families, [:investigator, :archived], :name => "index_by_ward_list", :where => "investigator = false and archived = false"
-  	add_index :families, [:investigator, :archived], :name => "index_by_investigator_list", :where => "investigator = true and archived = false"
-  	add_index :families, [:investigator, :archived], :name => "index_by_archived_ward_list", :where => "investigator = false and archived = true"
+  	add_index :families, [:investigator, :archived], :name => "index_by_ward_list", :options => "WHERE investigator = false and archived = false"
+  	add_index :families, [:investigator, :archived], :name => "index_by_investigator_list", :options => "WHERE investigator = true and archived = false"
+  	add_index :families, [:investigator, :archived], :name => "index_by_archived_ward_list", :options => "WHERE investigator = false and archived = true"
   end
 
   def down

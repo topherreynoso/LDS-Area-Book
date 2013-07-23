@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130723203728) do
+ActiveRecord::Schema.define(version: 20130723211359) do
 
   create_table "activities", force: true do |t|
     t.integer  "family_id"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20130723203728) do
   end
 
   add_index "families", ["archived"], name: "index_families_on_archived"
+  add_index "families", ["investigator", "archived"], name: "archived_ward_list"
   add_index "families", ["investigator", "archived"], name: "by_archived_ward_list"
   add_index "families", ["investigator", "archived"], name: "by_investigator_list"
   add_index "families", ["investigator", "archived"], name: "by_ward_list"
@@ -52,6 +53,8 @@ ActiveRecord::Schema.define(version: 20130723203728) do
   add_index "families", ["investigator", "archived"], name: "index_by_ward_list"
   add_index "families", ["investigator", "archived"], name: "index_investigator_list"
   add_index "families", ["investigator", "archived"], name: "index_ward_list"
+  add_index "families", ["investigator", "archived"], name: "investigator_list"
+  add_index "families", ["investigator", "archived"], name: "ward_list"
   add_index "families", ["investigator"], name: "index_families_on_investigator"
   add_index "families", ["name"], name: "index_families_on_name"
 

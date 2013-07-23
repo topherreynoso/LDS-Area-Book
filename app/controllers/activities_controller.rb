@@ -43,34 +43,14 @@ class ActivitiesController < ApplicationController
     if params[:family_id]
       @selected_family = Family.find(params[:family_id])
       @activities = @selected_family.activities
-      @activities.each do |activity|
-        if activity.visit?
-          @visit_count += 1
-        end
-      end
     elsif params[:activity_date]
       @report_date = params[:activity_date]
-      @activities = []
-      all_activities = Activity.where("activity_date > ?", @report_date)
-      all_activities.each do |activity|
-        if !Family.find(activity.family_id).archived?
-          @activities << activity
-          if activity.visit?
-            @visit_count += 1
-          end
-        end
-      end
+      @activities = Activity.where("activity_date > ?", @report_date).joins(:family).where(:families => {:archived => false})
     else
-      @activities = []
-      Activity.all.each do |activity|
-        if !Family.find(activity.family_id).archived?
-          @activities << activity
-          if activity.visit?
-            @visit_count += 1
-          end
-        end
-      end
+      @activities = Activity.joins(:family).where(:families => {:archived => false})
     end
+    visits = @activities.where(:visit => true)
+    @visit_count = visits.count
   end
 
   def archive

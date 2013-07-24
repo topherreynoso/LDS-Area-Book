@@ -14,8 +14,8 @@
 <div class="container">
   <fullbody class="span11"> 
     <%= render 'report' %>
-    <div class="span2 dropdown">
-      <a class="dropdown-toggle btn btn-medium btn-primary" data-toggle="dropdown" href="#">Find by date</a>
+    <div class="span1 dropdown">
+      <a class="dropdown-toggle btn btn-small btn-primary" data-toggle="dropdown" href="#" style="padding-top:5px; width:35px; height:22px;">Date</a>
       <ul class="dropdown-menu bottom-up" role="menu" aria-labelledby="dropdownMenu">
         <li><%= link_to "In the last week", reports_path(:activity_date => 1.week.ago) %></li>
         <li><%= link_to "In the last month", reports_path(:activity_date => 1.month.ago) %></li>
@@ -23,25 +23,18 @@
         <li><%= link_to "In the last six months", reports_path(:activity_date => 6.months.ago) %></li>
         <li><%= link_to "In the last year", reports_path(:activity_date => 12.months.ago) %></li>
       </ul>
-      &nbsp&nbsp&nbsp&nbspor
     </div>
-    <div class="span2">
-      <%= collection_select(nil, :family_id, Family.where("archived = ?", false), :id, :name, {:prompt => "Select a family"}, 
-                            {:onchange => "redirect_to_family(this.value)", :class => "btn btn-medium btn-secondary"}) %>
+    <div class="span1">
+      <%= collection_select(nil, :family_id, Family.where("archived = ?", false), :id, :name, {:prompt => "Family"}, 
+                            {:onchange => "redirect_to_family(this.value)", :class => "btn btn-small btn-secondary", :style => "width:70px;"}) %>
     </div>
     <%= javascript_tag do %>
       function redirect_to_family(familyId){
         window.location = "<%= reports_path %>?family_id=" + familyId;
       } 
     <% end %>
-    <div class="span2">
-      <%= link_to "Show All", reports_path, class: "btn btn-medium btn-secondary" %>
-    </div>
-    <div class="span2">
-      Total Reports: <%= @activities.count %>
-    </div>
-    <div class="span2">
-      Total Visits: <%= @visit_count %>
+    <div class="span8 pull-right">
+      <%= will_paginate nil, :inner_window => 2, :outer_window => 1, style: "margin: 0 0 0 0;" %>
     </div>
   </fullbody>
 </div>

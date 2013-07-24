@@ -39,18 +39,16 @@ class ActivitiesController < ApplicationController
   end
 
   def reports
-    @visit_count = 0
     if params[:family_id]
       @selected_family = Family.find(params[:family_id])
-      @activities = @selected_family.activities
+      @activities = @selected_family.activities.paginate(page: params[:page], :per_page => 7)
     elsif params[:activity_date]
       @report_date = params[:activity_date]
-      @activities = Activity.where("activity_date > ?", @report_date).joins(:family).where(:families => {:archived => false})
+      @activities = Activity.where("activity_date > ?", @report_date).joins(:family).where(
+                                    :families => {:archived => false}).paginate(page: params[:page], :per_page => 7)
     else
-      @activities = Activity.joins(:family).where(:families => {:archived => false})
+      @activities = Activity.joins(:family).where(:families => {:archived => false}).paginate(page: params[:page], :per_page => 7)
     end
-    visits = @activities.where(:visit => true)
-    @visit_count = visits.count
   end
 
   def archive

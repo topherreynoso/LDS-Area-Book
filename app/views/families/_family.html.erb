@@ -1,17 +1,18 @@
 <tr>
   <td class="twofifty"><%= link_to family.name, edit_family_path(family) %></td>
-	<td class="hundredfifty"><%= family.phone %></td>
-  <td class="twofifty"><%= family.email %></td>
+  <td class="twofifty"><%= family.phone %><p><%= family.email %></td>
 	<td class="twofifty"><%= family.address %></td>
   <td class="twofifty"><%= family.children %></td>
   <td class="hundred">
-  	<% if family.activities.where("visit = ?", true).count > 0 %>
-  		<%= family.activities.where("visit = ?", true).first.activity_date.strftime("%m/%d/%y") %>
+  	<% @fam_visits = family.activities.where("visit = ?", true) %>
+    <% if @fam_visits.count > 0 %>
+  		<%= @fam_visits.first.activity_date.strftime("%m/%d/%y") %>
   	<% end %>
   </td>
   <td class="hundred">
-  	<% if family.activities.where("visit = ?", false).count > 0 %>
-  	  <%= family.activities.where("visit = ?", false).first.activity_date.strftime("%m/%d/%y") %>
+    <% @fam_contacts = family.activities.where("visit = ?", false) %>
+  	<% if @fam_contacts.count > 0 %>
+  	  <%= @fam_contacts.first.activity_date.strftime("%m/%d/%y") %>
   	<% end %>
   </td>
   <td class="fivehundred">

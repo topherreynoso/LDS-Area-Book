@@ -14,13 +14,18 @@
 <div class="container">
   <fullbody class="span11">
     <%= render 'families_list' %>
-    <div class="span2">
-      <%= link_to "Add Family", newfamily_path, class: "btn btn-medium btn-primary" %>
+    <div class="span1">
+      <%= link_to "<i class='icon-white icon-plus'></i>".html_safe, newfamily_path, class: "btn btn-medium btn-primary" %>
     </div>
-    <% if current_user.admin? %>
-      <div class="span2">
-        <%= link_to "MLS Update", import_path, class: "btn btn-medium btn-success" %>
-      </div>
-    <% end %>
+    <div class="span1">
+      <% if current_user.admin? %>
+        <%= link_to "<i class='icon-white icon-refresh'></i>".html_safe, import_path, class: "btn btn-medium btn-success" %>
+      <% else %>
+        &nbsp
+      <% end %>
+    </div>
+    <div class="span8 pull-right">
+      <%= will_paginate nil, :inner_window => 2, :outer_window => 1, style: "margin: 0 0 0 0;" %>
+    </div>
   </fullbody>
 </div>

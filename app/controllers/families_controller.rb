@@ -3,11 +3,11 @@ class FamiliesController < ApplicationController
   before_action :admin_user, only: [:import, :confirm]
 
   def ward
-  	@families = Family.where("investigator = ? and archived = ?", false, false)
+  	@families = Family.where("investigator = ? and archived = ?", false, false).paginate(page: params[:page], :per_page => 7)
   end
 
   def investigators
-    @families = Family.where("investigator = ? and archived = ?", true, false)
+    @families = Family.where("investigator = ? and archived = ?", true, false).paginate(page: params[:page], :per_page => 7)
   end
 
   def watch
@@ -20,7 +20,7 @@ class FamiliesController < ApplicationController
       remove_family.watched = false
       remove_family.save
     end
-    @families = Family.where("watched = ? and archived = ?", true, false)
+    @families = Family.where("watched = ? and archived = ?", true, false).paginate(page: params[:page], :per_page => 7)
     @unwatched_families = Family.where("watched = ? and archived = ?", false, false)
   end
 
@@ -34,8 +34,8 @@ class FamiliesController < ApplicationController
         flash[:success] = "All items up to date. No import necessary."
         redirect_to root_path
       else
-        @ward_families = Family.where("archived = ? and investigator = ?", false, false)
-        @archived_families = Family.where("archived = ? and investigator = ?", true, false)
+        @ward_families = Family.where("investigator = ? and archived = ?", false, false)
+        @archived_families = Family.where("investigator = ? and archived = ?", false, true)
         @add_families = []
         @remove_families = []
         @update_families = []

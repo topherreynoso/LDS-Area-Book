@@ -14,23 +14,26 @@
 <div class="container">
   <fullbody class="span11">
     <%= render 'families_list' %>
-    <div class="span2">
-      <%= collection_select(nil, :family_id, @unwatched_families, :id, :name, {:prompt => "Add family"}, 
-                            {:onchange => "redirect_to_watch(this.value)", :class => "btn btn-medium btn-secondary"}) %>
+    <div class="span1">
+      <%= collection_select(nil, :family_id, @unwatched_families, :id, :name, {:prompt => "Add"}, 
+                            {:onchange => "redirect_to_watch(this.value)", :class => "btn btn-small btn-secondary"}) %>
     </div>
     <%= javascript_tag do %>
       function redirect_to_watch(familyId){
         window.location = "<%= watch_path %>?add_family=" + familyId;
       } 
     <% end %>
-    <div class="span2">
-      <%= collection_select(nil, :family_id, @families, :id, :name, {:prompt => "Remove family"}, 
-                            {:onchange => "redirect_to_unwatch(this.value)", :class => "btn btn-medium btn-secondary"}) %>
+    <div class="span1">
+      <%= collection_select(nil, :family_id, @families, :id, :name, {:prompt => "Drop"}, 
+                            {:onchange => "redirect_to_unwatch(this.value)", :class => "btn btn-small btn-secondary"}) %>
     </div>
     <%= javascript_tag do %>
       function redirect_to_unwatch(familyId){
         window.location = "<%= watch_path %>?remove_family=" + familyId;
       } 
     <% end %>
+    <div class="span8 pull-right">
+      <%= will_paginate nil, :inner_window => 2, :outer_window => 1, style: "margin: 0 0 0 0;" %>
+    </div>
   </fullbody>
 </div>

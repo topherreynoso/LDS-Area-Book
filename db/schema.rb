@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130723211359) do
+ActiveRecord::Schema.define(version: 20130725000747) do
 
   create_table "activities", force: true do |t|
     t.integer  "family_id"
@@ -66,13 +66,15 @@ ActiveRecord::Schema.define(version: 20130723211359) do
     t.string   "password_digest"
     t.string   "remember_token"
     t.boolean  "admin",           default: false
-    t.boolean  "active",          default: true
+    t.boolean  "email_confirmed", default: true
     t.boolean  "master",          default: false
     t.integer  "ward_id"
+    t.boolean  "ward_confirmed",  default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
+  add_index "users", ["ward_confirmed"], name: "index_users_on_ward_confirmed"
 
   create_table "wards", force: true do |t|
     t.string   "name"

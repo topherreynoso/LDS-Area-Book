@@ -1,0 +1,28 @@
+<% provide(:title, 'Church Leaders') %>
+<div class="row">
+  <h7>&nbsp</h7>
+</div>
+<div class="container">
+  <fullbody class="span11 fivethirtyhigh">
+    <h3>&nbsp</h3>
+    <h1>Register Your Ward</h1>
+    <center><h4>Ward leaders with MLS access (e.g. Bishopric or Ward Clerks) can set up a new area book.</h4></center>
+    <div class="offset2 span7">
+      <h4>Option 1:</h4>
+      <h5>Use your lds.org account to verify that you are a ward leader. We do not store these credentials.</h5>
+      <div class="offset1 span4">
+        <%= form_tag confirm_ward_path do %>
+          <%= label_tag :username, "lds.org username" %>
+          <%= text_field_tag :username %>
+          <%= label_tag :password, "lds.org password" %>
+          <%= password_field_tag :password %>
+          <%= submit_tag "Confirm", :class => "btn btn-medium btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+    <div class="offset2 span7">
+      <h4>Option 2:</h4>
+      <h5><%= mail_to "topherreynoso@gmail.com", "Contact us" %> directly and request access to a new ward area book. We will contact you to confirm your leadership role and the unit you are authorized to represent.</h5>
+    </div>
+  </fullbody>
+</div>

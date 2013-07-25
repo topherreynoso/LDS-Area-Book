@@ -1,35 +1,66 @@
-<% provide(:title, 'Add User') %>
-<div class="row">
-  <div class="offset1 span9">
-    <ul class="nav nav-tabs">
-      <li><%= link_to "Ward List", wardlist_path %></li>
-      <li><%= link_to "Investigators", investigators_path %></li>
-      <li><%= link_to "Watch List", watch_path %></li>
-      <li><%= link_to "Find Report", reports_path %></li>
-      <li><%= link_to "Report Activity", newactivity_path %></li>
-      <li><%= link_to "Archive", archive_path %></li>
-    </ul>
-  </div>
-</div>
-<div class="container">
-  <fullbody class="span11">
-    <div class="offset3 span5">
-      <h1>&nbsp</h1>
-      <center><h4>Create User</h4></center>
-      <%= form_for(@user) do |f| %>
-        <%= render 'shared/error_messages' %>
-        <%= f.label :name %>
-        <%= f.text_field :name %>
-        <%= f.label :email %>
-        <%= f.text_field :email %>
-        <%= f.label :password %>
-        <%= f.password_field :password %>
-        <%= f.label :password_confirmation, "Confirm Password" %>
-        <%= f.password_field :password_confirmation %>
-        <%= f.submit "Create account", class: "btn btn-medium btn-primary" %>
-      <% end %>
-      <h2>&nbsp</h2>
-      <h4>&nbsp</h4>
+<% provide(:title, 'New User') %>
+<% if current_user && (current_user.admin? || current_user.master?) %>
+  <div class="row">
+    <div class="offset1 span9">
+      <ul class="nav nav-tabs">
+        <li><%= link_to "Ward List", wardlist_path %></li>
+        <li><%= link_to "Investigators", investigators_path %></li>
+        <li><%= link_to "Watch List", watch_path %></li>
+        <li><%= link_to "Find Report", reports_path %></li>
+        <li><%= link_to "Report Activity", newactivity_path %></li>
+        <li><%= link_to "Archive", archive_path %></li>
+      </ul>
     </div>
-  </fullbody>
-</div>
+  </div>
+  <div class="container">
+    <fullbody class="span11">
+      <div class="offset3 span5">
+        <h1>&nbsp</h1>
+        <center><h4>Create User</h4></center>
+        <%= form_for(@user) do |f| %>
+          <%= render 'shared/error_messages' %>
+          <%= f.label :name %>
+          <%= f.text_field :name %>
+          <%= f.label :email %>
+          <%= f.text_field :email %>
+          <%= f.label :password %>
+          <%= f.password_field :password %>
+          <%= f.label :password_confirmation, "Confirm Password" %>
+          <%= f.password_field :password_confirmation %>
+          <%= f.submit "Create account", class: "btn btn-medium btn-primary" %>
+        <% end %>
+        <h2>&nbsp</h2>
+        <h4>&nbsp</h4>
+      </div>
+    </fullbody>
+  </div>
+<% else %>
+  <div class="row">
+    <h7>&nbsp</h7>
+  </div>
+  <div class="container">
+    <fullbody class="span11 fivethirtyhigh">
+      <h3>&nbsp</h3>
+      <h1>New User Registration</h1>
+      <center><h4>You will need a user account to access any ward area book.</h4></center>
+      <div class="offset2 span7">
+        <h4>Option 1:</h4>
+        <h5>Use your lds.org account to sign up. We do not store these credentials.</h5>
+        <div class="offset1 span4">
+          <%= form_tag confirm_user_path do %>
+            <%= label_tag :username, "lds.org username" %>
+            <%= text_field_tag "username" %>
+            <%= label_tag :password, "lds.org password" %>
+            <%= password_field_tag "password" %>
+            <%= submit_tag "Confirm", :class => "btn btn-medium btn-primary" %>
+          <% end %>
+        </div>
+      </div>
+      <div class="offset2 span7">
+        <h4>Option 2:</h4>
+        <h5>Contact your ward clerk directly and request access to a ward area book.</h5>
+        <h5>If you are a ward leader and would like to create a ward area book but do not want to use your lds.org credentials to create an account, <%= mail_to "topherreynoso@gmail.com", "contact us" %> and we will confirm your membership and create the account for you.</h5>
+      </div>
+    </fullbody>
+  </div>
+<% end %>

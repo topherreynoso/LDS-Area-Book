@@ -1,10 +1,31 @@
 class WardsController < ApplicationController
+  before_action :signed_in_user, only: [:new, :leaders, :confirm, :create, :edit, :update]
+  before_action :master_user, only: [:index, :destroy, :switch]
+
   def index
     @wards = Ward.paginate(page: params[:page])
   end
 
   def new
   	@ward = Ward.new
+  end
+
+  def leaders
+  end
+
+  def confirm
+    require 'rubygems'
+    require 'mechanize'
+
+    agent = Mechanize.new
+    resp = agent.get('https://www.lds.org/mls/mbr/records/member-list?lang=engf')
+    records_page = resp.form_with(:action => '/login.html') do |f|
+      f.username = params[:username]
+      f.password = params[:password]
+    end.click_button
+    @unit_number = records_page.search('#heading-unit-number').first.text.to_s
+    ward = records_page.search('#heading-unit-name').first.text.to_s
+    @ward_name = ward[0..-5]
   end
 
   def create
@@ -59,5 +80,13 @@ class WardsController < ApplicationController
 
     def ward_params
       params.require(:ward).permit(:name, :unit)
+    end
+
+    def signed_in_user
+      redirect_to root_path unless signed_in?
+    end
+
+    def master_user
+      redirect_to root_path unless signed_in? && current_user.master
     end
 end

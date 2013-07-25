@@ -1,20 +1,46 @@
 <li>
-  <div class="span3">
-  	<%= link_to ward.name, edit_ward_path(ward) %>
-  </div>
-  <div class="span2">
-    Unit #: <%= ward.unit %>
-  </div>
-  <div class ="span2">
-    <% if ward == current_ward %>
-      <%= link_to "Unload Data", changeward_path, :class => "btn btn-small btn-warning" %>
-    <% else %>
-      <%= link_to "Load Data", changeward_path(:ward_id => ward.id), :class => "btn btn-small btn-success" %>
-    <% end %>
-  </div> 
-  <div class="offset2 span1">
-    <%= link_to "Delete", ward, method: :delete, class: "btn btn-small btn-danger", 
-                confirm: "Are you sure you want to permanently delete this ward and all of its records?", "data-confirm-fade" => true, 
-                "data-confirm-title" => "Delete #{ward.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
-  </div>
+  <% if current_user.master? %>
+    <div class="span3">
+      <%= link_to ward.name, edit_ward_path(ward) %>
+    </div>
+    <div class="span2">
+      Unit #: <%= ward.unit %>
+    </div>
+    <div class ="span2">
+      <% if ward == current_ward %>
+        <%= link_to "Unload Data", changeward_path, :class => "btn btn-small btn-warning" %>
+      <% else %>
+        <%= link_to "Load Data", changeward_path(:ward_id => ward.id), :class => "btn btn-small btn-success" %>
+      <% end %>
+    </div> 
+    <div class="offset2 span1">
+      <%= link_to "Delete", ward, method: :delete, class: "btn btn-small btn-danger", 
+                  confirm: "Are you sure you want to permanently delete this ward and all of its records?", "data-confirm-fade" => true, 
+                  "data-confirm-title" => "Delete #{ward.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
+    </div>
+  <% else %>
+    <div class="span3">
+      <%= ward.name %>
+    </div>
+    <div class="span2">
+      <% admin = User.where(:ward_id => ward.id).where(:admin => true).first %>
+      <% if !admin.nil? %>
+        <%= admin.name %>
+      <% end %>
+    </div>
+    <div class="span4">
+      <% if !admin.nil? %>
+        <%= mail_to admin.email, admin.email %>
+      <% end %>
+    </div>
+    <div class="span1">
+      <center>
+        <% if current_user.ward_id == ward.id %>
+          Pending
+        <% else %>
+          <%= link_to "<i class='icon-white icon-ok'></i>".html_safe, user_path(current_user, "user[ward_id]" => ward.id), :method => :put, :class => "btn btn-small btn-success", confirm: "Please wait for an administrator at this ward to accept your request. Feel free to contact the administrator or your ward clerk if you do not receive access in a timely manner. Request access to this ward area book?", "data-confirm-fade" => true, "data-confirm-title" => "Request Access to #{ward.name}", "data-confirm-proceed" => "Yes", "data-confirm-proceed-class" => "btn-success" %>
+        <% end %>
+      </center>
+    </div>
+  <% end %>
 </li>

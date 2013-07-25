@@ -3,14 +3,52 @@
 </div>
 <div class="container">
   <fullbody class="span11 fivethirtyhigh">
-  	<h1>&nbsp</h1>
-  	<h1>&nbsp</h1>
-	<h1>Welcome to the Ward Area Book</h1>
-	<h3>&nbsp</h3>
-	<center>
-  	  <%= link_to "Sign In", signin_path, class: "btn btn-large btn-primary" %>
-  	  <h3>&nbsp</h3>
-  	  <h3>or <%= link_to "learn more", help_path %></h3>
- 	</center>
+    <% if signed_in? && current_ward.nil? && !current_user.master? %>
+      <h1>Request Access to a Ward</h1>
+      <div class="row">
+        <div class="span11">
+          <strong>
+            <div class="span3">
+              Ward Name
+            </div>
+            <div class="span2">
+              Admin Name
+            </div>
+            <div class="span4">
+              Admin Email
+            </div>
+            <div class="span1">
+              <center>Access?</center>
+            </div>
+          </strong>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span11">
+          <ul class="users" style="height:400px;">
+            <%= render @wards %>
+          </ul>
+          <div class="span1">
+            <%= link_to "<i class='icon-white icon-plus'></i>".html_safe, leaders_path, class: "btn btn-medium btn-primary" %>
+          </div>
+          <div class="span1">
+            &nbsp
+          </div>
+          <div class="span8 pull-right">
+            <%= will_paginate @wards, :inner_window => 2, :outer_window => 1, style: "margin: 0 0 0 0;" %>
+          </div>
+        </div>
+      </div>
+    <% else %>
+  	  <h1>&nbsp</h1>
+  	  <h1>&nbsp</h1>
+	    <h1>Welcome to the Ward Area Book</h1>
+	    <h3>&nbsp</h3>
+	    <center>
+  	    <%= link_to "Sign In", signin_path, class: "btn btn-large btn-primary" %>
+  	    <h3>&nbsp</h3>
+  	    <h3>or <%= link_to "learn more", help_path %></h3>
+ 	    </center>
+    <% end %>
   </fullbody>
 </div>

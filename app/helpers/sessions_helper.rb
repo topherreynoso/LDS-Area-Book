@@ -3,6 +3,12 @@ module SessionsHelper
   def sign_in(user)
     cookies.permanent[:remember_token] = user.remember_token
     self.current_user = user
+    if !user.ward_id.nil? && user.ward_confirmed && !user.master? && user.email_confirmed
+      ward = Ward.find(user.ward_id)
+      set_ward ward
+    elsif user.master?
+      set_ward nil
+    end
   end
 
   def signed_in?
@@ -23,7 +29,9 @@ module SessionsHelper
 
   def sign_out
     self.current_user = nil
+    self.current_ward = nil
     cookies.delete(:remember_token)
+    cookies.delete(:ward_token)
   end
 
   def redirect_back_or(default)

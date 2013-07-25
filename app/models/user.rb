@@ -10,13 +10,14 @@
 #  password_digest :string(255)
 #  remember_token  :string(255)
 #  admin           :boolean          default(FALSE)
-#  active          :boolean          default(TRUE)
+#  email_confirmed :boolean          default(TRUE)
 #  master          :boolean          default(FALSE)
 #  ward_id         :integer
+#  ward_confirmed  :boolean          default(FALSE)
 #
 
 class User < ActiveRecord::Base
-  attr_accessor :is_admin_applying_update
+  attr_accessor :skip_validation
   belongs_to :ward
 
   before_save { self.email = email.downcase }
@@ -27,8 +28,8 @@ class User < ActiveRecord::Base
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
 
   has_secure_password
-  validates :password_confirmation, presence: true, :unless => :is_admin_applying_update
-  validates :password, length: { minimum: 6 }, :unless => :is_admin_applying_update
+  validates :password_confirmation, presence: true, :unless => :skip_validation
+  validates :password, length: { minimum: 6 }, :unless => :skip_validation
 
   default_scope order: 'name ASC'
 

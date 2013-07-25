@@ -1,6 +1,6 @@
 class FamiliesController < ApplicationController
-  before_action :signed_in_user, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy]
-  before_action :admin_user, only: [:import, :confirm]
+  before_action :authorized_user, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy]
+  before_action :super_user, only: [:import, :confirm]
 
   def ward
   	@families = Family.where("investigator = ? and archived = ?", false, false).paginate(page: params[:page], :per_page => 7)
@@ -144,15 +144,12 @@ class FamiliesController < ApplicationController
 
     # Before filters
 
-    def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to signin_url, notice: "Please sign in."
-      end
+    def authorized_user
+      redirect_to(root_path) unless signed_in? && (current_ward || current_user.master?)
     end
 
-    def admin_user
-      redirect_to(root_path) unless current_user.admin?
+    def super_user
+      redirect_to(root_path) unless signed_in? && (current_user.admin? || current_user.master?)
     end
 
 end

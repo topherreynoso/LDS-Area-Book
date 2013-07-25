@@ -1,35 +1,74 @@
 <% provide(:title, "Edit user") %> 
-<div class="row">
-  <div class="offset1 span9">
-    <ul class="nav nav-tabs">
-      <li><%= link_to "Ward List", wardlist_path %></li>
-      <li><%= link_to "Investigators", investigators_path %></li>
-      <li><%= link_to "Watch List", watch_path %></li>
-      <li><%= link_to "Find Report", reports_path %></li>
-      <li><%= link_to "Report Activity", newactivity_path %></li>
-      <li><%= link_to "Archive", archive_path %></li>
-    </ul>
+<% if (!current_user.ward_id.nil? && current_user.ward_confirmed) || current_user.master? %>
+  <div class="row">
+    <div class="offset1 span9">
+      <ul class="nav nav-tabs">
+        <li><%= link_to "Ward List", wardlist_path %></li>
+        <li><%= link_to "Investigators", investigators_path %></li>
+        <li><%= link_to "Watch List", watch_path %></li>
+        <li><%= link_to "Find Report", reports_path %></li>
+        <li><%= link_to "Report Activity", newactivity_path %></li>
+        <li><%= link_to "Archive", archive_path %></li>
+      </ul>
+    </div>
   </div>
-</div>
+<% else %>
+  <div class="row">
+    <h7>&nbsp</h7>
+  </div>
+<% end %>
 <div class="container">
   <fullbody class="span11">
-    <div class="offset3 span5">
-      <h1>&nbsp</h1>
-      <center><h4>Update your account</h4></center>
-      <%= form_for(@user) do |f| %>
-        <%= render 'shared/error_messages' %>
-        <%= f.label :name %>
-        <%= f.text_field :name %>
-        <%= f.label :email %>
-        <%= f.text_field :email %>
-        <%= f.label :password %>
-        <%= f.password_field :password %>
-        <%= f.label :password_confirmation, "Confirm Password" %>
-        <%= f.password_field :password_confirmation %>
-        <%= f.submit "Save changes", class: "btn btn-medium btn-primary" %>
-      <% end %>
-      <h2>&nbsp</h2>
-      <h4>&nbsp</h4>
+    <div class="row">
+      <div class="offset3 span5">
+        <h3>&nbsp</h3>
+        <center><h4>Update account</h4></center>
+        <%= form_for(@user) do |f| %>
+          <%= render 'shared/error_messages' %>
+          <%= f.label :name %>
+          <%= f.text_field :name %>
+          <%= f.label :email %>
+          <%= f.text_field :email %>
+          <%= f.label :password %>
+          <%= f.password_field :password %>
+          <%= f.label :password_confirmation, "Confirm Password" %>
+          <%= f.password_field :password_confirmation %>
+          <% if !@user.ward_id.nil? %>
+            <div class="row">
+              <div class="span1">
+                <% if @user.ward_confirmed %>
+                  Ward:
+                <% else %>
+                  Pending:
+                <% end %>
+              </div>
+              <div class="span3">
+                <%= Ward.find(@user.ward_id).name %>
+              </div>
+            </div>
+          <% end %>
+          <div class="row" style="margin-top: 20px;">
+            <div class="span2">
+              <%= f.submit "Save changes", class: "btn btn-medium btn-primary" %>
+            </div>
+            <% if !@user.ward_id.nil? %>
+              <div class="span2">
+                <%= form_for(@user) do |f| %>
+                  <%= f.hidden_field :ward_confirmed, :value => false %>
+                  <%= f.hidden_field :ward_id, :value => nil %>
+                  <%= f.hidden_field :admin, :value => false %>
+                  <% if @user.ward_confirmed %>
+                    <%= f.submit "Leave Ward", class: "btn btn-medium btn-warning", confirm: "If you leave this ward you will lose access to its ward area book. Are you sure you want to leave?", "data-confirm-fade" => true, "data-confirm-title" => "Leave This Ward", "data-confirm-proceed" => "Leave", "data-confirm-proceed-class" => "btn-warning" %>
+                  <% else %>
+                    <%= f.submit "Rescind Ward", class: "btn btn-medium btn-warning", confirm: "Are you sure you want to rescind your request to access this ward's area book?", "data-confirm-fade" => true, "data-confirm-title" => "Rescind Your Request", "data-confirm-proceed" => "Rescind", "data-confirm-proceed-class" => "btn-warning" %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+        <h2>&nbsp</h2>
+      </div>
     </div>
   </fullbody>
 </div>

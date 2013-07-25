@@ -12,8 +12,11 @@ AreaBook::Application.routes.draw do
 
   match '/help',      	  to: 'static_pages#help', 		  via: 'get'
   match '/newuser',   	  to: 'users#new', 		   		    via: 'get'
+  match '/confirm_user',  to: 'users#confirm',          via: 'post'
   match '/newward',       to: 'wards#new',              via: 'get'
   match '/changeward',    to: 'wards#switch',           via: 'get'
+  match '/leaders',       to: 'wards#leaders',          via: 'get'
+  match '/confirm_ward',  to: 'wards#confirm',          via: 'post'
   match '/signin',    	  to: 'sessions#new', 	   		  via: 'get'
   match '/signout',		    to: 'sessions#destroy',  		  via: 'delete'
   match '/wardlist',      to: 'families#ward',     		  via: 'get'

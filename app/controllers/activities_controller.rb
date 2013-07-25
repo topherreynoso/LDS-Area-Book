@@ -1,5 +1,5 @@
 class ActivitiesController < ApplicationController
-  before_action :signed_in_user, only: [:edit, :new, :update, :create, :destroy, :reports, :archive]
+  before_action :authorized_user, only: [:edit, :new, :update, :create, :destroy, :reports, :archive]
 
   def new
   	@activity = Activity.new
@@ -76,10 +76,7 @@ class ActivitiesController < ApplicationController
 
     # Before filters
 
-    def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to signin_url, notice: "Please sign in."
-      end
+    def authorized_user
+      redirect_to root_path unless signed_in? && (current_ward || current_user.master)
     end
 end

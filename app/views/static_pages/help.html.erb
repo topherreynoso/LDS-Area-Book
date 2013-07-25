@@ -4,19 +4,24 @@
 </div>
 <div class="container">
   <fullbody class="span11 fivethirtyhigh">
-  	<h3>&nbsp</h3>
-	  <h1>Help</h1>
-    <center>
-	    <h2 style="font-size: 1.5em;">The ward area book helps leaders track efforts to care for their ward.</h2>
-      <h3>Tutorials</h3>
-      <h4>Ward Council Members</h4>
-      <h4>Bishoprics and Clerks</h4>
-      <h4>&nbsp</h4>
-      <h3>Bishoprics and Ward Clerks</h3>
-      <h4>If you are a bishopric member or a clerk who would like to set up a ward area book for your unit, contact us <%= mail_to "topherreynoso@gmail.com", "here" %>. Ward area books are free and only accessible by members that you add.<h4>
-      <h4>&nbsp</h4>
-      <h3>Ward Council Members</h3>
-      <h4>If you are a leader in a ward that already has a ward area book and have not received access, or if you are having trouble accessing your ward area book, please contact your ward clerk.</h4>
-    </center>
+    <div class="row">
+      <div class="offset1 span9">
+  	    <h3>&nbsp</h3>
+	      <h1>Help</h1>
+        <center>
+  	      <h4>The ward area book helps leaders collaborate and track efforts to care for a ward.</h4>
+          <h6>&nbsp</h6>
+          <h3>Tutorials</h3>
+          <h4>Ward Council Members</h4>
+          <h4>Bishoprics and Clerks</h4>
+          <h4>&nbsp</h4>
+          <h3>Bishoprics and Ward Clerks</h3>
+        </center>
+        <h4>If you are a bishopric member or a clerk who would like to set up a ward area book for your unit, <%= link_to "sign up", newuser_path %> and then create a new <%= link_to "ward area book", leaders_path %>.<h4>
+        <h4>&nbsp</h4>
+        <center><h3>Ward Council Members</h3></center>
+        <h4>If you're a leader in a ward that has an area book, <%= link_to "sign up", newuser_path %> for an account to request access. If you're having trouble logging in, contact your ward clerk.</h4>
+      </div>
+    </div>
   </fullbody>
 </div>

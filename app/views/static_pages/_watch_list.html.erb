@@ -1,0 +1,19 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">The Watch List</h1>
+<center><h3 style="margin-top:10px;">After joining a ward, go <%= link_to "here", watch_path %> to view the watch list.</h3></center>
+<div class="row">
+  <div class="span7">
+	  <%= image_tag('watch_list.png') %>
+  </div>
+  <div class="span2">
+  	<h4>The watch list includes families the ward council would like to focus on. Families can be added and removed with the buttons at the bottom of the list.</h4>
+  </div> 
+</div>
+<div class="row" style="padding-top: 20px;">
+  <div class="span2">
+  	<%= link_to "Back to Menu", tutorial_path %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+  	<%= link_to 'Continue to "Adding Families"', tutorial_path(:type => "add_family") %>
+  </div>
+</div>

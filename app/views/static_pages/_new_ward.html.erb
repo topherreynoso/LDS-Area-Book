@@ -1,0 +1,20 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">Creating a Ward Area Book</h1>
+<center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", leaders_path %> to create a new ward area book.</h3></center>
+<div class="row">
+  <div class="span4">
+  <%= image_tag('new_ward.png') %>
+  </div>
+  <div class="span5">
+    <h4>If you have MLS access, then you can register a new area book for your ward using your lds.org username and password. This allows us to confirm your access, your ward name, and unit number. Alternatively, <%= mail_to "topherreynoso@gmail.com", "contact us" %> requesting a new ward area book and we will get back to you in order to confirm your access.</h4>
+    <h4>If you choose to use your lds.org username and password, please confirm that the ward and unit number are correct. You can update the ward name later.</h4>
+  </div> 
+</div>
+<div class="row" style="padding-top: 100px;">
+  <div class="span2">
+    <%= link_to "Back to Menu", tutorial_path(:type => "admin") %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+    <%= link_to 'Continue to "Editing Your Ward"', tutorial_path(:type => "edit_ward") %>
+  </div>
+</div>

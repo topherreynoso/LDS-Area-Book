@@ -1,0 +1,20 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">Archiving/Restoring Families</h1>
+<center><h3 style="margin-top:10px;">After signing in, view archived families by clicking <%= link_to "here", archive_path %>.</h3></center>
+<div class="row">
+  <div class="span7">
+	<%= image_tag('unarchive.png') %>
+  </div>
+  <div class="span2">
+  	<h4>Families can be archived by going to their <%= link_to "edit", tutorial_path(:type => "update_family") %> screen. All activity for the family will also be archived.</h4>
+    <h4>Archived families can be viewed, unarchived, or permanently deleted.</h4>
+  </div> 
+</div>
+<div class="row" style="padding-top: 20px;">
+  <div class="span2">
+  	<%= link_to "Back to Menu", tutorial_path %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+  	<%= link_to 'Continue to "Finding Reports"', tutorial_path(:type => "find_reports") %>
+  </div>
+</div>

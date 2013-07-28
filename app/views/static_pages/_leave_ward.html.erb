@@ -1,0 +1,21 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">Leaving a Ward</h1>
+<center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", edit_user_path(current_user) %> to leave your ward.</h3></center>
+<div class="row">
+  <div class="span4">
+	<%= image_tag('leave_ward.png') %>
+  </div>
+  <div class="span5">
+  	<h4>You can leave your ward by going to your user settings and clicking the yellow button, as shown here.</h4>
+  	<h4>Similarly, if you have requested access to a ward but have not yet received access, a button to rescind your request can be found at the same screen.</h4>
+  	<h4>A ward administrator can also remove you from a ward. You can only be linked to one ward at a time.</h4>
+  </div> 
+</div>
+<div class="row" style="padding-top: 30px;">
+  <div class="span2">
+  	<%= link_to "Back to Menu", tutorial_path %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+  	<%= link_to 'Continue to "Updating Your Account"', tutorial_path(:type => "update_user") %>
+  </div>
+</div>

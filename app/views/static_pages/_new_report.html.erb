@@ -1,0 +1,20 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">Reporting New Activity</h1>
+<center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", newactivity_path %> to report new activity.</h3></center>
+<div class="row">
+  <div class="span7">
+  <%= image_tag('add_reports.png') %>
+  </div>
+  <div class="span2">
+    <h4>Ward council members can report new activity for a member or investigator by going to the "Report Activity" tab.</h4>
+    <h4>Use the check box at the bottom to indicate whether an actual visit occurred.</h4>
+  </div> 
+</div>
+<div class="row" style="padding-top: 20px;">
+  <div class="span2">
+    <%= link_to "Back to Menu", tutorial_path %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+    <%= link_to 'Continue to "Editing Reported Activity"', tutorial_path(:type => "edit_report") %>
+  </div>
+</div>

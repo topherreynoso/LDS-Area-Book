@@ -1,0 +1,22 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">Changing Admin Rights</h1>
+<center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", users_path %> to add or revoke admin access.</h3></center>
+<div class="row">
+  <div class="span9">
+  <%= image_tag('change_right.png') %>
+  </div>
+</div>
+<div class="row">
+  <div class="span9">
+    <h4>You can make any user in your ward an admin or revoke admin rights from any user.</h4>
+    <h4>Users with admin rights can manage ward user accounts, update ward lists with information from MLS, and update ward settings.</h4>
+  </div> 
+</div>
+<div class="row" style="padding-top: 60px;">
+  <div class="span2">
+    <%= link_to "Back to Menu", tutorial_path(:type => "admin") %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+    <%= link_to 'Continue to "Updating the Ward List"', tutorial_path(:type => "updating_ward") %>
+  </div>
+</div>

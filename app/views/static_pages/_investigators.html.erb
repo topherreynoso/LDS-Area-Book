@@ -1,0 +1,19 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">Investigators</h1>
+<center><h3 style="margin-top:10px;">After joining a ward, go <%= link_to "here", investigators_path %> to view all investigators.</h3></center>
+<div class="row">
+  <div class="span7">
+	<%= image_tag('investigators.png') %>
+  </div>
+  <div class="span2">
+  	<h4>This list contains contact information and the most recent activity information reported by the ward council on all of the investigators.</h4>
+  </div> 
+</div>
+<div class="row" style="padding-top: 20px;">
+  <div class="span2">
+  	<%= link_to "Back to Menu", tutorial_path %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+  	<%= link_to 'Continue to "The Watch List"', tutorial_path(:type => "watch_list") %>
+  </div>
+</div>

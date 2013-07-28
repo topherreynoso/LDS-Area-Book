@@ -1,0 +1,21 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">Editing Your Ward</h1>
+<center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", edit_ward_path(current_ward) %> to edit your ward.</h3></center>
+<div class="row">
+  <div class="span9">
+  <%= image_tag('edit_ward.png') %>
+  </div>
+</div>
+<div class="row">
+  <div class="span9">
+    <h4>You can edit your ward's name at any time. Be sure to press the blue button to save any changes.</h4>
+  </div> 
+</div>
+<div class="row" style="padding-top: 30px;">
+  <div class="span2">
+    <%= link_to "Back to Menu", tutorial_path(:type => "admin") %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+    <%= link_to 'Continue to "Adding/Denying Users"', tutorial_path(:type => "user_requests") %>
+  </div>
+</div>

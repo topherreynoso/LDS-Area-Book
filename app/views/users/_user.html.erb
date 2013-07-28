@@ -51,8 +51,10 @@
       <% if user.ward_confirmed %>
         &nbsp
       <% else %>
-        <%= link_to "Deny", user_path(user, "user[ward_id]" => nil), :method => :put, :class => "btn btn-small btn-warning", 
-                     confirm: "You should deny any user that should not have access to your ward area book. Are you sure you want to deny this user?", "data-confirm-fade" => true, "data-confirm-title" => "Deny #{user.name}", "data-confirm-proceed" => "Deny" %>
+        <%= form_for(user) do |f| %>
+          <%= f.hidden_field :ward_id, :value => nil %>
+          <%= f.submit "Deny", class: "btn btn-small btn-warning", confirm: "You should deny any user that should not have access to your ward area book. Are you sure you want to deny this user?", "data-confirm-fade" => true, "data-confirm-title" => "Deny #{user.name}", "data-confirm-proceed" => "Deny", "data-confirm-proceed-class" => "btn-warning" %>
+        <% end %>
       <% end %>
     </div>
     <div class="span2">

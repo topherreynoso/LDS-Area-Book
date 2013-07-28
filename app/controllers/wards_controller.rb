@@ -1,9 +1,9 @@
 class WardsController < ApplicationController
-  before_action :signed_in_user, only: [:new, :leaders, :confirm, :create, :edit, :update]
-  before_action :master_user, only: [:index, :destroy, :switch]
+  before_action :signed_in_user, only: [:leaders, :confirm, :create, :edit, :update]
+  before_action :master_user, only: [:new, :index, :destroy, :switch]
 
   def index
-    @wards = Ward.paginate(page: params[:page])
+    @wards = Ward.paginate(page: params[:page], :per_page => 7)
   end
 
   def new
@@ -23,25 +23,48 @@ class WardsController < ApplicationController
       f.username = params[:username]
       f.password = params[:password]
     end.click_button
-    @unit_number = records_page.search('#heading-unit-number').first.text.to_s
-    ward = records_page.search('#heading-unit-name').first.text.to_s
-    @ward_name = ward[0..-5]
+    number = records_page.search('#heading-unit-number').first
+    if !number.nil?
+      @ward = Ward.new
+      @unit_number = number.text.to_s
+      name = records_page.search('#heading-unit-name').first.text.to_s
+      @ward_name = name[0..-5]
+      @ward.name = @ward_name
+      @ward.unit = @unit_number
+    else
+      redirect_to leaders_path, notice: 'The lds.org username or password you entered is incorrect.'
+    end
   end
 
   def create
     @ward = Ward.new(ward_params)
     if @ward.save
       Apartment::Database.create(@ward.unit)
-      redirect_to wards_path
+      if current_user.master?
+        redirect_to wards_path, notice: "#{@ward.name} Ward successfully created."
+      else
+        current_user.ward_id = @ward.id
+        current_user.ward_confirmed = true
+        current_user.admin = true
+        current_user.save
+        sign_in User.find(current_user.id)
+        redirect_to root_path, notice: "#{@ward.name} Ward successfully created."
+      end
     else
-      render 'new'
+      if current_user.master?
+        render 'new'
+      else
+        redirect_to root_path, notice: "A ward area book already exists for unit number #{@ward.unit}."
+      end
     end
   end
 
   def destroy
     ward = Ward.find(params[:id])
     ward.users.each do |user|
-      user.destroy if !user.master?
+      user.ward_id = nil
+      user.ward_confirmed = false
+      user.admin = false if !user.master?
     end
     Apartment::Database.drop(ward.unit)
     set_ward nil if ward == current_ward
@@ -83,10 +106,10 @@ class WardsController < ApplicationController
     end
 
     def signed_in_user
-      redirect_to root_path unless signed_in?
+      redirect_to root_path, notice: 'Please sign in to access this area.' unless signed_in?
     end
 
     def master_user
-      redirect_to root_path unless signed_in? && current_user.master
+      redirect_to root_path, notice: 'You do not have permission to access this area.' unless signed_in? && current_user.master
     end
 end

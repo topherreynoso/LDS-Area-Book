@@ -1,0 +1,42 @@
+<% provide(:title, 'Tutorial') %>
+<div class="row">
+  <h7>&nbsp</h7>
+</div>
+<div class="container">
+  <fullbody class="span11 fivethirtyhigh">
+    <div class="row">
+      <div class="offset1 span9">
+        <% if @type %>
+          <%= render @type %>
+        <% else %>
+          <h3>&nbsp</h3>
+          <h1>Ward Council Members Tutorial</h1>
+          <center><h3>Select an item below to learn more.</h3></center>
+          <h3>&nbsp</h3>
+          <div class="row">
+            <div class="span4" style="text-align:right;">
+              <h4><%= link_to "Signing Up", tutorial_path(:type => "sign_up") %></h4>
+              <h4><%= link_to "Trouble Signing In", tutorial_path(:type => "sign_in") %></h4>
+              <h4><%= link_to "Requesting Ward Access", tutorial_path(:type => "ward_access") %></h4>
+              <h4><%= link_to "Leaving a Ward", tutorial_path(:type => "leave_ward") %></h4>
+              <h4><%= link_to "Updating Your Account", tutorial_path(:type => "update_user") %></h4>
+              <h4><%= link_to "The Ward List", tutorial_path(:type => "ward_list") %></h4>
+              <h4><%= link_to "Investigators", tutorial_path(:type => "investigators") %></h4>
+            </div>
+            <div class="offset1 span4 pull-right">
+              <h4><%= link_to "The Watch List", tutorial_path(:type => "watch_list") %></h4>
+              <h4><%= link_to "Adding Families", tutorial_path(:type => "add_family") %></h4>
+              <h4><%= link_to "Updating Family Information", tutorial_path(:type => "update_family") %></h4>
+              <h4><%= link_to "Archiving/Restoring Families", tutorial_path(:type => "archive") %></h4>
+              <h4><%= link_to "Finding Reports", tutorial_path(:type => "find_reports") %></h4>
+              <h4><%= link_to "Reporting New Activity", tutorial_path(:type => "new_report") %></h4>
+              <h4><%= link_to "Editing Reported Activity", tutorial_path(:type => "edit_report") %></h4>
+            </div>
+          </div>
+          <h3>&nbsp</h3>
+          <center><h4>There are also tutorials for <%= link_to 'ward administrators', tutorial_path(:type => "admin") %>.</h4></center>
+        <% end %>
+      </div>
+    </div>
+  </fullbody>
+</div>

@@ -1,17 +1,6 @@
 <% provide(:title, "Edit user") %> 
 <% if (!current_user.ward_id.nil? && current_user.ward_confirmed) || current_user.master? %>
-  <div class="row">
-    <div class="offset1 span9">
-      <ul class="nav nav-tabs">
-        <li><%= link_to "Ward List", wardlist_path %></li>
-        <li><%= link_to "Investigators", investigators_path %></li>
-        <li><%= link_to "Watch List", watch_path %></li>
-        <li><%= link_to "Find Report", reports_path %></li>
-        <li><%= link_to "Report Activity", newactivity_path %></li>
-        <li><%= link_to "Archive", archive_path %></li>
-      </ul>
-    </div>
-  </div>
+  <%= render 'layouts/tabs' %>
 <% else %>
   <div class="row">
     <h7>&nbsp</h7>
@@ -51,7 +40,8 @@
             <div class="span2">
               <%= f.submit "Save changes", class: "btn btn-medium btn-primary" %>
             </div>
-            <% if !@user.ward_id.nil? %>
+        <% end %>
+            <% if !@user.ward_id.nil? && current_user?(@user) %>
               <div class="span2">
                 <%= form_for(@user) do |f| %>
                   <%= f.hidden_field :ward_confirmed, :value => false %>
@@ -66,7 +56,6 @@
               </div>
             <% end %>
           </div>
-        <% end %>
         <h2>&nbsp</h2>
       </div>
     </div>

@@ -1,0 +1,14 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">Trouble Signing In</h1>
+<center><h3 style="margin-top:10px;">You can sign in to your account <%= link_to "here", signin_path %>.</h3></center>
+<h3>&nbsp</h3>
+<h4>If you have trouble logging in to your account, contact your ward clerk or area book administrator (in most cases this will be the same person). Any administrator on the ward area book can reset your login credentials for you.</h4>
+<h4>If you have not yet joined a ward or your ward administrator is having trouble resetting your login credentials, <%= mail_to "topherreynoso@gmail.com", "contact us" %>.</h4>
+<div class="row" style="padding-top: 180px;">
+  <div class="span2">
+  	<%= link_to "Back to Menu", tutorial_path %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+  	<%= link_to 'Continue to "Requesting Ward Access"', tutorial_path(:type => "ward_access") %>
+  </div>
+</div>

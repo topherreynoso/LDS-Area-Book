@@ -1,16 +1,5 @@
 <% provide(:title, 'All Users') %>
-<div class="row">
-  <div class="offset1 span9">
-    <ul class="nav nav-tabs">
-      <li><%= link_to "Ward List", wardlist_path %></li>
-      <li><%= link_to "Investigators", investigators_path %></li>
-      <li><%= link_to "Watch List", watch_path %></li>
-      <li><%= link_to "Find Report", reports_path %></li>
-      <li><%= link_to "Report Activity", newactivity_path %></li>
-      <li><%= link_to "Archive", archive_path %></li>
-    </ul>
-  </div>
-</div>
+<%= render 'layouts/tabs' %>
 <div class="container">
   <fullbody class="span11 fivethirtyhigh">
     <% if current_ward.nil? %>
@@ -23,6 +12,11 @@
         <%= render @users %>
       <% end %>
     </ul>
-    <h5><%= link_to "Add User", newuser_path, class: "btn btn-medium btn-primary" %></h5>
+    <div class="span2">
+      <h5><%= link_to "Add User", newuser_path, class: "btn btn-medium btn-primary" %></h5>
+    </div>
+    <div class="span8 pull-right" style="text-align: right;">
+      <%= will_paginate @users, :inner_window => 2, :outer_window => 1, style: "margin: 10px 20px 0 0;" %>
+    </div>
   </fullbody>
 </div>

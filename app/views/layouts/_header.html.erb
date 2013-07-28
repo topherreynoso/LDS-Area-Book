@@ -4,7 +4,7 @@
       <% if current_ward.nil? %>
         <%= link_to "Ward Area Book", root_path, id: "logo" %>
       <% else %>
-        <%= link_to "#{current_ward.name}", root_path, id: "logo" %>
+        <%= link_to "#{current_ward.name} Ward", root_path, id: "logo" %>
       <% end %>
       <nav>
         <ul class="nav pull-right">
@@ -12,7 +12,16 @@
           <li><%= link_to "Help", help_path %></li>
           <% if signed_in? %>
             <% if current_user.admin? %>
-              <li><%= link_to "Users", users_path %></li>
+              <% if current_ward %>
+                <% unconfirmed_count = current_ward.users.where(:ward_confirmed => false).count %>
+                <% if unconfirmed_count > 0 %>
+                  <li><%= link_to "Users (#{unconfirmed_count})", users_path, :style => "color:red !important;" %></li>
+                <% else %>
+                  <li><%= link_to "Users", users_path %></li>
+                <% end %>
+              <% else %>
+                <li><%= link_to "Users", users_path %></li>
+              <% end %>
             <% end %>
             <% if current_user.master? %>
               <li><%= link_to "Wards", wards_path %></li>
@@ -22,7 +31,10 @@
                 Account <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
-                <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+                <li><%= link_to "Account Settings", edit_user_path(current_user) %></li>
+                <% if current_user.admin && current_ward %>
+                  <li><%= link_to "Ward Settings", edit_ward_path(current_ward) %></li>
+                <% end %>
                 <li><%= link_to "Sign out", signout_path, method: "delete" %></li>
               </ul>
             </li>

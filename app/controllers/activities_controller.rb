@@ -45,9 +45,9 @@ class ActivitiesController < ApplicationController
     elsif params[:activity_date]
       @report_date = params[:activity_date]
       @activities = Activity.where("activity_date > ?", @report_date).joins(:family).where(
-                                    :families => {:archived => false}).paginate(page: params[:page], :per_page => 7)
+                                    :families => {:archived => false}).paginate(page: params[:page], :per_page => 10)
     else
-      @activities = Activity.joins(:family).where(:families => {:archived => false}).paginate(page: params[:page], :per_page => 7)
+      @activities = Activity.joins(:family).where(:families => {:archived => false}).paginate(page: params[:page], :per_page => 10)
     end
   end
 
@@ -77,6 +77,8 @@ class ActivitiesController < ApplicationController
     # Before filters
 
     def authorized_user
-      redirect_to root_path unless signed_in? && (current_ward || current_user.master)
+      unless signed_in? && (current_ward || current_user.master)
+        redirect_to root_path, notice: 'You do not have permission to access this area.'
+      end
     end
 end

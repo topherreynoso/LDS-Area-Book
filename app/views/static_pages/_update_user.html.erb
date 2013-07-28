@@ -1,0 +1,21 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">Updating Your Account</h1>
+<center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", edit_user_path(current_user) %> to update your account.</h3></center>
+<div class="row">
+  <div class="span4">
+	<%= image_tag('leave_ward.png') %>
+  </div>
+  <div class="span5">
+  	<h4>You can update your name, email address and password at any time.</h4>
+  	<h4>Be sure to enter your password (which must be at least six characters) and press the blue button to save any changes you have made.</h4>
+  	<h4>A ward administrator can also update your account information for you.</h4>
+  </div> 
+</div>
+<div class="row" style="padding-top: 30px;">
+  <div class="span2">
+  	<%= link_to "Back to Menu", tutorial_path %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+  	<%= link_to 'Continue to "The Ward List"', tutorial_path(:type => "ward_list") %>
+  </div>
+</div>

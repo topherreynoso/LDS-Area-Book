@@ -145,11 +145,15 @@ class FamiliesController < ApplicationController
     # Before filters
 
     def authorized_user
-      redirect_to(root_path) unless signed_in? && (current_ward || current_user.master?)
+      unless signed_in? && (current_ward || current_user.master?)
+        redirect_to root_path, notice: 'You do not have permission to access this area.'
+      end
     end
 
     def super_user
-      redirect_to(root_path) unless signed_in? && (current_user.admin? || current_user.master?)
+      unless signed_in? && (current_user.admin? || current_user.master?)
+        redirect_to root_path, notice: 'You do not have permission to access this area.'
+      end
     end
 
 end

@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     else
       @users = User.where(:ward_id => current_ward.id)
     end
-    @users = @users.paginate(page: params[:page]) if !@users.nil?
+    @users = @users.paginate(page: params[:page], :per_page => 7) if !@users.nil?
   end
 
   def confirm
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
       @user.name = @username
       @user.email = @email
     else
-      flash.now[:error] = 'The lds.org username or password you entered is incorrect.'
+      flash.now[:error] = 'The lds.org username or password you entered is incorrect or you do not have MLS access.'
       render 'new'
     end
   end
@@ -48,18 +48,26 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    ward_request = false
     if current_user?(@user)
-      if params[:user][:ward_id] != @user.ward_id
+      if params[:user][:ward_id] && params[:user][:ward_id] != @user.ward_id
         @user.skip_validation = true
         @user.ward_confirmed = false
+        ward_request = true
       end
       if @user.update_attributes(user_params)
-        redirect_to root_path
+        sign_in User.find(@user.id)
+        if ward_request == true
+          redirect_to root_path, :flash => { :success => 'Your request has been submitted. An admin will respond to your request soon.' }
+        else
+          redirect_to root_path, :flash => { :success => 'Your account has been updated.' }
+        end
       else
         render 'edit'
       end
     else
       @user.skip_validation = true
+      ward_request = true if params[:user][:ward_id] && params[:user][:ward_id] != @user.ward_id
       update_params = nil
       if current_user.master?
         update_params = master_user_params
@@ -68,9 +76,13 @@ class UsersController < ApplicationController
       end
       if @user.update_attributes(update_params)
         @user.skip_validation = false
-        redirect_to users_path
+        if ward_request
+          redirect_to users_path, :flash => { :success => "The user's ward status was successfully updated." }
+        else
+          redirect_to users_path, :flash => { :success => 'The user account was successfully updated.'}
+        end
       else
-        render 'edit'
+        redirect_to users_path, notice: 'An error occurred while updating the user.'
       end
     end
   end
@@ -87,9 +99,11 @@ class UsersController < ApplicationController
           @user = existing_user
           @user.skip_validation = true
         end
-        @user.ward_id = current_ward.id
-        @user.ward_confirmed = true
-        @user.admin = true if User.find_by_ward_id(current_ward.id).nil?
+        if !current_ward.nil?
+          @user.ward_id = current_ward.id
+          @user.ward_confirmed = true
+          @user.admin = true if User.find_by_ward_id(current_ward.id).nil?
+        end
         if @user.save
           @user.skip_validation = false
           redirect_to root_path
@@ -125,11 +139,11 @@ class UsersController < ApplicationController
     end
 
     def admin_user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin, :ward_id, :ward_confirmed)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :ward_id, :ward_confirmed, :email_confirmed, :admin)
     end
 
     def master_user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin, :master, :ward_id, :ward_confirmed)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :ward_id, :ward_confirmed, :email_confirmed, :admin, :master)
     end
 
     # Before filters
@@ -137,11 +151,13 @@ class UsersController < ApplicationController
     def correct_user
       @user = User.find(params[:id])
       unless signed_in? && (current_user?(@user) || (current_user.admin? && @user.ward_id == current_user.ward_id) || current_user.master?)
-        redirect_to(root_path)
+        redirect_to root_path, notice: 'You do not have permission to access this area.'
       end
     end
 
     def super_user
-      redirect_to(root_path) unless signed_in? && (current_user.admin? || current_user.master?)
+      unless signed_in? && (current_user.admin? || current_user.master?)
+        redirect_to root_path, notice: 'You do not have permission to access this area.'
+      end
     end
 end

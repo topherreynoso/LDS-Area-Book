@@ -1,0 +1,13 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">Requesting Ward Access</h1>
+<center><h3 style="margin-top:10px;">After signing in, request access <%= link_to "here", root_path %>.</h3></center>
+<%= image_tag('request_ward.png') %>
+<h4>You can only access one ward area book at a time. If you are not already authorized to access a ward, the link above will allow you to view all wards. Find your ward and click the green check button in order to request access. A ward area book administrator will respond to your request. If you have not recieved access in a timely manner, contact your ward area book administrator directly.</h4>
+<div class="row" style="padding-top: 30px;">
+  <div class="span2">
+  	<%= link_to "Back to Menu", tutorial_path %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+  	<%= link_to 'Continue to "Leaving a Ward"', tutorial_path(:type => "leave_ward") %>
+  </div>
+</div>

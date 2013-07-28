@@ -1,16 +1,15 @@
 AreaBook::Application.routes.draw do
-  resources :users
+  resources :users, :activities, :wards
+  resources :sessions, only: [:new, :create, :destroy]
   resources :families do
     collection { post :import }
     collection { post :confirm }
   end
-  resources :activities
-  resources :wards
-  resources :sessions, only: [:new, :create, :destroy]
 
   root to: 'static_pages#index'
 
   match '/help',      	  to: 'static_pages#help', 		  via: 'get'
+  match '/tutorial',      to: 'static_pages#tutorial',  via: 'get'
   match '/newuser',   	  to: 'users#new', 		   		    via: 'get'
   match '/confirm_user',  to: 'users#confirm',          via: 'post'
   match '/newward',       to: 'wards#new',              via: 'get'

@@ -4907,7 +4907,7 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
 /* universal */
 html {
   overflow-y: scroll;
-  background: url(/assets/bkgd-bottom.jpg) repeat-y;
+  background: url("bkgd-bottom-7fdc7dd3d9e9a5e7ce600275dbb96d5a.jpg") repeat-y;
   background-size: 100%; }
 
 body {

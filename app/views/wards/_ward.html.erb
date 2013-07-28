@@ -1,10 +1,18 @@
 <li>
+  <% admin = User.where(:ward_id => ward.id).where(:admin => true).first %>
   <% if current_user.master? %>
     <div class="span3">
       <%= link_to ward.name, edit_ward_path(ward) %>
     </div>
-    <div class="span2">
-      Unit #: <%= ward.unit %>
+    <div class="span1">
+      <%= ward.unit %>
+    </div>
+    <div class="span3">
+      <% if !admin.nil? %>
+        <%= link_to admin.name, edit_user_path(admin) %>
+      <% else %>
+        &nbsp
+      <% end %>
     </div>
     <div class ="span2">
       <% if ward == current_ward %>
@@ -13,7 +21,7 @@
         <%= link_to "Load Data", changeward_path(:ward_id => ward.id), :class => "btn btn-small btn-success" %>
       <% end %>
     </div> 
-    <div class="offset2 span1">
+    <div class="span1">
       <%= link_to "Delete", ward, method: :delete, class: "btn btn-small btn-danger", 
                   confirm: "Are you sure you want to permanently delete this ward and all of its records?", "data-confirm-fade" => true, 
                   "data-confirm-title" => "Delete #{ward.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
@@ -23,14 +31,17 @@
       <%= ward.name %>
     </div>
     <div class="span2">
-      <% admin = User.where(:ward_id => ward.id).where(:admin => true).first %>
       <% if !admin.nil? %>
         <%= admin.name %>
+      <% else %>
+        &nbsp
       <% end %>
     </div>
     <div class="span4">
       <% if !admin.nil? %>
         <%= mail_to admin.email, admin.email %>
+      <% else %>
+        &nbsp
       <% end %>
     </div>
     <div class="span1">

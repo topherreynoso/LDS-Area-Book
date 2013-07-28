@@ -8,18 +8,10 @@
       <div class="row">
         <div class="span11">
           <strong>
-            <div class="span3">
-              Ward Name
-            </div>
-            <div class="span2">
-              Admin Name
-            </div>
-            <div class="span4">
-              Admin Email
-            </div>
-            <div class="span1">
-              <center>Access?</center>
-            </div>
+            <div class="span3">Ward Name</div>
+            <div class="span2">Admin Name</div>
+            <div class="span4">Admin Email</div>
+            <div class="span1"><center>Access?</center></div>
           </strong>
         </div>
       </div>
@@ -34,8 +26,8 @@
           <div class="span1">
             &nbsp
           </div>
-          <div class="span8 pull-right">
-            <%= will_paginate @wards, :inner_window => 2, :outer_window => 1, style: "margin: 0 0 0 0;" %>
+          <div class="span8 pull-right" style="text-align:right;">
+            <%= will_paginate @wards, :inner_window => 2, :outer_window => 1, style: "margin: 0 15px 0 0;" %>
           </div>
         </div>
       </div>

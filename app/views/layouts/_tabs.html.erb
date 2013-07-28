@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="offset1 span9">
+	  <ul class="nav nav-tabs">
+      <% @fullpath = request.fullpath %>
+      <% if @fullpath.include?("/wardlist") %>
+  	    <li class="active"><%= link_to "Ward List", wardlist_path %></li>
+      <% else %>
+        <li><%= link_to "Ward List", wardlist_path %></li>
+      <% end %>
+      <% if @fullpath.include?("/investigators") %>
+        <li class="active"><%= link_to "Investigators", investigators_path %></li>
+      <% else %>
+  	    <li><%= link_to "Investigators", investigators_path %></li>
+      <% end %>
+      <% if @fullpath.include?("/watch") %>
+        <li class="active"><%= link_to "Watch List", watch_path %></li> 
+      <% else %>
+        <li><%= link_to "Watch List", watch_path %></li>
+      <% end %>
+      <% if @fullpath.include?("/reports") %>
+        <li class="active"><%= link_to "Find Report", reports_path %></li>
+      <% else %>
+        <li><%= link_to "Find Report", reports_path %></li>
+      <% end %>
+      <% if @fullpath.include?("/newactivity") %>
+        <li class="active"><%= link_to "Report Activity", newactivity_path %></li>
+      <% else %>
+  	    <li><%= link_to "Report Activity", newactivity_path %></li>
+      <% end %>
+      <% if @fullpath.include?("/archive") %>
+        <li class="active"><%= link_to "Archive", archive_path %></li>
+      <% else %>
+  	    <li><%= link_to "Archive", archive_path %></li>
+      <% end %>
+	  </ul>
+  </div>
+</div>

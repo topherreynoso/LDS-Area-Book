@@ -1,0 +1,24 @@
+<h3>&nbsp</h3>
+<h1>Administrators Tutorial</h1>
+<center><h3>Select an item below to learn more.</h3></center>
+<h3>&nbsp</h3>
+<div class="row">
+  <div class="span4" style="text-align:right;">
+    <h4><%= link_to "Creating a Ward Area Book", tutorial_path(:type => "new_ward") %></h4>
+    <h4><%= link_to "Editing Your Ward", tutorial_path(:type => "edit_ward") %></h4>
+    <h4><%= link_to "Accepting/Denying Users", tutorial_path(:type => "user_requests") %></h4>
+    <h4><%= link_to "Removing/Deleting Users", tutorial_path(:type => "remove_users") %></h4>
+    <h4><%= link_to "Creating Users", tutorial_path(:type => "create_users") %></h4>
+  </div>
+  <div class="offset1 span4 pull-right">
+    <h4><%= link_to "Editing Users", tutorial_path(:type => "edit_users") %></h4>
+    <h4><%= link_to "Changing Admin Rights", tutorial_path(:type => "admin_users") %></h4>
+    <h4><%= link_to "Updating the Ward List", tutorial_path(:type => "updating_ward") %></h4>
+    <h4><%= link_to "Importing MLS Changes", tutorial_path(:type => "importing_ward") %></h4>
+    <h4>&nbsp</h4>
+    <h4>&nbsp</h4>
+    <h4>&nbsp</h4>
+  </div>
+</div>
+<h3>&nbsp</h3>
+<center><h4>There are also tutorials for <%= link_to 'ward council members', tutorial_path %>.</h4></center>

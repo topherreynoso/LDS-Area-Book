@@ -1,16 +1,5 @@
 <% provide(:title, 'Add Ward') %>
-<div class="row">
-  <div class="offset1 span9">
-    <ul class="nav nav-tabs">
-      <li><%= link_to "Ward List", wardlist_path %></li>
-      <li><%= link_to "Investigators", investigators_path %></li>
-      <li><%= link_to "Watch List", watch_path %></li>
-      <li><%= link_to "Find Report", reports_path %></li>
-      <li><%= link_to "Report Activity", newactivity_path %></li>
-      <li><%= link_to "Archive", archive_path %></li>
-    </ul>
-  </div>
-</div>
+<%= render 'layouts/tabs' %>
 <div class="container">
   <fullbody class="span11">
     <div class="offset3 span5">

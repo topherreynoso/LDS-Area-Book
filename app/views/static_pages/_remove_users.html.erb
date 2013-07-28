@@ -1,0 +1,22 @@
+<h6>&nbsp</h6>
+<h1 style="margin-bottom:10px;">Removing/Deleting Users</h1>
+<center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", users_path %> to remove or delete users.</h3></center>
+<div class="row">
+  <div class="span9">
+  <%= image_tag('change_right.png') %>
+  </div>
+</div>
+<div class="row">
+  <div class="span9">
+    <h4>You can remove a user from your ward, which will prevent them from continuing to access the area book, by using the yellow "Remove" button, as indicated above.</h4>
+    <h4>You can also delete user accounts, although this will permanently delete their account and should only be done when a user was created in error.</h4>
+  </div> 
+</div>
+<div class="row" style="padding-top: 30px;">
+  <div class="span2">
+    <%= link_to "Back to Menu", tutorial_path(:type => "admin") %>
+  </div>
+  <div class="offset3 span4" style="text-align:right;">
+    <%= link_to 'Continue to "Creating Users"', tutorial_path(:type => "create_users") %>
+  </div>
+</div>

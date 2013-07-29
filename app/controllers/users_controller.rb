@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     else
       @users = User.where(:ward_id => current_ward.id)
     end
-    @users = @users.paginate(page: params[:page], :per_page => 7) if !@users.nil?
+    @users = @users.paginate(page: params[:page], :per_page => 6) if !@users.nil?
   end
 
   def confirm
@@ -54,11 +54,16 @@ class UsersController < ApplicationController
         @user.skip_validation = true
         @user.ward_confirmed = false
         ward_request = true
+        @user.admin = false if ward_request && params[:user][:ward_id] == nil
       end
       if @user.update_attributes(user_params)
         sign_in User.find(@user.id)
         if ward_request == true
-          redirect_to root_path, :flash => { :success => 'Your request has been submitted. An admin will respond to your request soon.' }
+          if @user.ward_id != nil
+            redirect_to root_path, :flash => { :success => 'Your request has been submitted. An admin will respond to your request soon.' }
+          else
+            redirect_to root_path, :flash => { :success => 'Your account is no longer associated with a ward.' }
+          end
         else
           redirect_to root_path, :flash => { :success => 'Your account has been updated.' }
         end

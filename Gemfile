@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 gem 'rails', '4.0.0.rc1'
+gem 'sass-rails', '4.0.0.rc1'
 gem 'bootstrap-sass-rails'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'will_paginate', '3.0.4'
@@ -24,7 +25,6 @@ group :test do
 end
 
 group :assets do
-  gem 'sass-rails',   '4.0.0.rc1'
   gem 'coffee-rails', '4.0.0'
   gem 'uglifier', '1.0.3'
 end

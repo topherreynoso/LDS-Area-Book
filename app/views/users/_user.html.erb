@@ -39,11 +39,11 @@
             <%= f.hidden_field :ward_confirmed, :value => false %>
             <%= f.hidden_field :ward_id, :value => nil %>
             <%= f.hidden_field :admin, :value => false %>
-            <%= f.submit "Remove", class: "btn btn-small btn-warning", confirm: "If you remove this user they cannot view your ward area book. Are you sure you want to remove this user?", "data-confirm-fade" => true, "data-confirm-title" => "Remove #{user.name}", "data-confirm-proceed" => "Remove", "data-confirm-proceed-class" => "btn-warning" %>
+            <%= f.submit "Remove", class: "btn btn-small btn-warning", confirm: "If you remove this user they cannot view your area book. Are you sure you want to remove this user?", "data-confirm-fade" => true, "data-confirm-title" => "Remove #{user.name}", "data-confirm-proceed" => "Remove", "data-confirm-proceed-class" => "btn-warning" %>
           <% end %>
         <% else %>
       	 <%= link_to "Accept", user_path(user, "user[ward_confirmed]" => true), :method => :put, :class => "btn btn-small btn-primary", 
-                     confirm: "Accepting a user allows them to view and edit your ward area book. Are you sure you want to accept this user?", "data-confirm-fade" => true, "data-confirm-title" => "Accept #{user.name}", "data-confirm-proceed" => "Accept" %>
+                     confirm: "Accepting a user allows them to view and edit your area book. Are you sure you want to accept this user?", "data-confirm-fade" => true, "data-confirm-title" => "Accept #{user.name}", "data-confirm-proceed" => "Accept" %>
         <% end %>
       <% end %>
     </div>
@@ -53,7 +53,7 @@
       <% else %>
         <%= form_for(user) do |f| %>
           <%= f.hidden_field :ward_id, :value => nil %>
-          <%= f.submit "Deny", class: "btn btn-small btn-warning", confirm: "You should deny any user that should not have access to your ward area book. Are you sure you want to deny this user?", "data-confirm-fade" => true, "data-confirm-title" => "Deny #{user.name}", "data-confirm-proceed" => "Deny", "data-confirm-proceed-class" => "btn-warning" %>
+          <%= f.submit "Deny", class: "btn btn-small btn-warning", confirm: "You should deny any user that should not have access to your area book. Are you sure you want to deny this user?", "data-confirm-fade" => true, "data-confirm-title" => "Deny #{user.name}", "data-confirm-proceed" => "Deny", "data-confirm-proceed-class" => "btn-warning" %>
         <% end %>
       <% end %>
     </div>
@@ -89,7 +89,7 @@
     </div>
     <div class="span1">
       <%= link_to "Delete", user, method: :delete, class: "btn btn-small btn-danger", 
-                  confirm: "You should only delete users that were created in error. It is recommended that you deactivate any users who have created reports in the past. Are you sure you want to permanently delete this user?", "data-confirm-fade" => true, 
+                  confirm: "You should only delete users that were created in error. It is recommended that you remove users instead. Are you sure you want to permanently delete this user?", "data-confirm-fade" => true, 
                   "data-confirm-title" => "Delete #{user.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
     </div>
   <% end %>

@@ -3,9 +3,9 @@
 <div class="container">
   <fullbody class="span11"> 
     <%= render 'report' %>
-    <div class="span1 dropdown">
+    <div class="span1 dropup">
       <a class="dropdown-toggle btn btn-small btn-primary" data-toggle="dropdown" href="#" style="padding-top:5px; width:35px; height:22px;">Date</a>
-      <ul class="dropdown-menu bottom-up" role="menu" aria-labelledby="dropdownMenu">
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
         <li><%= link_to "In the last week", reports_path(:activity_date => 1.week.ago) %></li>
         <li><%= link_to "In the last month", reports_path(:activity_date => 1.month.ago) %></li>
         <li><%= link_to "In the last quarter", reports_path(:activity_date => 3.months.ago) %></li>

@@ -1,23 +1,18 @@
-<% provide(:title, "Sign in") %>
+<% provide(:title, "Welcome") %>
 <div class="row">
   <h7>&nbsp</h7>
 </div>
 <div class="container">
   <fullbody class="span11 fivethirtyhigh">
-    <h1>&nbsp</h1>
-    <h1>Sign in</h1>
-    <div class="row">
-      <div class="span5 offset3">
-        <%= form_for(:session, url: sessions_path) do |f| %>
-          <%= f.label :email %>
-          <%= f.text_field :email %>
-          <%= f.label :password %>
-          <%= f.password_field :password %>
-          <%= f.submit "Sign in", class: "btn btn-medium btn-primary" %>
-        <% end %>
-        <p>Having trouble? <%= link_to "Get Help", help_path %></p>
-        <p>New to Ward Area Book? <%= link_to "Sign Up", newuser_path %></p>
-      </div>
-    </div>
+    <center>
+      <h1 style="margin: 120px 50px 50px 50px;">Welcome</h1>
+      <%= form_for(:session, url: sessions_path) do |f| %>
+        <%= f.text_field :email, :placeholder => "email", :class => "span4" %><p>
+        <%= f.password_field :password, :placeholder => "password", :class => "span4" %><p>
+        <%= f.submit "Sign in", class: "btn btn-medium btn-primary" %>
+      <% end %>
+      <p>Having trouble? <%= link_to "Get Help", help_path %></p>
+      <p>New to LDS Area Book? <%= link_to "Sign Up", newuser_path %></p>
+    </center>
   </fullbody>
 </div>

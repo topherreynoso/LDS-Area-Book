@@ -15,13 +15,13 @@
         <%= form_for(@user) do |f| %>
           <%= render 'shared/error_messages' %>
           <%= f.label :name %>
-          <%= f.text_field :name %>
+          <%= f.text_field :name, :class => "span5" %>
           <%= f.label :email %>
-          <%= f.text_field :email %>
+          <%= f.text_field :email, :class => "span5" %>
           <%= f.label :password %>
-          <%= f.password_field :password %>
+          <%= f.password_field :password, :class => "span3" %>
           <%= f.label :password_confirmation, "Confirm Password" %>
-          <%= f.password_field :password_confirmation %>
+          <%= f.password_field :password_confirmation, :class => "span3" %>
           <% if !@user.ward_id.nil? %>
             <div class="row">
               <div class="span1">
@@ -42,13 +42,13 @@
             </div>
         <% end %>
             <% if !@user.ward_id.nil? && current_user?(@user) %>
-              <div class="span2">
+              <div class="span3 pull-right">
                 <%= form_for(@user) do |f| %>
                   <%= f.hidden_field :ward_confirmed, :value => false %>
                   <%= f.hidden_field :ward_id, :value => nil %>
                   <%= f.hidden_field :admin, :value => false %>
                   <% if @user.ward_confirmed %>
-                    <%= f.submit "Leave Ward", class: "btn btn-medium btn-warning", confirm: "If you leave this ward you will lose access to its ward area book. Are you sure you want to leave?", "data-confirm-fade" => true, "data-confirm-title" => "Leave This Ward", "data-confirm-proceed" => "Leave", "data-confirm-proceed-class" => "btn-warning" %>
+                    <%= f.submit "Leave Ward", class: "btn btn-medium btn-warning", confirm: "If you leave this ward you will lose access to its area book. Are you sure you want to leave?", "data-confirm-fade" => true, "data-confirm-title" => "Leave This Ward", "data-confirm-proceed" => "Leave", "data-confirm-proceed-class" => "btn-warning" %>
                   <% else %>
                     <%= f.submit "Rescind Ward", class: "btn btn-medium btn-warning", confirm: "Are you sure you want to rescind your request to access this ward's area book?", "data-confirm-fade" => true, "data-confirm-title" => "Rescind Your Request", "data-confirm-proceed" => "Rescind", "data-confirm-proceed-class" => "btn-warning" %>
                   <% end %>

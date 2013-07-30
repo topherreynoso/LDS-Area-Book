@@ -5,7 +5,7 @@
     <%= render 'families_list' %>
     <div class="span1">
       <%= collection_select(nil, :family_id, @unwatched_families, :id, :name, {:prompt => "Add"}, 
-                            {:onchange => "redirect_to_watch(this.value)", :class => "btn btn-small btn-secondary"}) %>
+                            {:onchange => "redirect_to_watch(this.value)", :class => "btn btn-small btn-secondary", :style => "width:70px;"}) %>
     </div>
     <%= javascript_tag do %>
       function redirect_to_watch(familyId){
@@ -14,7 +14,7 @@
     <% end %>
     <div class="span1">
       <%= collection_select(nil, :family_id, @families, :id, :name, {:prompt => "Drop"}, 
-                            {:onchange => "redirect_to_unwatch(this.value)", :class => "btn btn-small btn-secondary"}) %>
+                            {:onchange => "redirect_to_unwatch(this.value)", :class => "btn btn-small btn-secondary", :style => "width:70px;"}) %>
     </div>
     <%= javascript_tag do %>
       function redirect_to_unwatch(familyId){

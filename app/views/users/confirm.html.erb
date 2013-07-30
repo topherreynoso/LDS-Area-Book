@@ -4,33 +4,20 @@
 </div>
 <div class="container">
   <fullbody class="span11 fivethirtyhigh">
-    <h3>&nbsp</h3>
-    <h1>Create Your Account</h1>
-    <center><h4>Select a password for your account.</h4></center>
-    <h3>&nbsp</h3>
-    <div class="offset3 span5">
+    <h1 style="margin:80px 10px 40px 10px;">Create Your Account</h1>
+    <center>
+      <h4>Confirm the information below and select a password for your account.</h4>
+      <h4 style="margin-bottom:40px;">You can change this information after you have created your account.</h4>
       <%= form_for(@user) do |f| %>
         <%= render 'shared/error_messages' %>
-        <div class="row">
-          <div class="span1">
-            <%= f.label :name %>
-            <%= f.label :email %>
-          </div>
-          <div class="span3">
-            <%= f.label :name, @username %>
-            <%= f.label :email, @email %>
-          </div>
-        </div>
+        <%= f.label :name, @username %>
+        <%= f.label :email, @email %>
         <%= f.hidden_field :name %>
         <%= f.hidden_field :email %>
-        <%= f.label :password, "Password (minimum 6 characters)" %>
-        <%= f.password_field :password %>
-        <%= f.label :password_confirmation, "Confirm Password" %>
-        <%= f.password_field :password_confirmation %>
+        <%= f.password_field :password, :placeholder => "Password (min 6 characters)" %><p>
+        <%= f.password_field :password_confirmation, :placeholder => "Confirm password" %><p>
         <%= f.submit "Create account", class: "btn btn-medium btn-primary" %>
       <% end %>
-      <h2>&nbsp</h2>
-      <h4>&nbsp</h4>
-    </div>
+    </center>
   </fullbody>
 </div>

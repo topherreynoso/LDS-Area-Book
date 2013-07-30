@@ -49,7 +49,7 @@
         <% if current_user.ward_id == ward.id %>
           Pending
         <% else %>
-          <%= link_to "<i class='icon-white icon-ok'></i>".html_safe, user_path(current_user, "user[ward_id]" => ward.id), :method => :put, :class => "btn btn-small btn-success", confirm: "Please wait for an administrator at this ward to accept your request. Feel free to contact the administrator or your ward clerk if you do not receive access in a timely manner. Request access to this ward area book?", "data-confirm-fade" => true, "data-confirm-title" => "Request Access to #{ward.name}", "data-confirm-proceed" => "Yes", "data-confirm-proceed-class" => "btn-success" %>
+          <%= link_to "<i class='icon-white icon-ok'></i>".html_safe, user_path(current_user, "user[ward_id]" => ward.id), :method => :put, :class => "btn btn-small btn-success", confirm: "Please wait for an administrator at this ward to accept your request. Feel free to contact the administrator or your ward clerk if you do not receive access in a timely manner. Request access to this area book?", "data-confirm-fade" => true, "data-confirm-title" => "Request Access to #{ward.name}", "data-confirm-proceed" => "Yes", "data-confirm-proceed-class" => "btn-success" %>
         <% end %>
       </center>
     </div>

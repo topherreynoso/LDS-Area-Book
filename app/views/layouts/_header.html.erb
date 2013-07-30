@@ -2,7 +2,7 @@
   <div class="navbar-inner">
     <div class="container">
       <% if current_ward.nil? %>
-        <%= link_to "Ward Area Book", root_path, id: "logo" %>
+        <%= link_to "LDS Area Book", root_path, id: "logo" %>
       <% else %>
         <%= link_to "#{current_ward.name} Ward", root_path, id: "logo" %>
       <% end %>

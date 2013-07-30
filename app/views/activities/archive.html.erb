@@ -5,7 +5,7 @@
     <%= render 'report' %>
     <div class="span2">
       <%= collection_select(nil, :family_id, Family.where("archived = ?", true), :id, :name, {:prompt => "Select a family"}, 
-                            {:onchange => "redirect_to_archive(this.value)", :class => "btn btn-small btn-secondary"}) %>
+                            {:onchange => "redirect_to_archive(this.value)", :class => "btn btn-small btn-secondary", :style => "width:140px; height:27px;"}) %>
     </div>
     <%= javascript_tag do %>
       function redirect_to_archive(familyId){

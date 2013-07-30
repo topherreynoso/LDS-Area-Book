@@ -1,17 +1,14 @@
 <% provide(:title, 'Add Ward') %>
 <%= render 'layouts/tabs' %>
 <div class="container">
-  <fullbody class="span11">
+  <fullbody class="span11" style="height:480px;">
     <div class="offset3 span5">
-      <h1>&nbsp</h1>
-      <center><h4>Create Ward</h4></center>
+      <center><h4 style="margin:100px 0 50px 0;">Create Ward</h4></center>
       <%= form_for(@ward) do |f| %>
         <%= render 'shared/error_messages' %>
-        <%= "Ward name (e.g. Newport Beach 2nd)" %>
-        <%= f.text_field :name %>
-        <%= "Unit number" %>
-        <%= f.text_field :unit %>
-        <%= f.submit "Create ward", class: "btn btn-medium btn-primary" %>
+        <%= f.text_field :name, :class => "span5", :placeholder => "Ward name (e.g. Newport Beach 2nd)" %><p>
+        <%= f.text_field :unit, :class => "span2", :placeholder => "Unit #" %><p>
+        <%= f.submit "Create ward", class: "btn btn-medium btn-primary", :style => "margin-top:20px;" %>
       <% end %>
       <h2>&nbsp</h2>
       <h4>&nbsp</h4>

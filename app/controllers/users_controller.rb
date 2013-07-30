@@ -62,6 +62,7 @@ class UsersController < ApplicationController
           if @user.ward_id != nil
             redirect_to root_path, :flash => { :success => 'Your request has been submitted. An admin will respond to your request soon.' }
           else
+            set_ward nil
             redirect_to root_path, :flash => { :success => 'Your account is no longer associated with a ward.' }
           end
         else
@@ -119,7 +120,7 @@ class UsersController < ApplicationController
     else
       if @user.save
         sign_in @user
-        flash[:success] = "Welcome to Ward Area Book"
+        flash[:success] = "Welcome to LDS Area Book"
         redirect_to root_path
       else
         if !existing_user.nil?

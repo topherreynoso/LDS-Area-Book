@@ -5,32 +5,26 @@
 <div class="container">
   <fullbody class="span11 fivethirtyhigh">
     <div class="row">
-      <div class="offset3 span5">
-        <h1>&nbsp</h1>
-        <center>
-          <h1>Register Your Ward</h1>
-          <h4>Please confirm the information below in order to create a new ward area book.</h4>
-          <h6>&nbsp</h6>
-        </center>
-        <%= form_for(@ward) do |f| %>
+      <%= form_for(@ward) do |f| %>
+        <div class="offset3 span5">
+          <center>
+            <h1 style="margin:110px 0 70px 0;">Register Your Ward</h1>
+            <h4>Please confirm the information below in order to create a new area book.</h4>
+          </center>
           <div class="row">
             <div class="span1">
-              <h4>Ward:</h4>
-              <h4>Unit #:</h4>
-            </div>
-            <div class="span3">
-              <h4><%= @ward_name %></h4>
-              <h4><%= @unit_number %></h4>
-            </div>
+            <h4>Ward:</h4>
+            <h4>Unit #:</h4>
           </div>
-          <%= f.hidden_field :name, :value => @ward_name %>
-          <%= f.hidden_field :unit, :value => @unit_number %>
-          <h6>&nbsp</h6>
-          <%= f.submit "Create ward", class: "btn btn-medium btn-primary" %>
-        <% end %>
-        <h2>&nbsp</h2>
-        <h4>&nbsp</h4>
-      </div>
+          <div class="span3">
+            <h4><%= @ward_name %></h4>
+            <h4><%= @unit_number %></h4>
+          </div>
+        </div>
+        <%= f.hidden_field :name, :value => @ward_name %>
+        <%= f.hidden_field :unit, :value => @unit_number %>
+        <center><%= f.submit "Create ward", class: "btn btn-medium btn-primary", :style => "margin-top: 20px;" %></center>
+      <% end %>
     </div>
   </fullbody>
 </div>

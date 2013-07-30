@@ -9,14 +9,14 @@
         <%= form_for(@user) do |f| %>
           <%= render 'shared/error_messages' %>
           <%= f.label :name %>
-          <%= f.text_field :name %>
+          <%= f.text_field :name, :class => "span5" %>
           <%= f.label :email %>
-          <%= f.text_field :email %>
+          <%= f.text_field :email, :class => "span5" %>
           <%= f.label :password %>
-          <%= f.password_field :password %>
+          <%= f.password_field :password, :class => "span3" %>
           <%= f.label :password_confirmation, "Confirm Password" %>
-          <%= f.password_field :password_confirmation %>
-          <%= f.submit "Create account", class: "btn btn-medium btn-primary" %>
+          <%= f.password_field :password_confirmation, :class => "span3", :style => "margin-bottom:20px;" %><p>
+          <%= f.submit "Create account", class: "btn btn-medium btn-primary" %><p>
         <% end %>
         <h2>&nbsp</h2>
         <h4>&nbsp</h4>
@@ -29,26 +29,23 @@
   </div>
   <div class="container">
     <fullbody class="span11 fivethirtyhigh">
-      <h3>&nbsp</h3>
-      <h1>New User Registration</h1>
-      <center><h4>You will need a user account to access any ward area book.</h4></center>
+      <h1 style="margin: 30px 10px 30px 10px;">New User Registration</h1>
+      <center><h4>You will need a user account to access any area book.</h4></center>
       <div class="offset2 span7">
         <h4>Option 1:</h4>
-        <h5>Use your lds.org account to sign up. We do not store these credentials.</h5>
-        <div class="offset1 span4">
-          <%= form_tag confirm_user_path do %>
-            <%= label_tag :username, "lds.org username" %>
-            <%= text_field_tag "username" %>
-            <%= label_tag :password, "lds.org password" %>
-            <%= password_field_tag "password" %>
-            <%= submit_tag "Confirm", :class => "btn btn-medium btn-primary" %>
-          <% end %>
-        </div>
+        <h5 style="margin-bottom:30px;">Use your lds.org account to sign up. We do not store these credentials.</h5>
       </div>
+      <center>
+        <%= form_tag confirm_user_path do %>
+          <%= text_field_tag "username", nil, :placeholder => "lds.org username" %><p>
+          <%= password_field_tag "password", nil, :placeholder => "lds.org password" %><p>
+          <%= submit_tag "Confirm", :class => "btn btn-medium btn-primary" %>
+        <% end %>
+      </center>
       <div class="offset2 span7">
         <h4>Option 2:</h4>
-        <h5>Contact your ward clerk directly and request access to a ward area book.</h5>
-        <h5>If you are a ward leader and would like to create a ward area book but do not want to use your lds.org credentials to create an account, <%= mail_to "topherreynoso@gmail.com", "contact us" %> and we will confirm your membership and create the account for you.</h5>
+        <h5>Contact your ward clerk directly and request access to an area book.</h5>
+        <h5>If you are a ward leader and would like to create an area book but do not want to use your lds.org credentials to create an account, <%= mail_to "reynoso@ldsareabook.org", "contact us" %> and we will confirm your membership and create the account for you.</h5>
       </div>
     </fullbody>
   </div>

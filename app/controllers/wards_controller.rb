@@ -54,7 +54,7 @@ class WardsController < ApplicationController
       if current_user.master?
         render 'new'
       else
-        redirect_to root_path, notice: "A ward area book already exists for unit number #{@ward.unit}."
+        redirect_to root_path, notice: "An area book already exists for unit number #{@ward.unit}."
       end
     end
   end

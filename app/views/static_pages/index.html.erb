@@ -4,7 +4,7 @@
 <div class="container">
   <fullbody class="span11 fivethirtyhigh">
     <% if signed_in? && current_ward.nil? && !current_user.master? %>
-      <h1>Request Access to a Ward</h1>
+      <h1 style="margin-bottom:20px;">Request Access to a Ward</h1>
       <div class="row">
         <div class="span11">
           <strong>
@@ -32,14 +32,10 @@
         </div>
       </div>
     <% else %>
-  	  <h1>&nbsp</h1>
-  	  <h1>&nbsp</h1>
-	    <h1>Welcome to the Ward Area Book</h1>
-	    <h3>&nbsp</h3>
+	    <h1 style="margin:130px 50px 65px 50px;">LDS Area Book</h1>
 	    <center>
   	    <%= link_to "Sign In", signin_path, class: "btn btn-large btn-primary" %>
-  	    <h3>&nbsp</h3>
-  	    <h3>or <%= link_to "learn more", help_path %></h3>
+  	    <h3 style="margin-top:60px;">or <%= link_to "learn more", help_path %></h3>
  	    </center>
     <% end %>
   </fullbody>

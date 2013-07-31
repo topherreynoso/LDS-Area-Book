@@ -14,4 +14,7 @@ class StaticPagesController < ApplicationController
   def tutorial
   	@type = params[:type] if params[:type]
   end
+
+  def contact
+  end
 end

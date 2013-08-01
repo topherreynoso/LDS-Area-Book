@@ -8,7 +8,7 @@ AreaBook::Application.routes.draw do
 
   root to: 'static_pages#index'
 
-  # match '/help',      	  to: 'static_pages#help', 		  via: 'get'
+  match '/help',      	  to: 'static_pages#help', 		  via: 'get'
   match '/tutorial',      to: 'static_pages#tutorial',  via: 'get'
   match '/contact',       to: 'static_pages#contact',   via: 'get' 
   match '/newuser',   	  to: 'users#new', 		   		    via: 'get'

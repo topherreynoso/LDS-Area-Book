@@ -1,20 +1,37 @@
-<% provide(:title, "Edit Ward") %> 
+<% provide(:title, "Ward Settings") %> 
 <%= render 'layouts/tabs' %>
 <div class="container">
-  <fullbody class="span11">
-    <div class="offset3 span5">
-      <h1>&nbsp</h1>
-      <center><h4>Update Ward</h4></center>
-      <%= form_for(@ward) do |f| %>
-        <%= render 'shared/error_messages' %>
-        <%= "Ward name (e.g. Newport Beach 2nd)" %>
-        <%= f.text_field :name %>
-        <h5><%= "Unit number: #{@ward.unit}" %></h5>
-        <h5>&nbsp</h5>
-        <%= f.submit "Save changes", class: "btn btn-medium btn-primary" %>
-      <% end %>
-      <h2>&nbsp</h2>
-      <h4>&nbsp</h4>
+  <fullbody class="span11" style="height:500px;">
+    <h2 style="margin: 20px 0 60px 0;">Ward Settings</h2>
+    <div class="row">
+      <div class="offset1 span3">
+        <h4 style="margin:30px 0 20px 0;">Ward Name</h4>
+        <%= form_for(@ward) do |f| %>
+          <%= render 'shared/error_messages' %>
+          <%= "Ward name (e.g. Newport 2nd)" %>
+          <%= f.text_field :name %>
+          <h5 style="margin-bottom:40px;"><%= "Unit number: #{@ward.unit}" %></h5>
+          <%= f.submit "Save name", class: "btn btn-medium btn-primary" %>
+        <% end %>
+      </div>
+      <div class="span3">
+        <center>
+          <h4 style="margin: 30px 0 20px 0;">Ward Password</h4>
+          <%= form_tag change_password_path do %>
+            <%= password_field_tag :old_password, nil, :placeholder => "current password" %><p>
+            <%= password_field_tag :password, nil, :placeholder => "new password (min 6 char)", :style => "margin: 0 0 0 0;" %><p>
+            <%= password_field_tag :password_confirm, nil, :placeholder => "confirm new password" %><p>
+            <%= submit_tag "Change password", :class => "btn btn-medium btn-primary"  %>
+          <% end %>
+        </center>
+      </div>
+      <div class="span3" style="text-align:right;">
+        <h4 style="margin:30px 0 30px 0;">Delete Ward</h4>
+        <h5 style="margin:0 0 22px 0;">Warning: deleting a ward is permanent and all records will be lost, including encrypted member info as well as all activity history.</h5>
+         <%= link_to "Delete ward", @ward, method: :delete, class: "btn btn-medium btn-danger", 
+                  confirm: "Are you sure you want to permanently delete this ward and all of its records?", "data-confirm-fade" => true, 
+                  "data-confirm-title" => "Delete #{@ward.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
+      </div>
     </div>
   </fullbody>
 </div>

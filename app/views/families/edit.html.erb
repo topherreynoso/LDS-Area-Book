@@ -7,15 +7,15 @@
       <%= form_for(@family) do |f| %>
         <%= render 'shared/error_messages' %>
         <%= f.label :name, "Family Name (e.g. Smith, Joe & Jane)" %>
-        <%= f.text_field :name, :class => "span5" %>
+        <%= f.text_field :name, :value => @name, :class => "span5" %>
         <%= f.label :phone, "Phone (e.g. 123-456-7890)" %>
-        <%= f.text_field :phone, :class => "span2" %>
+        <%= f.text_field :phone, :value => @phone, :class => "span2" %>
         <%= f.label :email %>
-        <%= f.text_field :email, :class => "span5" %>
+        <%= f.text_field :email, :value => @email, :class => "span5" %>
         <%= f.label :address, "Address (street only, e.g. 1234 Street St. #23)" %>
-        <%= f.text_field :address, :class => "span5" %>
+        <%= f.text_field :address, :value => @address, :class => "span5" %>
         <%= f.label :children, "Names of Children (if applicable)" %>
-        <%= f.text_field :children, :class => "span5" %>
+        <%= f.text_field :children, :value => @children, :class => "span5" %>
         <div class="row">
           <div class="span1">
             <%= f.label :investigator, "Investigator?" %>
@@ -35,7 +35,7 @@
           <div class="span2">
             <%= link_to "Archive Family", archive_path(:archive_family => @family.id, :family_id => @family.id), class: "btn btn-medium btn-warning",
                         confirm: "Are you sure you want to archive this family and all of its activity records?", "data-confirm-fade" => true, 
-                        "data-confirm-title" => "Archive #{@family.name}", "data-confirm-proceed" => "Archive", 
+                        "data-confirm-title" => "Archive #{@name}", "data-confirm-proceed" => "Archive", 
                         "data-confirm-proceed-class" => "btn-warning" %>
           </div>
         </div>

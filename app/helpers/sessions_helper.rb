@@ -30,8 +30,10 @@ module SessionsHelper
   def sign_out
     self.current_user = nil
     self.current_ward = nil
+    self.ward_decryptor = nil
     cookies.delete(:remember_token)
     cookies.delete(:ward_token)
+    cookies.delete(:ward_password)
   end
 
   def redirect_back_or(default)
@@ -64,4 +66,44 @@ module SessionsHelper
   def current_ward
     @current_ward ||= Ward.find_by(ward_token: cookies[:ward_token])
   end
+
+  def current_ward?
+    !current_ward.nil?
+  end
+
+  def set_ward_password(password)
+    if !password.nil?
+      encrypted_password = OpenSSL::Digest::SHA256.new(password).digest
+      cookies.permanent[:ward_password] = encrypted_password
+      self.ward_decryptor = ActiveSupport::MessageEncryptor.new(encrypted_password)
+    else
+      cookies.permanent[:ward_password] = nil
+      self.ward_decryptor = nil
+    end
+  end
+
+  def ward_decryptor=(encoder)
+    @ward_decryptor = encoder
+  end
+
+  def ward_decryptor
+    if !@ward_decryptor.nil?
+      @ward_decryptor
+    elsif !cookies[:ward_password].nil?
+      ActiveSupport::MessageEncryptor.new(cookies[:ward_password])
+    else
+      nil
+    end
+  end
+
+  def ward_decryptor_valid?
+    if !ward_decryptor.nil? && ward_decryptor.decrypt_and_verify(current_ward.confirm) == current_ward.unit
+      true
+    else
+      false
+    end
+  rescue ActiveSupport::MessageVerifier::InvalidSignature
+    redirect_to password_path, notice: 'Your ward password was not valid. Please re-enter your password.'
+  end
+
 end

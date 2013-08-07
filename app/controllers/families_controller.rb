@@ -1,5 +1,5 @@
 class FamiliesController < ApplicationController
-  before_action :authorized_user, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy]
+  before_action :authorized_user, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy, :import, :confirm]
   before_action :super_user, only: [:import, :confirm]
 
   def ward
@@ -13,20 +13,38 @@ class FamiliesController < ApplicationController
   def watch
     if params[:add_family]
       new_family = Family.find(params[:add_family])
+      new_family.name = ward_decryptor.decrypt_and_verify(new_family.name)
+      new_family.email = ward_decryptor.decrypt_and_verify(new_family.email)
+      new_family.phone = ward_decryptor.decrypt_and_verify(new_family.phone)
+      new_family.address = ward_decryptor.decrypt_and_verify(new_family.address)
+      new_family.children = ward_decryptor.decrypt_and_verify(new_family.children)
       new_family.watched = true
+      new_family.encrypted_password = cookies[:ward_password]
       new_family.save
     elsif params[:remove_family]
       remove_family = Family.find(params[:remove_family])
+      remove_family.name = ward_decryptor.decrypt_and_verify(remove_family.name)
+      remove_family.email = ward_decryptor.decrypt_and_verify(remove_family.email)
+      remove_family.phone = ward_decryptor.decrypt_and_verify(remove_family.phone)
+      remove_family.address = ward_decryptor.decrypt_and_verify(remove_family.address)
+      remove_family.children = ward_decryptor.decrypt_and_verify(remove_family.children)
       remove_family.watched = false
+      remove_family.encrypted_password = cookies[:ward_password]
       remove_family.save
     end
     @families = Family.where("watched = ? and archived = ?", true, false).paginate(page: params[:page], :per_page => 7)
+    @families.each do |family|
+      family.encrypted_password = cookies[:ward_password]
+    end
     @unwatched_families = Family.where("watched = ? and archived = ?", false, false)
+    @unwatched_families.each do |family|
+      family.encrypted_password = cookies[:ward_password]
+    end
   end
 
   def import
     if params[:file]
-      import_families = Family.import(params[:file])
+      import_families = Family.import(params[:file], cookies[:ward_password])
       if import_families == false
         flash[:error] = "The selected csv file is not properly formatted. Please redownload and select the latest ward csv."
         redirect_to import_path
@@ -35,11 +53,18 @@ class FamiliesController < ApplicationController
         redirect_to root_path
       else
         @ward_families = Family.where("investigator = ? and archived = ?", false, false)
+        @ward_families.each do |family|
+          family.encrypted_password = cookies[:ward_password]
+        end
         @archived_families = Family.where("investigator = ? and archived = ?", false, true)
+        @archived_families.each do |family|
+          @archived_families.encrypted_password = cookies[:ward_password]
+        end
         @add_families = []
         @remove_families = []
         @update_families = []
         import_families.each do |family|
+          family.encrypted_password = cookies[:ward_password]
           if Family.exists?(family.id)
             if family.changed?
               @update_families << family
@@ -67,6 +92,7 @@ class FamiliesController < ApplicationController
           family.email = f[1][:email]
           family.address = f[1][:address]
           family.children = f[1][:children]
+          family.encrypted_password = cookies[:ward_password]
           family.save
         end
       end
@@ -77,6 +103,7 @@ class FamiliesController < ApplicationController
           family = Family.find(f[1][:id].to_i)
           family.confirmed_change = false
           family.archived = true
+          family.encrypted_password = cookies[:ward_password]
           family.save
         end
       end
@@ -90,6 +117,7 @@ class FamiliesController < ApplicationController
           family.address = f[1][:address]
           family.children = f[1][:children]
           family.archived = f[1][:archived]
+          family.encrypted_password = cookies[:ward_password]
           family.save
         end
       end
@@ -103,6 +131,7 @@ class FamiliesController < ApplicationController
 
   def create
   	@family = Family.new(family_params)
+    @family.encrypted_password = cookies[:ward_password]
     if @family.save
       if @family.investigator?
       	redirect_to investigators_path
@@ -116,10 +145,20 @@ class FamiliesController < ApplicationController
 
   def edit
   	@family = Family.find(params[:id])
+    @name = ward_decryptor.decrypt_and_verify(@family.name)
+    @phone = @family.phone
+    @email = @family.email
+    @address = @family.address
+    @children = @family.children
+    @phone = ward_decryptor.decrypt_and_verify(@family.phone) if !@family.phone.nil? && @family.phone != ""
+    @email = ward_decryptor.decrypt_and_verify(@family.email) if !@family.email.nil? && @family.email != ""
+    @address = ward_decryptor.decrypt_and_verify(@family.address) if !@family.address.nil? && @family.address != ""
+    @children = ward_decryptor.decrypt_and_verify(@family.children) if !@family.children.nil? && @family.children != ""
   end
 
   def update
   	@family = Family.find(params[:id])
+    @family.encrypted_password = cookies[:ward_password]
     if @family.update_attributes(family_params)
       if @family.investigator?
       	redirect_to investigators_path
@@ -145,7 +184,15 @@ class FamiliesController < ApplicationController
     # Before filters
 
     def authorized_user
-      unless signed_in? && (current_ward || current_user.master?)
+      if signed_in?
+        if !current_user.master
+          if !current_ward?
+            redirect_to root_path, notice: 'You do not have permission to access this area.'
+          elsif !ward_decryptor_valid?
+            redirect_to password_path
+          end
+        end
+      else
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end
     end

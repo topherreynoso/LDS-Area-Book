@@ -4,7 +4,7 @@
   <fullbody class="span11">
     <%= render 'report' %>
     <div class="span2">
-      <%= collection_select(nil, :family_id, Family.where("archived = ?", true), :id, :name, {:prompt => "Select a family"}, 
+      <%= collection_select(nil, :family_id, @families, :id, :decrypted_name, {:prompt => "Select a family"}, 
                             {:onchange => "redirect_to_archive(this.value)", :class => "btn btn-small btn-secondary", :style => "width:140px; height:27px;"}) %>
     </div>
     <%= javascript_tag do %>
@@ -16,13 +16,12 @@
       <div class="span2">
         <%= link_to "Unarchive Family", archive_path(:unarchive_id => @selected_family.id), class: "btn btn-small btn-warning",
                     confirm: "Are you sure you want to unarchive this family?", "data-confirm-fade" => true, 
-                    "data-confirm-title" => "Unarchive #{@selected_family.name}", "data-confirm-proceed" => "Unarchive", 
-                    "data-confirm-proceed-class" => "btn-warning" %>
+                    "data-confirm-title" => "Unarchive #{ward_decryptor.decrypt_and_verify(@selected_family.name)}", "data-confirm-proceed" => "Unarchive", "data-confirm-proceed-class" => "btn-warning" %>
       </div>
       <div class="offset4 span2">
         <%= link_to "Delete Family", @selected_family, method: :delete, class: "btn btn-small btn-danger",
                     confirm: "Are you sure you want to permanently delete this family and all of its activity records?", "data-confirm-fade" => true, 
-                    "data-confirm-title" => "Delete #{@selected_family.name}", "data-confirm-proceed" => "Delete", 
+                    "data-confirm-title" => "Delete #{ward_decryptor.decrypt_and_verify(@selected_family.name)}", "data-confirm-proceed" => "Delete", 
                     "data-confirm-proceed-class" => "btn-danger" %>
       </div>
     <% end %>

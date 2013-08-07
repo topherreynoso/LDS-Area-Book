@@ -28,7 +28,7 @@
   </tr>
 <% else %>
   <tr>  
-    <td class="twofifty"><%= link_to Family.find(activity.family_id).name, edit_family_path(Family.find(activity.family_id)) %></td>  
+    <td class="twofifty"><%= link_to ward_decryptor.decrypt_and_verify(Family.find(activity.family_id).name), edit_family_path(Family.find(activity.family_id)) %></td>  
     <td class="hundred">
       <% if activity.visit? %>
         <%= link_to "Yes", edit_activity_path(activity) %>

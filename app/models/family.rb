@@ -17,23 +17,21 @@
 #
 
 class Family < ActiveRecord::Base
-  before_save { 
-  	if self.email?
-  	  self.email = email.downcase
-  	end 
-  }
-
+  attr_accessor :encrypted_password
   has_many :activities, dependent: :destroy
-
   validates :name,  presence: true
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, format: { with: VALID_EMAIL_REGEX }, :if => :email?
+  before_save :encrypt_data
 
   default_scope order: 'name ASC'
 
-  def self.import(file)
+  def decrypted_name
+    ActiveSupport::MessageEncryptor.new(encrypted_password).decrypt_and_verify(name)
+  end
+
+  def self.import(file, encrypted_password)
     import_families = []
     all_family_names = []
+    ward_decryptor = ActiveSupport::MessageEncryptor.new(encrypted_password)
     CSV.foreach(file.path, headers: true) do |row|
       return false if row.headers[0] != "Family Name"
       new_info = { "name" => nil, "phone" => nil, "email" => nil, "address" => nil, "children" => nil }
@@ -64,7 +62,11 @@ class Family < ActiveRecord::Base
         end
         new_info["children"] = children
       end
-      family = Family.find_by_name(new_info["name"])
+      family = nil
+      Family.all.each do |found_family|
+        found_family.encrypted_password = encrypted_password
+        family = found_family if found_family.decrypted_name == new_info["name"]
+      end
       if family.nil?
         family = Family.new
         family.name = new_info["name"]
@@ -74,6 +76,11 @@ class Family < ActiveRecord::Base
         family.children = new_info["children"]
         import_families << family
       else
+        family.name = ward_decryptor.decrypt_and_verify(family.name)
+        family.email = ward_decryptor.decrypt_and_verify(family.email) if !family.email.nil? && family.email != ""
+        family.phone = ward_decryptor.decrypt_and_verify(family.phone) if !family.phone.nil? && family.phone != ""
+        family.address = ward_decryptor.decrypt_and_verify(family.address) if !family.address.nil? && family.address != ""
+        family.children = ward_decryptor.decrypt_and_verify(family.children) if !family.children.nil? && family.children != ""
         if !(family.address == "" && new_info["address"].nil?) && !(family.address.nil? && new_info["address"] = "")
           family.address = new_info["address"] if family.address != new_info["address"]
         end
@@ -90,12 +97,21 @@ class Family < ActiveRecord::Base
         import_families << family if family.changed?
       end
     end
-    remove_families = Family.where("name NOT IN (?) and archived = ? and investigator = ?", all_family_names, false, false)
-    remove_families.each do |family|
-      import_families << family
+    Family.all.each do |family|
+      family.encrypted_password = encrypted_password
+      import_families << family if !all_family_names.include? family.decrypted_name
     end
     return import_families
   end
 
-end
+  private
+    def encrypt_data
+      encryptor = ActiveSupport::MessageEncryptor.new(encrypted_password)
+      self.name = encryptor.encrypt_and_sign(name)
+      self.phone = encryptor.encrypt_and_sign(phone)
+      self.email = encryptor.encrypt_and_sign(email)
+      self.address = encryptor.encrypt_and_sign(address)
+      self.children = encryptor.encrypt_and_sign(children)
+    end
 
+end

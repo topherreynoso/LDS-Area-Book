@@ -8,6 +8,7 @@
 #  created_at :datetime
 #  updated_at :datetime
 #  ward_token :string(255)
+#  confirm    :string(255)
 #
 
 class Ward < ActiveRecord::Base
@@ -16,6 +17,7 @@ class Ward < ActiveRecord::Base
   before_save :create_ward_token
 
   validates :name, presence: true
+  validates :confirm, presence: true
   validates :unit, presence: true, uniqueness: true
 
   default_scope order: 'name ASC'

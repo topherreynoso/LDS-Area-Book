@@ -1,10 +1,10 @@
 <% provide(:title, 'Watch List') %>
 <%= render 'layouts/tabs' %>
 <div class="container">
-  <fullbody class="span11">
+  <fullbody class="span11" style="height:480px;">
     <%= render 'families_list' %>
     <div class="span1">
-      <%= collection_select(nil, :family_id, @unwatched_families, :id, :name, {:prompt => "Add"}, 
+      <%= collection_select(nil, :family_id, @unwatched_families, :id, :decrypted_name, {:prompt => "Add"}, 
                             {:onchange => "redirect_to_watch(this.value)", :class => "btn btn-small btn-secondary", :style => "width:70px;"}) %>
     </div>
     <%= javascript_tag do %>
@@ -13,7 +13,7 @@
       } 
     <% end %>
     <div class="span1">
-      <%= collection_select(nil, :family_id, @families, :id, :name, {:prompt => "Drop"}, 
+      <%= collection_select(nil, :family_id, @families, :id, :decrypted_name, {:prompt => "Drop"}, 
                             {:onchange => "redirect_to_unwatch(this.value)", :class => "btn btn-small btn-secondary", :style => "width:70px;"}) %>
     </div>
     <%= javascript_tag do %>

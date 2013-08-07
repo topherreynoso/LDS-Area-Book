@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130725000747) do
+ActiveRecord::Schema.define(version: 20130802082844) do
 
   create_table "activities", force: true do |t|
     t.integer  "family_id"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20130725000747) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "ward_token"
+    t.string   "confirm"
   end
 
   add_index "wards", ["name"], name: "index_wards_on_name"

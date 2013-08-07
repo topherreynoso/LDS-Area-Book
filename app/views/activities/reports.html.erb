@@ -1,7 +1,7 @@
 <% provide(:title, 'Find Report') %>
 <%= render 'layouts/tabs' %>
 <div class="container">
-  <fullbody class="span11"> 
+  <fullbody class="span11" style="height:480px;"> 
     <%= render 'report' %>
     <div class="span1 dropup">
       <a class="dropdown-toggle btn btn-small btn-primary" data-toggle="dropdown" href="#" style="padding-top:5px; width:35px; height:22px;">Date</a>
@@ -14,7 +14,7 @@
       </ul>
     </div>
     <div class="span1">
-      <%= collection_select(nil, :family_id, Family.where("archived = ?", false), :id, :name, {:prompt => "Family"}, 
+      <%= collection_select(nil, :family_id, @families, :id, :decrypted_name, {:prompt => "Family"}, 
                             {:onchange => "redirect_to_family(this.value)", :class => "btn btn-small btn-secondary", :style => "width:70px;"}) %>
     </div>
     <%= javascript_tag do %>

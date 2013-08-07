@@ -8,6 +8,7 @@
 #  created_at :datetime
 #  updated_at :datetime
 #  ward_token :string(255)
+#  confirm    :string(255)
 #
 
 require 'spec_helper'

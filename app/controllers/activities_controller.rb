@@ -1,8 +1,12 @@
 class ActivitiesController < ApplicationController
-  before_action :authorized_user, only: [:edit, :new, :update, :create, :destroy, :reports, :archive]
+  before_action :authorized_user, only: [:new, :create, :destroy, :edit, :update, :reports, :archive]
 
   def new
   	@activity = Activity.new
+    @families = Family.where("archived = ?", false)
+    @families.each do |family|
+      family.encrypted_password = cookies[:ward_password]
+    end
   end
 
   def create
@@ -25,6 +29,10 @@ class ActivitiesController < ApplicationController
 
   def edit
     @activity = Activity.find(params[:id])
+    @families = Family.where("archived = ?", false)
+    @families.each do |family|
+      family.encrypted_password = cookies[:ward_password]
+    end
   end
 
   def update
@@ -49,19 +57,38 @@ class ActivitiesController < ApplicationController
     else
       @activities = Activity.joins(:family).where(:families => {:archived => false}).paginate(page: params[:page], :per_page => 10)
     end
+    @families = Family.where("archived = ?", false)
+    @families.each do |family|
+      family.encrypted_password = cookies[:ward_password]
+    end
   end
 
   def archive
     if params[:archive_family]
       archive_family = Family.find(params[:archive_family])
+      archive_family.name = ward_decryptor.decrypt_and_verify(archive_family.name)
+      archive_family.email = ward_decryptor.decrypt_and_verify(archive_family.email) if !archive_family.email.nil? && archive_family.email != ""
+      archive_family.phone = ward_decryptor.decrypt_and_verify(archive_family.phone) if !archive_family.phone.nil? && archive_family.phone != ""
+      archive_family.address = ward_decryptor.decrypt_and_verify(archive_family.address) if !archive_family.address.nil? && archive_family.address != ""
+      archive_family.children = ward_decryptor.decrypt_and_verify(archive_family.children) if !archive_family.children.nil? && archive_family.children != ""
+      archive_family.encrypted_password = cookies[:ward_password]
       archive_family.archived = true
       archive_family.save
     elsif params[:unarchive_id]
       unarchive_family = Family.find(params[:unarchive_id])
+      unarchive_family.name = ward_decryptor.decrypt_and_verify(unarchive_family.name)
+      unarchive_family.email = ward_decryptor.decrypt_and_verify(unarchive_family.email) if !unarchive_family.email.nil? && unarchive_family.email != ""
+      unarchive_family.phone = ward_decryptor.decrypt_and_verify(unarchive_family.phone) if !unarchive_family.phone.nil? && unarchive_family.phone != ""
+      unarchive_family.address = ward_decryptor.decrypt_and_verify(unarchive_family.address) if !unarchive_family.address.nil? && unarchive_family.address != ""
+      unarchive_family.children = ward_decryptor.decrypt_and_verify(unarchive_family.children) if !unarchive_family.children.nil? && unarchive_family.children != ""
+      unarchive_family.encrypted_password = cookies[:ward_password]
       unarchive_family.archived = false
       unarchive_family.save
     end
     @families = Family.where("archived = ?", true)
+    @families.each do |family|
+      family.encrypted_password = cookies[:ward_password]
+    end
     if params[:family_id]
       @selected_family = Family.find(params[:family_id])
       @activities = @selected_family.activities
@@ -77,8 +104,17 @@ class ActivitiesController < ApplicationController
     # Before filters
 
     def authorized_user
-      unless signed_in? && (current_ward || current_user.master)
+      if signed_in?
+        if !current_user.master
+          if !current_ward?
+            redirect_to root_path, notice: 'You do not have permission to access this area.'
+          elsif !ward_decryptor_valid?
+            redirect_to password_path
+          end
+        end
+      else
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end
     end
+
 end

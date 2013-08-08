@@ -5,7 +5,7 @@ A way for ward leaders to track and manage their efforts to care for the ward.
 
 The ward area book is a web application, allowing Ward Council members the ability to access it from pretty much any internet-enabled device at any time.
 
-This is the code that ldsareabook.org runs on. Feel free to copy it and roll your own area book website if you would prefer.
+This is the code that [ldsareabook.org](https://www.ldsareabook.org) runs on. Feel free to copy it and roll your own area book website if you would prefer.
 
 Here are some facts and features:
 

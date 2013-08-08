@@ -1,52 +1,21 @@
 <% provide(:title, 'New User') %>
-<% if current_user && (current_user.admin? || current_user.master?) %>
-  <%= render 'layouts/tabs' %>
-  <div class="container">
-    <fullbody class="span11">
-      <div class="offset3 span5">
-        <h1>&nbsp</h1>
-        <center><h4>Create User</h4></center>
-        <%= form_for(@user) do |f| %>
-          <%= render 'shared/error_messages' %>
-          <%= f.label :name %>
-          <%= f.text_field :name, :class => "span5" %>
-          <%= f.label :email %>
-          <%= f.text_field :email, :class => "span5" %>
-          <%= f.label :password %>
-          <%= f.password_field :password, :class => "span3" %>
-          <%= f.label :password_confirmation, "Confirm Password" %>
-          <%= f.password_field :password_confirmation, :class => "span3", :style => "margin-bottom:20px;" %><p>
-          <%= f.submit "Create account", class: "btn btn-medium btn-primary" %><p>
-        <% end %>
-        <h2>&nbsp</h2>
-        <h4>&nbsp</h4>
-      </div>
-    </fullbody>
-  </div>
-<% else %>
-  <div class="row">
-    <h7>&nbsp</h7>
-  </div>
-  <div class="container">
-    <fullbody class="span11 fivethirtyhigh">
-      <h1 style="margin: 30px 10px 30px 10px;">New User Registration</h1>
-      <center><h4>You will need a user account to access any area book.</h4></center>
-      <div class="offset2 span7">
-        <h4>Option 1:</h4>
-        <h5 style="margin-bottom:30px;">Use your lds.org account to sign up. We do not store these credentials.</h5>
-      </div>
-      <center>
-        <%= form_tag confirm_user_path do %>
-          <%= text_field_tag "username", nil, :placeholder => "lds.org username" %><p>
-          <%= password_field_tag "password", nil, :placeholder => "lds.org password" %><p>
-          <%= submit_tag "Confirm", :class => "btn btn-medium btn-primary" %>
-        <% end %>
-      </center>
-      <div class="offset2 span7">
-        <h4>Option 2:</h4>
-        <h5>Contact your ward clerk directly and request access to an area book.</h5>
-        <h5>If you are a ward leader and would like to create an area book but do not want to use your lds.org credentials to create an account, <%= mail_to "reynoso@ldsareabook.org", "contact us" %> and we will confirm your membership and create the account for you.</h5>
-      </div>
-    </fullbody>
-  </div>
-<% end %>
+<div class="container" style="margin-top:20px;">
+  <fullbody class="span11" style="min-height:520px;">
+    <div class="offset3 span5">
+      <center><h3 style='margin:70px 0 20px 0;'>Register New Account</h3></center>
+      <!-- set up a form for the new user -->
+      <%= form_for(@user) do |f| %>
+        <%= render 'shared/error_messages' %>
+        <%= f.label :name %>
+        <%= f.text_field :name, :class => "span5" %>
+        <%= f.label :email %>
+        <%= f.text_field :email, :class => "span5", :style => 'margin-bottom:30px;' %>
+        <%= f.password_field :password, :placeholder => 'Password (min 6 characters)', :class => "span3" %>
+        <%= f.password_field :password_confirmation, :placeholder => 'Confirm password', :class => "span3", :style => "margin-bottom:30px;" %><p>
+        <%= f.submit "Create account", class: "btn btn-medium btn-primary" %><p>
+      <% end %>
+      <h2>&nbsp</h2>
+      <h4>&nbsp</h4>
+    </div>
+  </fullbody>
+</div>

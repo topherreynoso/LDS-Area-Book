@@ -1,15 +1,16 @@
 <h1 style="margin-bottom:10px;">Adding Families</h1>
 <center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", new_family_path %> to add a family.</h3></center>
 <div class="row">
+  <!-- make sure that the image is showing and that the tutorial content resolves the issue -->
   <div class="span4">
-  <%= image_tag('new_family.png') %>
+    <%= image_tag('new_family.png') %>
   </div>
   <div class="span5">
     <h4>Families can be added by clicking the blue button at the bottom of the Ward List or at the bottom of the Investigators page.</h4>
     <h4>Be sure to include as much information as possible about the family. Use the check box at the bottom of the form to indicate whether the family is an investigator or a member.</h4>
   </div> 
 </div>
-<div class="row" style="padding-top: 30px;">
+<div class="row" style="padding-top:30px;">
   <div class="span2">
     <%= link_to "Back to Menu", tutorial_path %>
   </div>

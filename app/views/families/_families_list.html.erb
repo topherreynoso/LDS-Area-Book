@@ -1,18 +1,20 @@
 <div class="row">
   <div class="span11" style="overflow: auto;">
     <table class="table table-condensed table-hover">
-      <thead class="eighteenfifty">  
-        <tr>  
-          <th class="twofifty">Family Name</th>  
-          <th class="twofifty">Family Contact Info</th>
-          <th class="twofifty">Family Address</th>
-          <th class="twofifty">Child Names</th>  
-          <th class="hundred">Last Visited</th>
-          <th class="hundred">Last Contact</th>
-          <th class="fivehundred">Most Recent Notes</th>
-        </tr>  
+      <!-- set up the header for each family that will be listed -->
+      <thead style="width:1700px;">
+        <tr>
+          <th style="width:250px;">Family Name</th>
+          <th style="width:250px;">Family Contact Info</th>
+          <th style="width:250px;">Family Address</th>
+          <th style="width:250px;">Child Names</th>
+          <th style="width:100px;">Last Visited</th>
+          <th style="width:100px;">Last Contact</th>
+          <th style="width:500px;">Most Recent Notes</th>
+        </tr>
       </thead>
-      <tbody>  
+      <tbody style="height:397px;">
+        <!-- show each family in the list -->
         <%= render @families %>
       </tbody>
     </table>

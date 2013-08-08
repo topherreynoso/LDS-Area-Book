@@ -1,15 +1,16 @@
 <h1 style="margin-bottom:10px;">Reporting New Activity</h1>
-<center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", newactivity_path %> to report new activity.</h3></center>
+<center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", new_activity_path %> to report new activity.</h3></center>
 <div class="row">
+  <!-- make sure that the image is showing and that the tutorial content resolves the issue -->
   <div class="span7">
-  <%= image_tag('add_reports.png') %>
+    <%= image_tag('add_reports.png') %>
   </div>
   <div class="span2">
     <h4>Ward council members can report new activity for a member or investigator by going to the "Report Activity" tab.</h4>
     <h4>Use the check box at the bottom to indicate whether an actual visit occurred.</h4>
   </div> 
 </div>
-<div class="row" style="padding-top: 20px;">
+<div class="row" style="padding-top:30px;">
   <div class="span2">
     <%= link_to "Back to Menu", tutorial_path %>
   </div>

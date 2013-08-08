@@ -1,35 +1,33 @@
 <li>
+  <!-- get the first administrator from the ward so we can display their contact info -->
   <% admin = User.where(:ward_id => ward.id).where(:admin => true).first %>
+  <!-- a master user is viewing a list of all wards, display each ward's info -->
   <% if current_user.master? %>
-    <div class="span3">
-      <%= link_to ward.name, edit_ward_path(ward) %>
-    </div>
-    <div class="span1">
-      <%= ward.unit %>
-    </div>
-    <div class="span3">
+    <div class="span3"><%= ward.name %></div>
+    <div class="span1"><%= ward.unit %></div>
+    <!-- if there is an admin, then show their name and email address -->
+    <div class="span2">
       <% if !admin.nil? %>
-        <%= link_to admin.name, edit_user_path(admin) %>
+        <%= admin.name %>
       <% else %>
         &nbsp
       <% end %>
     </div>
-    <div class ="span2">
-      <% if ward == current_ward %>
-        <%= link_to "Unload Data", changeward_path, :class => "btn btn-small btn-warning" %>
+    <div class ="span3">
+      <% if !admin.nil? %>
+        <%= mail_to admin.email, admin.email %>
       <% else %>
-        <%= link_to "Load Data", changeward_path(:ward_id => ward.id), :class => "btn btn-small btn-success" %>
+        &nbsp
       <% end %>
-    </div> 
+    </div>
+    <!-- prepare a button to delete the ward -->
     <div class="span1">
-      <%= link_to "Delete", ward, method: :delete, class: "btn btn-small btn-danger", 
-                  confirm: "Are you sure you want to permanently delete this ward and all of its records?", "data-confirm-fade" => true, 
-                  "data-confirm-title" => "Delete #{ward.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
+      <%= link_to "Delete", ward, method: :delete, class: "btn btn-small btn-danger", confirm: "Are you sure you want to permanently delete this ward and all of its records?", "data-confirm-fade" => true, "data-confirm-title" => "Delete #{ward.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
     </div>
+  <!-- a user is viewing a list of wards to request access, display each ward's info -->
   <% else %>
-    <div class="span3">
-      <%= ward.name %>
-    </div>
+    <div class="span3"><%= ward.name %></div>
+    <!-- if there is an admin, then show their name and email address -->
     <div class="span2">
       <% if !admin.nil? %>
         <%= admin.name %>
@@ -44,6 +42,7 @@
         &nbsp
       <% end %>
     </div>
+    <!-- if the user already requested access to this ward, show 'pending', otherwise prepare a button to request access -->
     <div class="span1">
       <center>
         <% if current_user.ward_id == ward.id %>

@@ -1,14 +1,16 @@
 <% provide(:title, 'Investigators') %>
 <%= render 'layouts/tabs' %>
 <div class="container">
-  <fullbody class="span11" style="height:480px;">
+  <fullbody class="span11" style="min-height:480px;">
+    <!-- show all investigators -->
   	<%= render 'families_list' %>
 	  <div class="span1">
-	    <%= link_to "<i class='icon-white icon-plus'></i>".html_safe, newfamily_path, class: "btn btn-medium btn-primary" %>
+	    <%= link_to "<i class='icon-white icon-plus'></i>".html_safe, new_family_path, class: "btn btn-medium btn-primary" %>
 	  </div>
     <div class="span1">
       &nbsp
     </div>
+    <!-- show pagination -->
     <div class="span8 pull-right" style="text-align:right;">
       <%= will_paginate @families, :inner_window => 2, :outer_window => 1, style: "margin: 0 15px 0 0;" %>
     </div>

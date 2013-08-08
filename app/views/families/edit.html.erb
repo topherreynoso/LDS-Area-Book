@@ -1,9 +1,10 @@
-<% provide(:title, "Edit family") %> 
+<% provide(:title, "Edit Family") %> 
 <%= render 'layouts/tabs' %>
 <div class="container">
-  <fullbody class="span11">
+  <fullbody class="span11" style="min-height:480px;">
     <div class="offset3 span5">
       <center><h4>Edit Family</h4></center>
+      <!-- set up a form for the selected family and prefill it with the family's values -->
       <%= form_for(@family) do |f| %>
         <%= render 'shared/error_messages' %>
         <%= f.label :name, "Family Name (e.g. Smith, Joe & Jane)" %>
@@ -16,27 +17,26 @@
         <%= f.text_field :address, :value => @address, :class => "span5" %>
         <%= f.label :children, "Names of Children (if applicable)" %>
         <%= f.text_field :children, :value => @children, :class => "span5" %>
-        <div class="row">
-          <div class="span1">
+        <div class="row" style="margin-bottom:30px;">
+          <div class="span2">
             <%= f.label :investigator, "Investigator?" %>
           </div>
-          <div class="span1">
-            &nbsp&nbsp<%= f.check_box :investigator %>
+          <div class="span1" style="margin:-3px 0 0 0;">
+            <%= f.check_box :investigator %>
           </div>
         </div>
-        <h4>&nbsp</h4>
         <div class="row">
           <div class="span1">
             <%= f.submit "Save", class: "btn btn-medium btn-primary" %>
           </div>
+          <!-- prepare a button to show a report of all activity associated with the family -->
           <div class="span2">
             <%= link_to "View Report", reports_path(:family_id => @family.id), class: "btn btn-medium btn-secondary" %>
           </div>
+          <!-- prepare a button to archive the family -->
           <div class="span2">
             <%= link_to "Archive Family", archive_path(:archive_family => @family.id, :family_id => @family.id), class: "btn btn-medium btn-warning",
-                        confirm: "Are you sure you want to archive this family and all of its activity records?", "data-confirm-fade" => true, 
-                        "data-confirm-title" => "Archive #{@name}", "data-confirm-proceed" => "Archive", 
-                        "data-confirm-proceed-class" => "btn-warning" %>
+                        confirm: "Are you sure you want to archive this family and all of its activity records?", "data-confirm-fade" => true, "data-confirm-title" => "Archive #{@name}", "data-confirm-proceed" => "Archive", "data-confirm-proceed-class" => "btn-warning" %>
           </div>
         </div>
       <% end %>

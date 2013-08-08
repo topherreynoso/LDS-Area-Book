@@ -1,43 +1,50 @@
 <header class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
+      <!-- if a ward is set, make the title the ward's name -->
       <% if current_ward.nil? %>
         <%= link_to "LDS Area Book", root_path, id: "logo" %>
       <% else %>
         <%= link_to "#{current_ward.name} Ward", root_path, id: "logo" %>
       <% end %>
       <nav>
+        <!-- set home and help on the menu -->
         <ul class="nav pull-right">
           <li><%= link_to "Home", root_path %></li>
           <li><%= link_to "Help", help_path %></li>
+          <!-- if the user is signed in and is an admin or master show other menu options -->
           <% if signed_in? %>
-            <% if current_user.admin? %>
-              <% if current_ward %>
+            <% if current_user.admin? || current_user.master? %>
+              <!-- if there is a valid current ward then show the users index link with an indicator if there are users awaiting access -->
+              <% if current_ward && ward_decryptor_valid? && current_user.admin? %>
                 <% unconfirmed_count = current_ward.users.where(:ward_confirmed => false).count %>
                 <% if unconfirmed_count > 0 %>
                   <li><%= link_to "Users (#{unconfirmed_count})", users_path, :style => "color:red !important;" %></li>
                 <% else %>
                   <li><%= link_to "Users", users_path %></li>
                 <% end %>
-              <% else %>
-                <li><%= link_to "Users", users_path %></li>
+              <% end %>
+              <!-- show the master user an index of all users system-wide, and an index of all wards -->
+              <% if current_user.master? %>
+                <li><%= link_to "All Users", all_users_path %></li>
+                <li><%= link_to "Wards", wards_path %></li>
               <% end %>
             <% end %>
-            <% if current_user.master? %>
-              <li><%= link_to "Wards", wards_path %></li>
-            <% end %>
+            <!-- create a dropdown menu for the user to alter user info or sign out -->
             <li id="fat-menu" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 Account <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
                 <li><%= link_to "Account Settings", edit_user_path(current_user) %></li>
-                <% if current_user.admin && current_ward %>
+                <!-- if the user is and admin and there is a current valid ward, allow access to the ward settings -->
+                <% if current_user.admin && current_ward && ward_decryptor_valid? %>
                   <li><%= link_to "Ward Settings", edit_ward_path(current_ward) %></li>
                 <% end %>
                 <li><%= link_to "Sign out", signout_path, method: "delete" %></li>
               </ul>
             </li>
+          <!-- no user is signed in so provide a link to do so -->
           <% else %>
             <li><%= link_to "Sign in", signin_path %></li>
           <% end %>

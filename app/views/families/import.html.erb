@@ -1,30 +1,28 @@
 <% provide(:title, 'Update Ward') %>
 <%= render 'layouts/tabs' %>
 <div class="container">
-  <fullbody class="span11" style="min-height: 480px;">
+  <fullbody class="span11" style="min-height:480px;">
+    <!-- if a file has already been imported, display the imported families for adding, archiving, and updating -->
     <% if @add_families || @remove_families || @update_families %>
       <%= render 'confirm_import' %>
+    <!-- allow the user to select a csv file for uploading -->
     <% else %>
       <center><h3>Update Ward List</h3></center>
-      <h4>&nbsp</h4>
       <div class="row offset2 span8">
         <div class="row">
           <div class="span1"><h4>Step 1:</h4></div>
-          <div class="span6"><%= link_to "Download CSV", "https://lds.org/directory/services/ludrs/unit/member-list/#{current_ward.unit}/csv?includeOptedOut=true", class: "btn btn-medium btn-success" %></div>
         </div>
-        <div class="row">
-          <div class="span7"><h5>Download the latest ward list from <%= link_to "lds.org", "http://www.lds.org" %> by clicking the button above. You may be prompted to log in to your LDS account.</h5></div>
+        <div class="row" style="margin-bottom:30px;">
+          <div class="span7"><h5>Prepare a CSV file with the most recent family information. Make sure that the file has headers with the following title in the first column: Family Name. The file should also include headers with the following titles: Couple Name, Family Address, Family Phone, Family Email. Additionally, the twelfth column should contain the names of any children.</h5></div>
         </div>
-        <div class="span7"><h4>&nbsp</h4></div>
         <%= form_tag import_families_path, multipart: true do %>
           <div class="row">
             <div class="span1"><h4>Step 2:</h4></div>
             <div class="span7"><%= file_field_tag :file, :accept => 'text/csv' %><p></div>
           </div>
-          <div class="row">
-            <div class="span7"><h5>Select the csv file you downloaded in step 1 and press the button below. You will be asked to confirm any changes to the ward list.</h5></div>
+          <div class="row" style="margin-bottom:30px;">
+            <div class="span7"><h5>Select the csv file you prepared in step 1 and press the button below. You will be asked to confirm any changes to the ward list.</h5></div>
           </div>
-          <h5>&nbsp</h5>
           <%= submit_tag "Import", class: "btn btn-medium btn-primary" %>
         <% end %>
       </div>

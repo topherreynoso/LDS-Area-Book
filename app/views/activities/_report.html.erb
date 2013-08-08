@@ -1,42 +1,47 @@
+<!-- if there are no activites for display or a family has been selected -->
 <% if !@activities || @selected_family %>
   <div class="row">
     <div class="span11" style="overflow: auto;">
       <table class="table table-condensed">
-        <thead class="fourteenfifty">  
+        <!-- set up the header for the family information -->
+        <thead style="width:1250px;">  
           <tr>
-            <th class="twofifty">Family Name</th>  
-            <th class="hundredfifty">Family Phone</th>  
-            <th class="twofifty">Family Email</th>
-            <th class="twofifty">Family Address</th>
-            <th class="twofifty">Child Names</th>
-            <th class="hundred">Member?</th>
+            <th style="width:250px;">Family Name</th>  
+            <th style="width:150px;">Family Phone</th>  
+            <th style="width:250px;">Family Email</th>
+            <th style="width:250px;">Family Address</th>
+            <th style="width:250px;">Child Names</th>
+            <th style="width:100px;">Member?</th>
           </tr>
         </thead>
-        <tbody class="fiftyhigh fourteenfifty">
+        <!-- if a family was selected, show family information -->
+        <tbody style="height:50px; width:1250px;">
           <% if @selected_family %>
             <tr>
-              <td class="twofifty"><%= link_to ward_decryptor.decrypt_and_verify(@selected_family.name), edit_family_path(@selected_family) %></td>
-              <td class="hundredfifty">
+              <td style="width:250px;">
+                <%= link_to ward_decryptor.decrypt_and_verify(@selected_family.name), edit_family_path(@selected_family) %>
+              </td>
+              <td style="width:150px;">
                 <% if !@selected_family.phone.nil? && @selected_family.phone != "" %>
                   <%= ward_decryptor.decrypt_and_verify(@selected_family.phone) %>
                 <% end %>
               </td>
-              <td class="twofifty">
+              <td style="width:250px;">
                 <% if !@selected_family.email.nil? && @selected_family.email != "" %>
                   <%= ward_decryptor.decrypt_and_verify(@selected_family.email) %>
                 <% end %>
               </td>
-              <td class="twofifty">
+              <td style="width:250px;">
                 <% if !@selected_family.address.nil? && @selected_family.address != "" %>
                   <%= ward_decryptor.decrypt_and_verify(@selected_family.address) %>
                 <% end %>
               </td>
-              <td class="twofifty">
+              <td style="width:250px;">
                 <% if !@selected_family.children.nil? && @selected_family.children != "" %>
                   <%= ward_decryptor.decrypt_and_verify(@selected_family.children) %>
                 <% end %>
               </td>
-              <td class="hundred">
+              <td style="width:100px;">
                 <% if @selected_family.investigator %>
                   False
                 <% else %>
@@ -52,16 +57,18 @@
   <div class="row">
     <div class="span11" style="overflow: auto;">
       <table class="table table-condensed table-hover">
-        <thead class="twelvehundred">  
+        <!-- set up the header for the activity reports -->
+        <thead style="width:1200px;">  
           <tr>  
-            <th class="hundred">Visited?</th>
-            <th class="hundred">Date</th>
-            <th class="fivehundred">Notes</th>
-            <th class="twofifty">Reported By</th>
-            <th class="twofifty">Input By</th>
+            <th style="width:100px;">Visited?</th>
+            <th style="width:100px;">Date</th>
+            <th style="width:500px;">Notes</th>
+            <th style="width:250px;">Reported By</th>
+            <th style="width:250px;">Input By</th>
           </tr>  
         </thead>
-        <tbody class="twelvehundred threehundredhigh">
+        <!-- display any activities that have been selected -->
+        <tbody style="width:1200px; height:300px;">
           <% if @activities && @activities.count > 0 %> 
             <%= render @activities %>
           <% end %>
@@ -69,9 +76,11 @@
       </table>
     </div>
   </div>
+<!-- if there are activities but no family was selected -->
 <% else %>
   <div class="row">
     <div class="span11" style="overflow: auto;">
+      <!-- determine the proper title for the report -->
       <center><h5>
         <% if @report_date %>
           <% if @report_date < 12.months.ago %>
@@ -90,17 +99,19 @@
         <% end %>
       </h5></center>
       <table class="table table-condensed table-hover">
-        <thead class="fourteenfifty">  
+        <!-- set up the header for the activity reports -->
+        <thead style="width:1450px;">  
           <tr>  
-            <th class="twofifty">Family Name</th>  
-            <th class="hundred">Visited?</th>
-            <th class="hundred">Date</th>
-            <th class="fivehundred">Notes</th>
-            <th class="twofifty">Reported By</th>
-            <th class="twofifty">Input By</th>  
+            <th style="width:250px;">Family Name</th>  
+            <th style="width:100px;">Visited?</th>
+            <th style="width:100px;">Date</th>
+            <th style="width:500px;">Notes</th>
+            <th style="width:250px;">Reported By</th>
+            <th style="width:250px;">Input By</th>  
           </tr>  
         </thead>
-        <tbody class="fourteenfifty threeeightytwohigh"> 
+        <!-- display any activities that have been selected -->
+        <tbody style="width:1450px; height:357px;"> 
           <% if @activities && @activities.count > 0 %>
             <%= render @activities %>
           <% end %>

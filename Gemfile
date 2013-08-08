@@ -10,7 +10,6 @@ gem 'bootstrap-datepicker-rails'
 gem 'twitter-bootstrap-rails-confirm'
 gem 'newrelic_rpm'
 gem 'apartment'
-gem 'mechanize'
 
 group :development, :test do
   gem 'sqlite3', '1.3.7'

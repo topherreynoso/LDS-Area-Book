@@ -12,13 +12,14 @@
 #
 
 class Ward < ActiveRecord::Base
+  attr_accessor :confirm_again
   has_many :users
 
   before_save :create_ward_token
 
   validates :name, presence: true
-  validates :confirm, presence: true
-  validates :unit, presence: true, uniqueness: true
+  validates :confirm, presence: true, length: { minimum: 6 }
+  validates :unit, presence: true, length: { minimum: 6, maximum: 6 }, uniqueness: true
 
   default_scope order: 'name ASC'
 

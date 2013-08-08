@@ -2,26 +2,27 @@
 <%= render 'layouts/tabs' %>
 <div class="container">
   <fullbody class="span11">
-    <h1>All wards</h1>
+    <h1>All Wards</h1>
     <div class="row">
+      <!-- create a header for the ward info being displayed -->
       <div class="span11">
       	<strong>
       	  <div class="span3">Ward Name</div>
-    	  <div class="span1">Unit #</div>
-    	  <div class="span3">Admin</div>
+    	  <div class="span1">Unit</div>
+    	  <div class="span2">Admin</div>
+        <div class="span3">Email</div>
     	</strong>
       </div>
     </div>
     <div class="row">
       <div class="span11">
-    	  <ul class="users" style="height:350px;">
+        <!-- show each ward in the database -->
+    	  <ul class="users" style="height:365px;">
       	  <%= render @wards %>
    		  </ul>
-    	  <div class="span2">
-      	  <h5><%= link_to "Add Ward", newward_path, class: "btn btn-medium btn-primary" %></h5>
-    	  </div>
-    	  <div class="span8 pull-right" style="text-align: right;">
-      	  <%= will_paginate @activities, :inner_window => 2, :outer_window => 1, style: "margin: 10px 20px 0 0;" %>
+        <!-- show pagination -->
+    	  <div class="span8 pull-right" style="text-align:right;">
+      	  <%= will_paginate @activities, :inner_window => 2, :outer_window => 1, style: "margin: 0 15px 0 0;" %>
     	  </div>
       </div>
     </div>

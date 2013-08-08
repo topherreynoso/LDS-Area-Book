@@ -1,6 +1,8 @@
+<!-- the activity being displayed is on a family report -->
 <% if @selected_family %>
   <tr>
-    <td class="hundred">
+    <td style="width:100px;">
+      <!-- determine if the activity resulted in a visit or not, link to editing the activity if it is not archived -->
       <% if activity.visit? %>
         <% if @selected_family.archived? %>
           Yes
@@ -15,10 +17,11 @@
         <% end %>
       <% end %>
     </td>
-    <td class="hundred"><%= activity.activity_date.strftime("%m/%d/%y") %></td>
-    <td class="fivehundred"><%= activity.notes %></td>
-    <td class="twofifty"><%= activity.reported_by %></td>
-    <td class="twofifty">
+    <!-- display information for the activity -->
+    <td style="width:100px;"><%= activity.activity_date.strftime("%m/%d/%y") %></td>
+    <td style="width:500px;"><%= activity.notes %></td>
+    <td style="width:250px;"><%= activity.reported_by %></td>
+    <td style="width:250px;">
       <% if User.find(activity.user_id) %>
         <%= User.find(activity.user_id).name %>
       <% else %>
@@ -26,20 +29,24 @@
       <% end %>
     </td>
   </tr>
+<!-- the activity being displayed is a report by date or a report of all activities -->
 <% else %>
-  <tr>  
-    <td class="twofifty"><%= link_to ward_decryptor.decrypt_and_verify(Family.find(activity.family_id).name), edit_family_path(Family.find(activity.family_id)) %></td>  
-    <td class="hundred">
+  <tr>
+    <!-- decrypt the activity's family name and let it link to edit the family -->
+    <td style="width:250px;"><%= link_to ward_decryptor.decrypt_and_verify(Family.find(activity.family_id).name), edit_family_path(Family.find(activity.family_id)) %></td>
+    <!-- determine if the activity resulted in a visit or not, link to editing the activity -->
+    <td style="width:100px;">
       <% if activity.visit? %>
         <%= link_to "Yes", edit_activity_path(activity) %>
       <% else %>
         <%= link_to "No", edit_activity_path(activity) %>
       <% end %>
     </td>
-    <td class="hundred"><%= activity.activity_date.strftime("%m/%d/%y") %></td>
-    <td class="fivehundred"><%= activity.notes %></td>
-    <td class="twofifty"><%= activity.reported_by %></td>
-    <th class="twofifty">
+    <!-- display information for the activity -->
+    <td style="width:100px;"><%= activity.activity_date.strftime("%m/%d/%y") %></td>
+    <td style="width:500px;"><%= activity.notes %></td>
+    <td style="width:250px;"><%= activity.reported_by %></td>
+    <th style="width:250px;">
       <% if User.find(activity.user_id) %>
         <%= User.find(activity.user_id).name %>
       <% else %>

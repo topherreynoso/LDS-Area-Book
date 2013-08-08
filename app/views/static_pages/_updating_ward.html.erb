@@ -1,20 +1,21 @@
 <h1 style="margin-bottom:10px;">Updating the Ward List</h1>
-<center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", import_path %> to import ward data from MLS.</h3></center>
+<center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", import_path %> to import ward data from a CSV.</h3></center>
 <div class="row">
+  <!-- make sure that the image is showing and that the tutorial content resolves the issue -->
   <div class="span4">
-  <%= image_tag('updating_ward.png') %>
+    <%= image_tag('updating_ward.png') %>
   </div>
   <div class="span5">
-    <h4>Use the green button at the bottom of the ward list to update with the latest information from MLS. Log in at <%= link_to "lds.org", "http://www.lds.org" %> and then click the "Download CSV" button, as indicated here.</h4>
-    <h4>After you have downloaded the latest CSV file from lds.org, select it in step two and click the blue button to import any updates.</h4>
+    <h4>Use the green button at the bottom of the ward list to update with the latest information from MLS. Prepare a csv file with your ward's updated info.</h4>
+    <h4>After you have the latest CSV file, select it in step two and click the blue button to import any updates.</h4>
     <h4>You will be shown all changes and asked to confirm before any changes are made to the ward list.</h4>
   </div> 
 </div>
-<div class="row" style="padding-top: 100px;">
+<div class="row" style="padding-top:110px;">
   <div class="span2">
     <%= link_to "Back to Menu", tutorial_path(:type => "admin") %>
   </div>
   <div class="offset3 span4" style="text-align:right;">
-    <%= link_to 'Continue to "Importing MLS Changes"', tutorial_path(:type => "importing_ward") %>
+    <%= link_to 'Continue to "Importing Ward Changes"', tutorial_path(:type => "importing_ward") %>
   </div>
 </div>

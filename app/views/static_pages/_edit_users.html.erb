@@ -1,8 +1,9 @@
 <h1 style="margin-bottom:10px;">Editing Users</h1>
 <center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", users_path %> to select a user to edit.</h3></center>
 <div class="row">
+  <!-- make sure that the image is showing and that the tutorial content resolves the issue -->
   <div class="span4">
-  <%= image_tag('update_users.png') %>
+    <%= image_tag('update_users.png') %>
   </div>
   <div class="span5">
     <h4>You can update user accounts for ward council members.</h4>
@@ -10,7 +11,7 @@
     <h4>Remember that passwords must be at least six characters.</h4>
   </div> 
 </div>
-<div class="row" style="padding-top: 100px;">
+<div class="row" style="padding-top:105px;">
   <div class="span2">
     <%= link_to "Back to Menu", tutorial_path(:type => "admin") %>
   </div>

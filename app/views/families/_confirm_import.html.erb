@@ -1,184 +1,210 @@
-<center><h3>Proposed Changes</h3></center>
+<center><h4>Proposed Changes</h4></center>
+<!-- set up a form for confirming importing families -->
 <%= form_tag confirm_families_path do %>
+  <!-- show families that can be added to the ward -->
   <% if @add_families.count > 0 %>
-    <div class="span4">
-      <h4><a href="#" data-toggle="tooltip" id="add_tip">Add Selected Families:</a></h4>
+    <div class="span3">
+      <h4><a href="#" data-toggle="tooltip" id="add_tip">Add Selected:</a></h4>
     </div>
-  	<div class="offset3 span3">
-      <%= collection_select(nil, :family_id, @ward_families, :id, :decrypted_name, {:prompt => "Current Ward Families"}) %>
+    <!-- add button to select or deselct all -->
+    <div class="span4">
+      <button type="button" id="check_all_new" class="btn-warning btn-small" style="margin:6px 0 0 40px;">Check / Uncheck All</button>
+    </div>
+    <!-- prepare a button with a list of all families in the ward for comparison to imported families -->
+  	<div class="span3">
+      <%= collection_select(nil, :family_id, @ward_families, :id, :decrypted_name, {:prompt => "Current Ward Families"}, :class => "btn-small", :style => "margin-top:5px;") %>
     </div>
     <div class="row">
   	  <div class="span11" style="overflow: auto;">
         <table class="table table-condensed table-hover">
-          <thead style="width: 1150px;">  
-            <tr>  
-              <th class="twofifty">Family Name</th>  
-              <th class="hundredfifty">Family Phone</th>  
-          	  <th class="twofifty">Family Email</th>
-          	  <th class="twofifty">Family Address</th>
-          	  <th class="twofifty">Child Names</th>  
-        	</tr>  
+          <!-- set up the header for each family that can be added -->
+          <thead style="width: 1100px;">
+            <tr>
+              <th style="width:300px;">Family Name</th>
+              <th style="width:300px;">Family Contact Info</th>
+          	  <th style="width:250px;">Family Address</th>
+          	  <th style="width:250px;">Child Names</th>
+        	  </tr>
       	  </thead>
-      	  <tbody style="width: 1150px; height: 150px;"> 
+      	  <tbody style="width:1100px; height:150px;">
+            <!-- add each family and its information along with a checkbox to select it for adding -->
       	  	<% @add_families.each_with_index do |family,i| %>
       	  	  <%= fields_for "add_families[#{i}]", family do |f| %>
-      	  		<tr>
-  			  	  <td class="twofifty">
-  			  	  	<label class="checkbox">
-  	  	  			  <%= f.check_box :confirmed_change %>
-  	  	  			  <%= family.name %>
-  	  	  			</label>
-  			  	  </td>
-			  	  <td class="hundredfifty"><%= family.phone %></td>
-  			  	  <td class="twofifty"><%= family.email %></td>
-			  	  <td class="twofifty"><%= family.address %></td>
-  			  	  <td class="twofifty"><%= family.children %></td>
-				</tr>
-				<%= f.hidden_field :id %>
-  	  	  		<%= f.hidden_field :name %>
-  	  	  		<%= f.hidden_field :phone %>
-  	  	  		<%= f.hidden_field :email %>
-  	  	  		<%= f.hidden_field :address %>
-  	  	  		<%= f.hidden_field :children %>
-  	  	  		<%= f.hidden_field :investigator %>
-  	  	  		<%= f.hidden_field :watched %>
-  	  	  		<%= f.hidden_field :archived %>
-			  <% end %>
-			<% end %>
+      	  		  <tr>
+  			  	      <td style="width:300px;">
+                    <label class="checkbox" style="padding:0 0 0 0;">
+                      <%= f.check_box :confirmed_change, :style => "margin:3px 5px 0 0;", :id => "add_family" %>
+                      <%= family.name %>
+                    </label>
+  			  	      </td>
+			  	        <td style="width:300px;"><%= family.phone %><p><%= family.email %></td>
+			            <td style="width:250px;"><%= family.address %></td>
+  		  	        <td style="width:250px;"><%= family.children %></td>
+				        </tr>
+                <!-- add hidden fields for all of the family's attributes -->
+				        <%= f.hidden_field :id %>
+  	  	  		  <%= f.hidden_field :name %>
+  	  	  		  <%= f.hidden_field :phone %>
+  	  	  		  <%= f.hidden_field :email %>
+  	  	  		  <%= f.hidden_field :address %>
+  	  	  		  <%= f.hidden_field :children %>
+  	  	  		  <%= f.hidden_field :investigator %>
+  	  	  		  <%= f.hidden_field :watched %>
+  	  	  		  <%= f.hidden_field :archived %>
+              <% end %>
+            <% end %>
       	  </tbody>
         </table>
       </div>
     </div>
   <% end %>
+  <!-- show families that can be archived -->
   <% if @remove_families.count > 0 %>
-  	<div class="span4">
-      <h4><a href="#" data-toggle="tooltip" id="archive_tip">Archive Selected Families:</a></h4>
+  	<div class="span3">
+      <h4><a href="#" data-toggle="tooltip" id="archive_tip">Archive Selected:</a></h4>
     </div>
-  	<div class="offset3 span3">
-      <%= collection_select(nil, :family_id, @archived_families, :id, :decrypted_name, {:prompt => "Current Archived Families"}) %>
+    <!-- add button to select or deselct all -->
+    <div class="span4">
+      <button type="button" id="check_all_archive" class="btn-warning btn-small" style="margin:6px 0 0 40px;">Check / Uncheck All</button>
+    </div>
+    <!-- prepare a button with a list of all families that are currently archived in the ward -->
+  	<div class="span3">
+      <%= collection_select(nil, :family_id, @archived_families, :id, :decrypted_name, {:prompt => "Current Archived Families"}, :class => "btn-small", :style => "margin-top:5px;") %>
   	</div>
   	<div class="row">
   	  <div class="span11" style="overflow: auto;">
         <table class="table table-condensed table-hover">
-          <thead style="width: 1150px;">  
-            <tr>  
-              <th class="twofifty">Family Name</th>  
-              <th class="hundredfifty">Family Phone</th>  
-          	  <th class="twofifty">Family Email</th>
-          	  <th class="twofifty">Family Address</th>
-          	  <th class="twofifty">Child Names</th>  
-        	</tr>  
+          <!-- set up the header for each family that can be archived -->
+          <thead style="width: 1100px;">
+            <tr>
+              <th style="width:300px;">Family Name</th>
+              <th style="width:300px;">Family Contact Info</th>
+          	  <th style="width:250px;">Family Address</th>
+          	  <th style="width:250px;">Child Names</th>
+            </tr>
       	  </thead>
-      	  <tbody style="width: 1150px; height: 150px;"> 
+      	  <tbody style="width:1100px; height:150px;">
+            <!-- add each family and its information along with a checkbox to select it for archiving -->
       	  	<% @remove_families.each_with_index do |family,i| %>
       	  	  <%= fields_for "remove_families[#{i}]", family do |f| %>
-      	  		<tr>
-  			  	  <td class="twofifty">
-  			  	  	<label class="checkbox">
-  	  	  			  <%= f.check_box :confirmed_change %>
-  	  	  			  <%= ward_decryptor.decrypt_and_verify(family.name) %>
-  	  	  			</label>
-  			  	  </td>
-			  	  <td class="hundredfifty"><%= ward_decryptor.decrypt_and_verify(family.phone) %></td>
-  			  	  <td class="twofifty"><%= ward_decryptor.decrypt_and_verify(family.email) %></td>
-			  	  <td class="twofifty"><%= ward_decryptor.decrypt_and_verify(family.address) %></td>
-  			  	  <td class="twofifty"><%= ward_decryptor.decrypt_and_verify(family.children) %></td>
-				</tr>
-				<%= f.hidden_field :id %>
-  	  	  		<%= f.hidden_field :name %>
-  	  	  		<%= f.hidden_field :phone %>
-  	  	  		<%= f.hidden_field :email %>
-  	  	  		<%= f.hidden_field :address %>
-  	  	  		<%= f.hidden_field :children %>
-  	  	  		<%= f.hidden_field :investigator %>
-  	  	  		<%= f.hidden_field :watched %>
-  	  	  		<%= f.hidden_field :archived %>
-			  <% end %>
-			<% end %>
+                <tr>
+  			  	      <td style="width:300px;">
+                    <label class="checkbox" style="padding:0 0 0 0;">
+                      <%= f.check_box :confirmed_change, :style => "margin:3px 5px 0 0;", :id => "archive_family" %>
+                      <%= ward_decryptor.decrypt_and_verify(family.name) %>
+                    </label>
+  			  	      </td>
+			  	        <td style="width:300px;">
+                    <%= ward_decryptor.decrypt_and_verify(family.phone) %><p>
+                    <%= ward_decryptor.decrypt_and_verify(family.email) %>
+                  </td>
+			  	        <td style="width:250px;"><%= ward_decryptor.decrypt_and_verify(family.address) %></td>
+  			  	      <td style="width:250px;"><%= ward_decryptor.decrypt_and_verify(family.children) %></td>
+				        </tr>
+                <!-- add hidden fields for all of the family's attributes -->
+				        <%= f.hidden_field :id %>
+  	  	  		  <%= f.hidden_field :name %>
+  	  	  		  <%= f.hidden_field :phone %>
+  	  	  		  <%= f.hidden_field :email %>
+  	  	  		  <%= f.hidden_field :address %>
+  	  	  		  <%= f.hidden_field :children %>
+  	  	  		  <%= f.hidden_field :investigator %>
+  	  	  		  <%= f.hidden_field :watched %>
+  	  	  		  <%= f.hidden_field :archived %>
+              <% end %>
+            <% end %>
       	  </tbody>
         </table>
       </div>
     </div>
   <% end %>
+  <!-- show families that can be updated -->
   <% if @update_families.count > 0 %>
-  	<div class="span10">
-      <h4><a href="#" data-toggle="tooltip" id="update_tip">Update Selected Families:</a></h4>
+  	<div class="span3">
+      <h4><a href="#" data-toggle="tooltip" id="update_tip">Update Selected:</a></h4>
+    </div>
+    <!-- add button to select or deselct all -->
+    <div class="span7">
+      <button type="button" id="check_all_update" class="btn-warning btn-small" style="margin:6px 0 0 40px;">Check / Uncheck All</button>
     </div>
 	  <div class="row">
-  	  <div class="span11" style="overflow: auto;">
+  	  <div class="span11" style="overflow:auto;">
         <table class="table table-condensed table-hover">
-          <thead style="width: 1450px;">  
-            <tr>  
-              <th class="twofifty">Family Name</th>  
-              <th class="hundredfifty">Family Phone</th>  
-              <th class="twofifty">Family Email</th>
-        	    <th class="twofifty">Family Address</th>
-        	    <th class="twofifty">Child Names</th>
-        	    <th class="hundred">Archived?</th> 
-        	    <th class="hundred">Date Added</th>
-        	    <th class="hundred">Date Updated</th> 
-        	  </tr>  
+          <!-- set up the header for each family that can be updated -->
+          <thead style="width:1450px;">
+            <tr>
+              <th style="width:250px;">Family Name</th>
+              <th style="width:150px;">Family Phone</th>
+              <th style="width:250px;">Family Email</th>
+        	    <th style="width:250px;">Family Address</th>
+        	    <th style="width:250px;">Child Names</th>
+        	    <th style="width:100px;">Archived?</th>
+        	    <th style="width:100px;">Date Added</th>
+        	    <th style="width:100px;">Date Updated</th>
+        	  </tr>
       	  </thead>
-      	  <tbody style="width: 1450px; height: 300px;"> 
+      	  <tbody style="width:1450px; height:300px;">
+            <!-- add each family and its current and updated information along with a checkbox to select it for updating -->
       	 	  <% @update_families.each_with_index do |family,i| %>
       	 	    <%= fields_for "update_families[#{i}]", family do |f| %>
         		    <tr>
-  		  	        <td class="twofifty"><%= family.name %></td>
-		  	          <td class="hundredfifty">
+  		  	        <td style="width:250px;"><%= family.name %></td>
+		  	          <td style="width:150px;">
                     <% if family.phone != ward_decryptor.decrypt_and_verify(family.phone_was) %>
                       <%= ward_decryptor.decrypt_and_verify(family.phone_was) %><% else %><%= family.phone %>
                     <% end %>
                   </td>
-			  	        <td class="twofifty">
+			  	        <td style="width:250px;">
                     <% if family.email != ward_decryptor.decrypt_and_verify(family.email_was) %>
                       <%= ward_decryptor.decrypt_and_verify(family.email_was) %><% else %><%= family.email %>
                     <% end %>
                   </td>
-			  	        <td class="twofifty">
+			  	        <td style="width:250px;">
                     <% if family.address != ward_decryptor.decrypt_and_verify(family.address_was)%>
                       <%= ward_decryptor.decrypt_and_verify(family.address_was) %><% else %><%= family.address %>
                     <% end %>
                   </td>
-  			  	      <td class="twofifty">
+  			  	      <td style="width:250px;">
                     <% if family.children != ward_decryptor.decrypt_and_verify(family.children_was) %>
                       <%= ward_decryptor.decrypt_and_verify(family.children_was) %><% else %><%= family.children %>
                     <% end %>
                   </td>
-  			  	      <td class="hundred"><% if family.archived_changed? %><%= family.archived_was %><% else %><%= family.archived %><% end %></td>
-  			  	      <td class="hundred"><%= family.created_at.strftime("%m/%d/%y") %></td>
-  			          <td class="hundred"><%= family.updated_at.strftime("%m/%d/%y") %></td>
+  			  	      <td style="width:100px;"><% if family.archived_changed? %><%= family.archived_was %><% else %><%= family.archived %><% end %></td>
+  			  	      <td style="width:100px;"><%= family.created_at.strftime("%m/%d/%y") %></td>
+  			          <td style="width:100px;"><%= family.updated_at.strftime("%m/%d/%y") %></td>
 				        </tr>
 			          <tr>
-			  	        <td class="twofifty">
-			  	          <label class="checkbox">
-			  	  	        <%= f.check_box :confirmed_change %>
+			  	        <td style="width:250px;">
+                    <label class="checkbox" style="padding:0 0 0 0;">
+			  	  	        <%= f.check_box :confirmed_change, :style => "margin:3px 5px 0 0;", :id => "update_family" %>
 				  	  	      <strong>UPDATE TO:</strong>
 				  	        </label>
 				  	      </td>
-				  	      <td class="hundredfifty"><strong>
+				  	      <td style="width:150px;"><strong>
                     <% if family.phone != ward_decryptor.decrypt_and_verify(family.phone_was) %>
                       <%= family.phone %><% else %>No change
                     <% end %>
                   </strong></td>
-				  	      <td class="twofifty"><strong>
+				  	      <td style="width:250px;"><strong>
                     <% if family.email != ward_decryptor.decrypt_and_verify(family.email_was) %>
                       <%= family.email %><% else %>No change
                     <% end %>
                   </strong></td>
-			  	        <td class="twofifty"><strong>
+			  	        <td style="width:250px;"><strong>
                     <% if family.address != ward_decryptor.decrypt_and_verify(family.address_was) %>
                       <%= family.address %><% else %>No change
                     <% end %>
                   </strong></td>
-  			    	    <td class="twofifty"><strong>
+  			    	    <td style="width:250px;"><strong>
                     <% if family.children != ward_decryptor.decrypt_and_verify(family.children_was) %>
                       <%= family.children %><% else %>No change
                     <% end %>
                   </strong></td>
-  			 	  	    <td class="hundred"><strong><% if family.archived_changed? %><%= family.archived %><% else %>No change<% end %></strong></td>
-  			 	  	    <td class="hundred">&nbsp</td>
-  		  	  	    <td class="hundred">&nbsp</td>
+  			 	  	    <td style="width:100px;"><strong><% if family.archived_changed? %><%= family.archived %><% else %>No change<% end %></strong></td>
+  			 	  	    <td style="width:100px;">&nbsp</td>
+  		  	  	    <td style="width:100px;">&nbsp</td>
   		  	      </tr>
+                <!-- add hidden fields for all of the family's attributes -->
 			          <%= f.hidden_field :id %>
 	  	  		    <%= f.hidden_field :name %>
   	  	  		  <%= f.hidden_field :phone %>
@@ -195,8 +221,9 @@
       </div>
     </div>
   <% end %>
-  <%= submit_tag "Import Selected", class: "btn btn-medium btn-primary" %>
+  <div class="span2"><%= submit_tag "Import Selected", class: "btn btn-medium btn-primary" %></div>
 <% end %>
+<!-- add a tooltip with a description of each of the three import options via javascript -->
 <script>
   $('#add_tip').tooltip({ 
     placement: 'right',
@@ -210,4 +237,10 @@
     placement: 'right',
     title: 'Updates suggested for existing families. Current information will be listed first and updated information is listed in bold below the family name.'
   });
+</script>
+<!-- add a javascript to select and unselect all families in each category -->
+<script type='text/javascript'>
+    $('#check_all_new').on("click", function(){ $('input[id="add_family"]').click(); });
+    $('#check_all_archive').on("click", function(){ $('input[id="archive_family"]').click(); });
+    $('#check_all_update').on("click", function(){ $('input[id="update_family"]').click(); });
 </script>

@@ -1,63 +1,66 @@
-<% provide(:title, "Edit user") %> 
-<% if (!current_user.ward_id.nil? && current_user.ward_confirmed) || current_user.master? %>
+<% provide(:title, "Edit User") %>
+<!-- if the user has access to a confirmed ward, show the tabs at the top, otherwise hide them -->
+<% if (!current_user.ward_id.nil? && current_user.ward_confirmed) %>
   <%= render 'layouts/tabs' %>
+  <div class="container">
+    <fullbody class="span11" style="min-height:480px;">
 <% else %>
-  <div class="row">
-    <h7>&nbsp</h7>
-  </div>
+  <div class="container" style="margin-top:20px;">
+    <fullbody class="span11" style="min-height:520px;">
 <% end %>
-<div class="container">
-  <fullbody class="span11">
-    <div class="row">
-      <div class="offset3 span5">
-        <h3>&nbsp</h3>
-        <center><h4>Update account</h4></center>
-        <%= form_for(@user) do |f| %>
-          <%= render 'shared/error_messages' %>
-          <%= f.label :name %>
-          <%= f.text_field :name, :class => "span5" %>
-          <%= f.label :email %>
-          <%= f.text_field :email, :class => "span5" %>
-          <%= f.label :password %>
-          <%= f.password_field :password, :class => "span3" %>
-          <%= f.label :password_confirmation, "Confirm Password" %>
-          <%= f.password_field :password_confirmation, :class => "span3" %>
-          <% if !@user.ward_id.nil? %>
-            <div class="row">
-              <div class="span1">
-                <% if @user.ward_confirmed %>
-                  Ward:
-                <% else %>
-                  Pending:
-                <% end %>
-              </div>
-              <div class="span3">
-                <%= Ward.find(@user.ward_id).name %>
-              </div>
-            </div>
-          <% end %>
-          <div class="row" style="margin-top: 20px;">
-            <div class="span2">
-              <%= f.submit "Save changes", class: "btn btn-medium btn-primary" %>
-            </div>
-        <% end %>
-            <% if !@user.ward_id.nil? && current_user?(@user) %>
-              <div class="span3 pull-right">
-                <%= form_for(@user) do |f| %>
-                  <%= f.hidden_field :ward_confirmed, :value => false %>
-                  <%= f.hidden_field :ward_id, :value => nil %>
-                  <%= f.hidden_field :admin, :value => false %>
-                  <% if @user.ward_confirmed %>
-                    <%= f.submit "Leave Ward", class: "btn btn-medium btn-warning", confirm: "If you leave this ward you will lose access to its area book. Are you sure you want to leave?", "data-confirm-fade" => true, "data-confirm-title" => "Leave This Ward", "data-confirm-proceed" => "Leave", "data-confirm-proceed-class" => "btn-warning" %>
-                  <% else %>
-                    <%= f.submit "Rescind Ward", class: "btn btn-medium btn-warning", confirm: "Are you sure you want to rescind your request to access this ward's area book?", "data-confirm-fade" => true, "data-confirm-title" => "Rescind Your Request", "data-confirm-proceed" => "Rescind", "data-confirm-proceed-class" => "btn-warning" %>
-                  <% end %>
-                <% end %>
-              </div>
+      <div class="row">
+        <div class="offset3 span5">
+          <center><h3 style="margin:30px 0 0 0">Update Account</h3></center>
+            <!-- set up a form for the user and prefill it with the user's values -->
+            <%= form_for(@user) do |f| %>
+              <%= render 'shared/error_messages' %>
+              <%= f.label :name, :style => "margin-top:40px;" %>
+              <%= f.text_field :name, :class => "span5" %>
+              <%= f.label :email %>
+              <%= f.text_field :email, :class => "span5", :style => "margin-bottom:20px;" %>
+              <%= f.password_field :password, :placeholder => "password (min 6 characters)", :class => "span3" %>
+              <%= f.password_field :password_confirmation, :placeholder => "confirm password", :class => "span3" %>
+              <!-- if there is a ward and it is confirmed, let the user know, otherwise indicate that it is unconfirmed -->
+              <% if !@user.ward_id.nil? %>
+                <div class="row" style="margin-top:10px;">
+                  <div class="span1">
+                    <% if @user.ward_confirmed %>
+                      Ward:
+                    <% else %>
+                      Pending:
+                    <% end %>
+                  </div>
+                  <div class="span3">
+                    <%= Ward.find(@user.ward_id).name %>
+                  </div>
+                </div>
+              <% end %>
+              <div class="row" style="margin-top: 20px;">
+                <div class="span2">
+                  <%= f.submit "Save changes", class: "btn btn-medium btn-primary" %>
+                </div>
             <% end %>
-          </div>
-        <h2>&nbsp</h2>
+                <% if !@user.ward_id.nil? && current_user?(@user) %>
+                  <div class="span2">
+                    <!-- set up a button to let the user either leave their confirmed ward or rescind a request to join a ward -->
+                    <%= form_for(@user) do |f| %>
+                      <%= f.hidden_field :ward_confirmed, :value => false %>
+                      <%= f.hidden_field :ward_id, :value => nil %>
+                      <%= f.hidden_field :admin, :value => false %>
+                      <% if @user.ward_confirmed %>
+                        <%= f.submit "Leave Ward", class: "btn btn-medium btn-warning", confirm: "If you leave this ward you will lose access to its area book. Are you sure you want to leave?", "data-confirm-fade" => true, "data-confirm-title" => "Leave This Ward", "data-confirm-proceed" => "Leave", "data-confirm-proceed-class" => "btn-warning" %>
+                      <% else %>
+                        <%= f.submit "Rescind Ward", class: "btn btn-medium btn-warning", confirm: "Are you sure you want to rescind your request to access this ward's area book?", "data-confirm-fade" => true, "data-confirm-title" => "Rescind Your Request", "data-confirm-proceed" => "Rescind", "data-confirm-proceed-class" => "btn-warning" %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <!-- allow a user to delete their own account -->
+                  <div class="span1">
+                    <%= link_to "Delete", @user, method: :delete, class: "btn btn-medium btn-danger", confirm: "Deleting your account is a permanent action. You will lose access to any ward area book you are a member of. Are you sure you want to permanently delete your account?", "data-confirm-fade" => true, "data-confirm-title" => "Delete #{@user.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
+                  </div>
+                <% end %>
+              </div>
+        </div>
       </div>
-    </div>
-  </fullbody>
-</div>
+    </fullbody>
+  </div>

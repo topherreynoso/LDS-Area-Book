@@ -1,37 +1,53 @@
 <% provide(:title, "Ward Settings") %> 
 <%= render 'layouts/tabs' %>
 <div class="container">
-  <fullbody class="span11" style="height:500px;">
-    <h2 style="margin: 20px 0 60px 0;">Ward Settings</h2>
+  <fullbody class="span11" style="min-height:480px;">
+    <h2 style="margin:20px 0 60px 0;">Ward Settings</h2>
     <div class="row">
+      <!-- show the ward info -->
       <div class="offset1 span3">
-        <h4 style="margin:30px 0 20px 0;">Ward Name</h4>
+        <h4 style="margin:30px 0 40px 0;"><a href="#" data-toggle="tooltip" id="name_tip">Ward Name</a></h4>
         <%= form_for(@ward) do |f| %>
           <%= render 'shared/error_messages' %>
           <%= "Ward name (e.g. Newport 2nd)" %>
           <%= f.text_field :name %>
-          <h5 style="margin-bottom:40px;"><%= "Unit number: #{@ward.unit}" %></h5>
-          <%= f.submit "Save name", class: "btn btn-medium btn-primary" %>
+          <h5 style="margin-bottom:20px;"><%= "Unit Handle: #{@ward.unit}" %></h5>
+          <%= f.submit "Update name", class: "btn btn-medium btn-primary", confirm: "Are you sure you want to change this ward's name?", "data-confirm-fade" => true, "data-confirm-title" => "Rename #{@ward.name}", "data-confirm-proceed" => "Rename", "data-confirm-proceed-class" => "btn-primary" %>
         <% end %>
       </div>
+      <!-- allow the user to change the ward encryption password -->
       <div class="span3">
         <center>
-          <h4 style="margin: 30px 0 20px 0;">Ward Password</h4>
+          <h4 style="margin: 30px 0 20px 0;"><a href="#" data-toggle="tooltip" id="password_tip">Ward Password</a></h4>
           <%= form_tag change_password_path do %>
             <%= password_field_tag :old_password, nil, :placeholder => "current password" %><p>
             <%= password_field_tag :password, nil, :placeholder => "new password (min 6 char)", :style => "margin: 0 0 0 0;" %><p>
             <%= password_field_tag :password_confirm, nil, :placeholder => "confirm new password" %><p>
-            <%= submit_tag "Change password", :class => "btn btn-medium btn-primary"  %>
+            <%= submit_tag "Change password", :class => "btn btn-medium btn-warning", confirm: "If you change this ward's password you will need to distribute the new password to all users or they will not be able to access your area book. There is no way to recover this password so make sure that you record it somewhere that you can retrieve it. Are you sure you want to change this ward's password?", "data-confirm-fade" => true, "data-confirm-title" => "Change Ward Password", "data-confirm-proceed" => "Change", "data-confirm-proceed-class" => "btn-warning"  %>
           <% end %>
         </center>
       </div>
+      <!-- allow the user to delete the ward and all of its records -->
       <div class="span3" style="text-align:right;">
-        <h4 style="margin:30px 0 30px 0;">Delete Ward</h4>
+        <h4 style="margin:30px 0 30px 0;"><a href="#" data-toggle="tooltip" id="delete_tip">Delete Ward</a></h4>
         <h5 style="margin:0 0 22px 0;">Warning: deleting a ward is permanent and all records will be lost, including encrypted member info as well as all activity history.</h5>
-         <%= link_to "Delete ward", @ward, method: :delete, class: "btn btn-medium btn-danger", 
-                  confirm: "Are you sure you want to permanently delete this ward and all of its records?", "data-confirm-fade" => true, 
-                  "data-confirm-title" => "Delete #{@ward.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
+         <%= link_to "Delete ward", @ward, method: :delete, class: "btn btn-medium btn-danger", confirm: "Deleted wards cannot be recovered. Are you sure you want to permanently delete this ward and all of its records?", "data-confirm-fade" => true, "data-confirm-title" => "Delete #{@ward.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
       </div>
     </div>
   </fullbody>
 </div>
+<!-- give detailed tool tip information about each function -->
+<script>
+  $('#name_tip').tooltip({ 
+    placement: 'right',
+    title: 'You can change the name of your ward as needed but the unit handle cannot be altered. The unit handle is used to identify your database which is separate from other wards. This handle also plays a role in the encryption process to ensure that your data is always encrypted and inaccessible, even to those who have direct access to the server.'
+  });
+  $('#password_tip').tooltip({ 
+    placement: 'right',
+    title: 'A password is required to decrypt any of your ward information. Even if you grant access to a user, they will not be able to access your ward area book without this password. Ward passwords are never stored on our server in order to ensure that no one has access to the decrypted ward information except those with whom you share the password. Because we do not store this password anywhere, should you lose the password, access will be permanently lost to all data.'
+  });
+  $('#delete_tip').tooltip({ 
+    placement: 'left',
+    title: 'Deleting a ward will permanently remove all data associated with it, including encrypted member information and all activity records and archived data.'
+  });
+</script>

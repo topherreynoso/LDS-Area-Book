@@ -1,19 +1,15 @@
 <% provide(:title, 'Tutorial') %>
-<div class="row">
-  <h7>&nbsp</h7>
-</div>
-<div class="container">
-  <fullbody class="span11 fivethirtyhigh">
+<div class="container" style="margin-top:20px;">
+  <fullbody class="span11" style="min-height:520px;">
     <div class="row">
       <div class="offset1 span9">
+        <!-- show the tutorial type or show the ward council tutorial menu -->
         <% if @type %>
           <%= render @type %>
         <% else %>
-          <h7>&nbsp</h7>
-          <h1>Ward Council Members Tutorial</h1>
-          <center><h3>Select an item below to learn more.</h3></center>
-          <h3>&nbsp</h3>
-          <div class="row">
+          <h1 style="margin:20px 0 30px 0;">Ward Council Members Tutorial</h1>
+          <center><h3 style="margin-bottom:50px;">Select an item below to learn more.</h3></center>
+          <div class="row" style="margin-bottom:60px;">
             <div class="span4" style="text-align:right;">
               <h4><%= link_to "Signing Up", tutorial_path(:type => "sign_up") %></h4>
               <h4><%= link_to "Trouble Signing In", tutorial_path(:type => "sign_in") %></h4>
@@ -33,7 +29,6 @@
               <h4><%= link_to "Editing Reported Activity", tutorial_path(:type => "edit_report") %></h4>
             </div>
           </div>
-          <h3>&nbsp</h3>
           <center><h4>There are also tutorials for <%= link_to 'ward administrators', tutorial_path(:type => "admin") %>.</h4></center>
         <% end %>
       </div>

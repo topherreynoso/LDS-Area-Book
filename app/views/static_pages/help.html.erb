@@ -1,25 +1,19 @@
 <% provide(:title, 'Help') %>
-<div class="row">
-  <h7>&nbsp</h7>
-</div>
-<div class="container">
-  <fullbody class="span11 fivethirtyhigh">
+<div class="container" style="margin-top:20px;">
+  <fullbody class="span11" style="min-height:520px;">
     <div class="row">
       <div class="offset1 span9">
-  	    <h7>&nbsp</h7>
-	      <h1>Help</h1>
+	      <h1 style="margin-top:20px;">Help</h1>
         <center>
-  	      <h4>LDS Area Book helps leaders collaborate and track efforts to care for a ward.</h4>
-          <h6>&nbsp</h6>
+          <!-- set up the help page to include links to tutorials -->
+  	      <h4 style="margin-bottom:30px;">LDS Area Book helps leaders collaborate and track efforts to care for a ward.</h4>
           <h3>Tutorials</h3>
           <h4><%= link_to "Ward Council Members", tutorial_path %></h4>
-          <h4><%= link_to "Administrators", tutorial_path(:type => "admin") %></h4>
-          <h4>&nbsp</h4>
+          <h4 style="margin-bottom:30px;"><%= link_to "Administrators", tutorial_path(:type => "admin") %></h4>
           <h3>Ward Council Members</h3>
-          <h4>If you're a leader in a ward that has an area book, <%= link_to "sign up", newuser_path %> for an account to request access. If you're having trouble logging in, contact your ward clerk.</h4>
-          <h4>&nbsp</h4>
+          <h4 style="margin-bottom:30px;">If you're a leader in a ward that has an area book, <%= link_to "sign up", new_user_path %> for an account to request access. If you're having trouble logging in, contact your ward clerk.</h4>
           <h3>Bishoprics and Ward Clerks</h3>
-          <h4>If you are a bishopric member or a clerk who would like to set up an area book for your unit, <%= link_to "sign up", newuser_path %> and then create a <%= link_to "new area book", leaders_path %>.<h4>
+          <h4>If you are a bishopric member or a clerk who would like to set up an area book for your unit, <%= link_to "sign up", new_user_path %> and then create a <%= link_to "new area book", new_ward_path %>.<h4>
         </center>
       </div>
     </div>

@@ -1,8 +1,10 @@
 <% provide(:title, 'Find Report') %>
 <%= render 'layouts/tabs' %>
 <div class="container">
-  <fullbody class="span11" style="height:480px;"> 
+  <fullbody class="span11" style="min-height:480px;">
+    <!-- show the selected report -->
     <%= render 'report' %>
+    <!-- prepare a button for reports by date -->
     <div class="span1 dropup">
       <a class="dropdown-toggle btn btn-small btn-primary" data-toggle="dropdown" href="#" style="padding-top:5px; width:35px; height:22px;">Date</a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
@@ -13,6 +15,7 @@
         <li><%= link_to "In the last year", reports_path(:activity_date => 12.months.ago) %></li>
       </ul>
     </div>
+    <!-- prepare a button with reports for all families -->
     <div class="span1">
       <%= collection_select(nil, :family_id, @families, :id, :decrypted_name, {:prompt => "Family"}, 
                             {:onchange => "redirect_to_family(this.value)", :class => "btn btn-small btn-secondary", :style => "width:70px;"}) %>
@@ -22,6 +25,7 @@
         window.location = "<%= reports_path %>?family_id=" + familyId;
       } 
     <% end %>
+    <!-- show pagination -->
     <div class="span8 pull-right" style="text-align:right;">
       <%= will_paginate @activities, :inner_window => 2, :outer_window => 1, style: "margin: 0 15px 0 0;" %>
     </div>

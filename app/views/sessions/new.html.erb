@@ -1,18 +1,17 @@
 <% provide(:title, "Welcome") %>
-<div class="row">
-  <h7>&nbsp</h7>
-</div>
-<div class="container">
-  <fullbody class="span11 fivethirtyhigh">
+<div class="container" style="margin-top:20px;">
+  <fullbody class="span11" style="min-height:520px;">
     <center>
-      <h1 style="margin: 120px 50px 50px 50px;">Welcome</h1>
+      <!-- set up a form for a new session -->
+      <h1 style="margin: 110px 50px 50px 50px;">Welcome</h1>
       <%= form_for(:session, url: sessions_path) do |f| %>
         <%= f.text_field :email, :placeholder => "email", :class => "span4" %><p>
         <%= f.password_field :password, :placeholder => "password", :class => "span4" %><p>
         <%= f.submit "Sign in", class: "btn btn-medium btn-primary" %>
       <% end %>
+      <!-- create links to help and to create a new account -->
       <p>Having trouble? <%= link_to "Get Help", help_path %></p>
-      <p>New to LDS Area Book? <%= link_to "Sign Up", newuser_path %></p>
+      <p>New to LDS Area Book? <%= link_to "Sign Up", new_user_path %></p>
     </center>
   </fullbody>
 </div>

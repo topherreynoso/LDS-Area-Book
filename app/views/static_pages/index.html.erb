@@ -1,12 +1,11 @@
-<div class="row">
-  <h7>&nbsp</h7>
-</div>
-<div class="container">
-  <fullbody class="span11 fivethirtyhigh">
+<div class="container" style="margin-top:20px;">
+  <fullbody class="span11" style="min-height:520px;">
+    <!-- the user is signed in but has not been given access to any ward area book -->
     <% if signed_in? && current_ward.nil? && !current_user.master? %>
       <h1 style="margin-bottom:20px;">Request Access to a Ward</h1>
       <div class="row">
         <div class="span11">
+          <!-- set up the header for the wards list -->
           <strong>
             <div class="span3">Ward Name</div>
             <div class="span2">Admin Name</div>
@@ -18,20 +17,24 @@
       <div class="row">
         <div class="span11">
           <ul class="users" style="height:400px;">
+            <!-- show all wards that the user can request access to -->
             <%= render @wards %>
           </ul>
+          <!-- prepare a button to let the user create their own ward area book -->
           <div class="span1">
-            <%= link_to "<i class='icon-white icon-plus'></i>".html_safe, leaders_path, class: "btn btn-medium btn-primary" %>
+            <%= link_to "<i class='icon-white icon-plus'></i>".html_safe, new_ward_path, class: "btn btn-medium btn-primary" %>
           </div>
           <div class="span1">
             &nbsp
           </div>
+          <!-- show pagination -->
           <div class="span8 pull-right" style="text-align:right;">
             <%= will_paginate @wards, :inner_window => 2, :outer_window => 1, style: "margin: 0 15px 0 0;" %>
           </div>
         </div>
       </div>
     <% else %>
+      <!-- the user has not signed in yet -->
 	    <h1 style="margin:130px 50px 65px 50px;">LDS Area Book</h1>
 	    <center>
   	    <%= link_to "Sign In", signin_path, class: "btn btn-large btn-primary" %>

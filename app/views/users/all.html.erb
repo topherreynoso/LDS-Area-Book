@@ -1,8 +1,8 @@
-<% provide(:title, 'Ward Users') %>
+<% provide(:title, 'System Users') %>
 <%= render 'layouts/tabs' %>
 <div class="container">
   <fullbody class="span11" style="height:480px;">
-    <h1>Ward Users</h1>
+    <h1>System Users</h1>
     <ul class="users" style="height:380px;">
       <!-- show all users -->
       <% if !@users.nil? %>
@@ -10,8 +10,8 @@
       <% end %>
     </ul>
     <div class="span8 pull-right" style="text-align: right;">
+      <!-- show pagination -->
       <% if !@users.nil? %>
-        <!-- show pagination -->
         <%= will_paginate @users, :inner_window => 2, :outer_window => 1, style: "margin: 10px 20px 0 0;" %>
       <% end %>
     </div>

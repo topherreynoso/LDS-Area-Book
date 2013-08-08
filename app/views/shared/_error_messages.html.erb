@@ -1,3 +1,4 @@
+<!-- show errors for any user objects -->
 <% if @user && @user.errors.any? %>
   <div id="error_explanation">
     <div class="alert alert-error">
@@ -9,6 +10,7 @@
       <% end %>
     </ul>
   </div>
+<!-- show errors for any family objects -->
 <% elsif @family && @family.errors.any? %>
   <div id="error_explanation">
     <div class="alert alert-error">
@@ -20,6 +22,7 @@
       <% end %>
     </ul>
   </div>
+<!-- show errors for any activity objects -->
 <% elsif @activity && @activity.errors.any? %>
   <div id="error_explanation">
     <div class="alert alert-error">
@@ -27,6 +30,18 @@
     </div>
     <ul>
       <% @activity.errors.full_messages.each do |msg| %>
+        <li>* <%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<!-- show errors for any ward objects -->
+<% elsif @ward && @ward.errors.any? %>
+  <div id="error_explanation">
+    <div class="alert alert-error">
+      The form contains <%= pluralize(@ward.errors.count, "error") %>.
+    </div>
+    <ul>
+      <% @ward.errors.full_messages.each do |msg| %>
         <li>* <%= msg %></li>
       <% end %>
     </ul>

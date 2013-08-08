@@ -9,4 +9,8 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-AreaBook::Application.config.secret_key_base = '17a9279c47a97f31f853a19cfec68fd3c56899ab951c46d13aed50c58b3937af5b3c09976eec8dac7204aad183f86270099684f248173432d4f365b896334e57'
+AreaBook::Application.config.secret_key_base = ENV["SECRET_KEY_BASE"]
+
+# Changed this to protect app, used the following to set up the variable for local dev and on heroku
+# $ heroku config:set SECRET_KEY_BASE=some-random-secret
+# $ export SECRET_KEY_BASE=some-random-secret

@@ -1,8 +1,9 @@
 <h1 style="margin-bottom:10px;">Removing/Deleting Users</h1>
 <center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", users_path %> to remove or delete users.</h3></center>
 <div class="row">
+  <!-- make sure that the image is showing and that the tutorial content resolves the issue -->
   <div class="span9">
-  <%= image_tag('change_right.png') %>
+    <%= image_tag('change_right.png') %>
   </div>
 </div>
 <div class="row">
@@ -11,7 +12,7 @@
     <h4>You can also delete user accounts, although this will permanently delete their account and should only be done when a user was created in error.</h4>
   </div> 
 </div>
-<div class="row" style="padding-top: 30px;">
+<div class="row" style="padding-top:70px;">
   <div class="span2">
     <%= link_to "Back to Menu", tutorial_path(:type => "admin") %>
   </div>

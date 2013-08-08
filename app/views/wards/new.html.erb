@@ -1,17 +1,35 @@
-<% provide(:title, 'Add Ward') %>
-<%= render 'layouts/tabs' %>
-<div class="container">
-  <fullbody class="span11" style="height:480px;">
+<% provide(:title, 'New Ward') %>
+<div class="container" style="margin-top:20px;">
+  <fullbody class="span11" style="min-height:520px;">
     <div class="offset3 span5">
-      <center><h4 style="margin:100px 0 50px 0;">Create Ward</h4></center>
+      <h3 style="margin:50px 0 40px 0;">Create a New Ward Area Book</h3>
+      <!-- set up a form for the new ward -->
       <%= form_for(@ward) do |f| %>
         <%= render 'shared/error_messages' %>
-        <%= f.text_field :name, :class => "span5", :placeholder => "Ward name (e.g. Newport Beach 2nd)" %><p>
-        <%= f.text_field :unit, :class => "span2", :placeholder => "Unit #" %><p>
-        <%= f.submit "Create ward", class: "btn btn-medium btn-primary", :style => "margin-top:20px;" %>
+        <h4><a href="#" data-toggle="tooltip" id="name_tip">Ward name</a></h4>
+        <%= f.text_field :name, :class => "span5", :placeholder => "(e.g. Newport Beach 2nd)" %><p>
+        <h4><a href="#" data-toggle="tooltip" id="handle_tip">Ward handle</a></h4>
+        <%= f.text_field :unit, :class => "span3", :placeholder => "(6 characters, e.g. NwBch2)" %><p>
+        <h4><a href="#" data-toggle="tooltip" id="password_tip">Ward password</a></h4>
+        <%= f.password_field :confirm, :class => "span3", :placeholder => "(min 6 characters)" %><p>
+        <%= f.password_field :confirm_again, :class => "span3", :placeholder => "(confirm password)" %><p>
+        <%= f.submit "Create ward", class: "btn btn-medium btn-primary", :style => "margin-top:10px;" %>
       <% end %>
-      <h2>&nbsp</h2>
-      <h4>&nbsp</h4>
     </div>
   </fullbody>
 </div>
+<!-- give detailed tool tip information about each attribute -->
+<script>
+  $('#name_tip').tooltip({ 
+    placement: 'right',
+    title: 'Enter the name of your ward without the word "ward" at the end.'
+  });
+  $('#handle_tip').tooltip({ 
+    placement: 'right',
+    title: 'The ward handle is unique and only used to separate and identify your ward database from other wards and as a way to certify proper encryption of all member info in the ward area book. This cannot be changed but few individuals will ever see it anyways.'
+  });
+  $('#password_tip').tooltip({ 
+    placement: 'right',
+    title: 'The ward password is used to encrypt all member data in your database including name, phone, email, address, and children names. This password is never stored on the server so only encrypted data is ever on the server and only those with whom you share the password will have access to the decrypted data. Because we do not store any version of this password, however, it cannot be recovered. If you lose this password you will lose all access to the data in your ward area book. You can change this password at any time as long as you have the current password.'
+  });
+</script>

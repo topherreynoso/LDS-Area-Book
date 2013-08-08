@@ -1,9 +1,10 @@
 <% provide(:title, 'Add Family') %>
 <%= render 'layouts/tabs' %>
 <div class="container">
-  <fullbody class="span11">
+  <fullbody class="span11" style="min-height:480px;">
     <div class="offset3 span5">
       <center><h4>Add Family</h4></center>
+      <!-- set up a form for the new family -->
       <%= form_for(@family) do |f| %>
         <%= render 'shared/error_messages' %>
         <%= f.label :name, "Family Name (e.g. Smith, Joe & Jane)" %>
@@ -16,15 +17,14 @@
         <%= f.text_field :address, :class => "span5" %>
         <%= f.label :children, "Names of Children (if applicable)" %>
         <%= f.text_field :children, :class => "span5" %>
-        <div class="row">
+        <div class="row" style="margin-bottom:30px;">
           <div class="span1">
             <%= f.label :investigator, "Investigator?" %>
           </div>
           <div class="span1">
-            &nbsp&nbsp<%= f.check_box :investigator %>
+            <%= f.check_box :investigator, :style => "margin:-4px 0 0 20px;" %>
           </div>
         </div>
-        <h4>&nbsp</h4>
         <div class="row">
           <div class="span1">
             <%= f.submit "Create Record", class: "btn btn-medium btn-primary" %>

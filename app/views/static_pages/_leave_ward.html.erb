@@ -1,8 +1,9 @@
 <h1 style="margin-bottom:10px;">Leaving a Ward</h1>
 <center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", edit_user_path(current_user) %> to leave your ward.</h3></center>
 <div class="row">
+  <!-- make sure that the image is showing and that the tutorial content resolves the issue -->
   <div class="span4">
-	<%= image_tag('leave_ward.png') %>
+    <%= image_tag('leave_ward.png') %>
   </div>
   <div class="span5">
   	<h4>You can leave your ward by going to your user settings and clicking the yellow button, as shown here.</h4>
@@ -10,7 +11,7 @@
   	<h4>A ward administrator can also remove you from a ward. You can only be linked to one ward at a time.</h4>
   </div> 
 </div>
-<div class="row" style="padding-top: 30px;">
+<div class="row" style="padding-top:90px;">
   <div class="span2">
   	<%= link_to "Back to Menu", tutorial_path %>
   </div>

@@ -1,15 +1,16 @@
-<h1 style="margin-bottom:10px;">Importing MLS Changes</h1>
+<h1 style="margin-bottom:10px;">Importing Ward Changes</h1>
 <center><h3 style="margin-top:10px;">After signing in, go <%= link_to "here", import_path %> to import changes from MLS.</h3></center>
 <div class="row">
+  <!-- make sure that the image is showing and that the tutorial content resolves the issue -->
   <div class="span6">
-  <%= image_tag('import_changes.png') %>
+    <%= image_tag('import_changes.png') %>
   </div>
   <div class="span3">
     <h4>After you have selected the latest CSV file for importing, all new families, families that should be moved to the archive, and updates to family information will be displayed. Be sure to scroll down on each of these in order to make sure you have seen all proposed changes.</h4>
     <h4>Check the changes you wish to make and press the blue button at the bottom to import.</h4>
   </div> 
 </div>
-<div class="row" style="padding-top: 30px;">
+<div class="row" style="padding-top:30px;">
   <div class="span2">
     <%= link_to "Back to Menu", tutorial_path(:type => "admin") %>
   </div>

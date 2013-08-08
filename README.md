@@ -3,7 +3,11 @@ Area-Book
 
 A way for ward leaders to track and manage their efforts to care for the ward.
 
-This is the code that ldsareabook.org runs on. Here are some facts and functions:
+The ward area book is a web application, allowing Ward Council members the ability to access it from pretty much any internet-enabled device at any time.
+
+This is the code that ldsareabook.org runs on. Feel free to copy it and roll your own area book website if you would prefer.
+
+Here are some facts and features:
 
 1. Anyone can create an account and a ward area book for their unit.
 2. The ward area book tracks visits and attempts to contact members of the ward. This is meant to facilitate communication between the Ward Council in order to allow them to focus on the needs and well-being of individuals and families in the ward.

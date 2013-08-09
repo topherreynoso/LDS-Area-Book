@@ -56,7 +56,7 @@ module SessionsHelper
   def set_ward(ward)
     # if a ward is selected, save the ward token as a cookie, switch to the proper ward database, and set the current ward
     if !ward.nil?
-      if ward.id == current_user.ward_id || current_user.master?
+      if ward.id == current_user.ward_id
         cookies.permanent[:ward_token] = ward.ward_token
         Apartment::Database.switch(ward.unit)
         self.current_ward = ward
@@ -83,6 +83,11 @@ module SessionsHelper
   def current_ward?
     # determine if there is a current ward
     !current_ward.nil?
+  end
+
+  def current_ward_is?(ward)
+    # determine if the current ward is the ward
+    current_ward == ward
   end
 
   def set_ward_password(password)

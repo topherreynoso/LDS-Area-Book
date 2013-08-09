@@ -18,8 +18,9 @@ class Ward < ActiveRecord::Base
   before_save :create_ward_token
 
   validates :name, presence: true
-  validates :confirm, presence: true, length: { minimum: 6 }
-  validates :unit, presence: true, length: { minimum: 6, maximum: 6 }, uniqueness: true
+  validates :confirm, presence: true, length: { minimum: 5 }
+  VALID_UNIT_REGEX = /\A[a-zA-Z\d]*\z/i
+  validates :unit, presence: true, format: { with: VALID_UNIT_REGEX }, length: { minimum: 5, maximum: 10 }, uniqueness: true
 
   default_scope order: 'name ASC'
 

@@ -23,6 +23,7 @@
             <%= password_field_tag :old_password, nil, :placeholder => "current password" %><p>
             <%= password_field_tag :password, nil, :placeholder => "new password (min 6 char)", :style => "margin: 0 0 0 0;" %><p>
             <%= password_field_tag :password_confirm, nil, :placeholder => "confirm new password" %><p>
+            <%= hidden_field_tag :id, current_ward.id %>
             <%= submit_tag "Change password", :class => "btn btn-medium btn-warning", confirm: "If you change this ward's password you will need to distribute the new password to all users or they will not be able to access your area book. There is no way to recover this password so make sure that you record it somewhere that you can retrieve it. Are you sure you want to change this ward's password?", "data-confirm-fade" => true, "data-confirm-title" => "Change Ward Password", "data-confirm-proceed" => "Change", "data-confirm-proceed-class" => "btn-warning"  %>
           <% end %>
         </center>

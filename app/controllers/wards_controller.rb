@@ -100,6 +100,7 @@ class WardsController < ApplicationController
     # retrieve the ward record, apply the updates, and go to the root page otherwise show errors
     @ward = Ward.find(params[:id])
     if @ward.update_attributes(ward_params)
+      sign_in current_user
       flash[:success] = "Your ward name was successfully updated."
       redirect_to root_path
     else
@@ -185,12 +186,15 @@ class WardsController < ApplicationController
 
             # encrypt the ward unit string and store it as the confirm string
             current_ward.confirm = new_enc.encrypt_and_sign(current_ward.unit)
-            current_ward.save
 
-            # reassign the current ward since it has been updated, also set the new password in the user's session and go to the root page
-            set_ward Ward.find(ward_id)
-            set_ward_password new_password
-            redirect_to root_path, notice: 'Your area book password has been updated.'
+            # save and reassign the current ward since it was updated, set the new password in the user's session and go to the root page            
+            if current_ward.save
+              set_ward Ward.find(ward_id)
+              set_ward_password new_password
+              redirect_to root_path, notice: 'Your area book password has been updated.'
+            else
+              redirect_to edit_ward_path(ward_id), notice: 'Your password did not update properly.'
+            end
 
           # no password was entered but the ward has a password so let the user know that the password is necessary
           else
@@ -226,8 +230,9 @@ class WardsController < ApplicationController
     end
 
     def super_user
-      # only allow access to admin and master users
-      unless signed_in? && (current_user.master || current_user.admin)
+      # only allow access to admin for the proper ward or master user
+      ward = Ward.find(params[:id])
+      unless signed_in? && ((current_user.admin && current_ward_is?(ward)) || current_user.master?)
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end
     end

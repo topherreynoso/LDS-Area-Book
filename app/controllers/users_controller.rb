@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
-  before_action :correct_user, only: [:edit, :destroy]
-  before_action :authorized_user, only: [:update]
+  before_action :signed_in, only: [:edit, :destroy, :update, :index, :all]
+  before_action :correct_user, only: [:edit]
+  before_action :correct_user_or_master, only: [:destroy]
+  before_action :correct_user_or_admin, only: [:update]
   before_action :admin_user, only: [:index]
   before_action :master_user, only: [:all]
 
@@ -144,33 +146,42 @@ class UsersController < ApplicationController
 
     # Before filters
 
-    def correct_user
-      # if the user is not the same account that is signed in or a master account then redirect it
-      @user = User.find(params[:id])
-      unless signed_in? && (current_user?(@user) || current_user.master?)
-        redirect_to root_path, notice: 'You do not have permission to access this area.'
+    def signed_in
+      # if the user is not signed in, redirect them to the sign in path
+      unless signed_in?
+        store_location
+        redirect_to signin_path, notice: 'You must sign in to access this area.'
       end
     end
 
-    def authorized_user
-      # if the user is not the same account that is signed in or an admin then redirect it
+    def correct_user
+      # if the user is not the same account that is signed in or a master account then redirect it
       @user = User.find(params[:id])
-      unless signed_in? && (current_user?(@user) || (current_user.admin? && @user.ward_id == current_user.ward_id && ward_password?))
+      redirect_to root_path, notice: 'You do not have permission to access this area.' unless current_user?(@user)
+    end
+
+    def correct_user_or_master
+      # if it is not the user's own account or if the signed in account is not a master then redirect to root
+      @user = User.find(params[:id])
+      redirect_to root_path, notice: 'You do not have permission to access this area.' unless current_user?(@user) || current_user.master?
+    end
+
+    def correct_user_or_admin
+      # if it is not the user's own account or if the signed in account is not authorized to administer the user's ward then redirect to root
+      @user = User.find(params[:id])
+      @ward = Ward.find(@user.ward_id)
+      unless current_user?(@user) || (current_user.admin? && current_ward_is?(@ward) && ward_password?)
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end
     end
 
     def admin_user
       # only allow an admin user access, otherwise redirect it
-      unless signed_in? && current_user.admin? && current_ward? && ward_password?
-        redirect_to root_path, notice: 'You do not have permission to access this area.'
-      end
+      redirect_to root_path, notice: 'You do not have permission to access this area.' unless current_user.admin?
     end
 
     def master_user
       # only allow a master user access, otherwise redirect it
-      unless signed_in? && current_user.master?
-        redirect_to root_path, notice: 'You do not have permission to access this area.'
-      end
+      redirect_to root_path, notice: 'You do not have permission to access this area.' unless current_user.master?
     end
 end

@@ -1,4 +1,5 @@
 class FamiliesController < ApplicationController
+  before_action :signed_in, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy, :import, :confirm]
   before_action :authorized_user, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy]
   before_action :admin_user, only: [:import, :confirm]
 
@@ -76,6 +77,9 @@ class FamiliesController < ApplicationController
   def import
     # a file was uploaded for importing
     if params[:file]
+
+      # set the ward_decryptor
+      @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
 
       # find all records that need to be added, archived, or updated
       import_families = Family.import(params[:file], cookies[:ward_password])
@@ -266,26 +270,27 @@ class FamiliesController < ApplicationController
 
     # Before filters
 
-    def authorized_user
-      # only allow access if signed in and ward access approved
-      if signed_in?
-        if !current_ward?
-          redirect_to root_path, notice: 'You do not have permission to access this area.'
-        elsif !ward_password?
-          store_location
-          redirect_to password_path, notice: 'Your ward password was not valid. Please re-enter your password in order to access this area.'
-        end
-      else
+    def signed_in
+      # if the user is not signed in then redirect to the sign in path
+      unless signed_in?
         store_location
-        redirect_to root_path, notice: 'Please sign in to access this area.'
+        redirect_to signin_path, notice: 'You must sign in to access this area.'
+      end
+    end
+
+    def authorized_user
+      # only allow access if ward access has been approved and the ward password is valid
+      if !current_ward?
+        redirect_to root_path, notice: 'You do not have permission to access this area.'
+      elsif !ward_password?
+        store_location
+        redirect_to password_path, notice: 'Your ward password was not valid. Please re-enter your password in order to access this area.'
       end
     end
 
     def admin_user
       # only allow admins or master users access
-      unless signed_in? && current_user.admin?
-        redirect_to root_path, notice: 'You do not have permission to access this area.'
-      end
+      redirect_to root_path, notice: 'You do not have permission to access this area.' unless current_user.admin?
     end
 
 end

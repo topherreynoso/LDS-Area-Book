@@ -1,6 +1,6 @@
 class WardsController < ApplicationController
-  before_action :signed_in_user, only: [:new, :create, :password, :confirm_password]
-  before_action :super_user, only: [:destroy]
+  before_action :signed_in_user, only: [:new, :create, :password, :confirm_password, :destroy, :edit, :change_password, :update, :index]
+  before_action :super_user, only: [:destroy, :edit, :change_password, :update, :index]
   before_action :admin_user, only: [:edit, :change_password, :update]
   before_action :master_user, only: [:index]
 
@@ -143,8 +143,8 @@ class WardsController < ApplicationController
       # make sure that the new password is at least six characters in length
       if new_password.length > 5
 
-        # as long as a password already exists for the ward, make sure it produces a valid encryptor
-        if old_password != ""
+        # make sure the old password is valid and produces a valid encryptor
+        if old_password && old_password != ""
           old_encrypted_password = OpenSSL::Digest::SHA256.new(old_password).digest
           old_enc = ActiveSupport::MessageEncryptor.new(old_encrypted_password)
           new_encrypted_password = OpenSSL::Digest::SHA256.new(new_password).digest
@@ -170,36 +170,6 @@ class WardsController < ApplicationController
             set_ward Ward.find(ward_id)
             set_ward_password new_password
             redirect_to root_path, notice: 'Your area book password has been updated.'
-          end
-        else
-
-          # the old password was not entered, if there is no pre-existing password then encrypt the new one and create an encryptor from it
-          if current_ward.confirm == nil
-            new_encrypted_password = OpenSSL::Digest::SHA256.new(new_password).digest
-            new_enc = ActiveSupport::MessageEncryptor.new(new_encrypted_password)
-
-            # encrypt all of the sensitive family information
-            Family.all.each do |family|
-              family.encrypted_password = new_encrypted_password
-              family.update_attributes(:name => family.name, :email => family.email, :phone => family.phone, :address => family.address, 
-                                       :children => family.children)
-            end
-
-            # encrypt the ward unit string and store it as the confirm string
-            current_ward.confirm = new_enc.encrypt_and_sign(current_ward.unit)
-
-            # save and reassign the current ward since it was updated, set the new password in the user's session and go to the root page            
-            if current_ward.save
-              set_ward Ward.find(ward_id)
-              set_ward_password new_password
-              redirect_to root_path, notice: 'Your area book password has been updated.'
-            else
-              redirect_to edit_ward_path(ward_id), notice: 'Your password did not update properly.'
-            end
-
-          # no password was entered but the ward has a password so let the user know that the password is necessary
-          else
-            redirect_to edit_ward_path(current_ward), notice: 'The current password you entered was invalid.'
           end
         end
 
@@ -236,18 +206,20 @@ class WardsController < ApplicationController
     def super_user
       # only allow access to admin for the proper ward or master user
       ward = Ward.find(params[:id])
-      unless signed_in? && ((current_user.admin? && current_ward_is?(ward)) || current_user.master?)
+      unless (current_user.admin? && current_ward? && current_ward_is?(ward) && ward_password?) || current_user.master?
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end
     end
 
     def admin_user
       # only allow access to admin users
-      redirect_to root_path, notice: 'You do not have permission to access this area.' unless signed_in? && current_user.admin?
+      ward = Ward.find(params[:id])
+      unless current_ward? && 
+      redirect_to root_path, notice: 'You do not have permission to access this area.' unless current_user.admin?
     end
 
     def master_user
       # only allow access to master users
-      redirect_to root_path, notice: 'You do not have permission to access this area.' unless signed_in? && current_user.master?
+      redirect_to root_path, notice: 'You do not have permission to access this area.' unless current_user.master?
     end
 end

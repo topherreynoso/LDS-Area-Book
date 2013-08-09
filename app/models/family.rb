@@ -124,25 +124,41 @@ class Family < ActiveRecord::Base
         family.phone = ward_decryptor.decrypt_and_verify(family.phone) if !family.phone.nil? && family.phone != ""
         family.address = ward_decryptor.decrypt_and_verify(family.address) if !family.address.nil? && family.address != ""
         family.children = ward_decryptor.decrypt_and_verify(family.children) if !family.children.nil? && family.children != ""
+        change_occurred = false
         if !(family.address == "" && new_info["address"].nil?) && !(family.address.nil? && new_info["address"] = "")
-          family.address = new_info["address"] if family.address != new_info["address"]
+          if family.address != new_info["address"]
+            family.address = new_info["address"]
+            change_occurred = true
+          end
         end
         if !(family.phone == "" && new_info["phone"].nil?) && !(family.phone.nil? && new_info["phone"] = "")
-          family.phone = new_info["phone"] if family.phone != new_info["phone"]
+          if family.phone != new_info["phone"]
+            family.phone = new_info["phone"]
+            change_occurred = true
+          end
         end
         if !(family.email == "" && new_info["email"].nil?) && !(family.email.nil? && new_info["email"] = "")
-          family.email = new_info["email"] if family.email != new_info["email"]
+          if family.email != new_info["email"]
+            family.email = new_info["email"]
+            change_occurred = true
+          end
         end
         if !(family.children == "" && new_info["children"].nil?) && !(family.children.nil? && new_info["children"] = "")
-          family.children = new_info["children"] if family.children != new_info["children"]
+          if family.children != new_info["children"]
+            family.children = new_info["children"]
+            change_occurred = true
+          end
         end
-        family.archived = false if family.archived == true
-        import_families << family if family.changed?
+        if family.archived == true
+          family.archived = false
+          change_occurred = true
+        end
+        import_families << family if change_occurred
       end
     end
 
-    # for each family in the database, determine if the family exists in the csv, if it does not, add it to the list of families to import
-    Family.all.each do |family|
+    # for each family currently in the ward, determine if the family exists in the csv, if it does not, add it to the list of families to archive
+    Family.where("investigator = ? and archived = ?", false, false).each do |family|
       family.encrypted_password = encrypted_password
       import_families << family if !all_family_names.include? family.decrypted_name
     end

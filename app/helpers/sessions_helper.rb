@@ -36,7 +36,7 @@ module SessionsHelper
     # make sure the current user, current ward, and ward decryptor are all destroyed, ending this session
     self.current_user = nil
     self.current_ward = nil
-    self.ward_decryptor = nil
+    self.ward_password = nil
     cookies.delete(:remember_token)
     cookies.delete(:ward_token)
     cookies.delete(:ward_password)
@@ -91,38 +91,32 @@ module SessionsHelper
   end
 
   def set_ward_password(password)
-    # if a password has been submitted, encrypt it, make a cookie with the encrypted version, and set the ward decryptor using the password
+    # if a password has been submitted, encrypt it, make a cookie with the encrypted version, and set the encrypted ward password
     if !password.nil?
       encrypted_password = OpenSSL::Digest::SHA256.new(password).digest
       cookies.permanent[:ward_password] = encrypted_password
-      self.ward_decryptor = ActiveSupport::MessageEncryptor.new(encrypted_password)
+      self.ward_password = encrypted_password
     
-    # otherwise destroy the cookie and the ward decryptor
+    # otherwise destroy the cookie and the encrypted ward password
     else
       cookies.permanent[:ward_password] = nil
-      self.ward_decryptor = nil
+      self.ward_password = nil
     end
   end
 
-  def ward_decryptor=(encoder)
-    # set the ward decryptor for this session
-    @ward_decryptor = encoder
+  def ward_password=(password)
+    # set the encrypted ward password for this session
+    @ward_password = password
   end
 
-  def ward_decryptor
-    # return the ward decryptor or create a new one from the cookie
-    if !@ward_decryptor.nil?
-      @ward_decryptor
-    elsif !cookies[:ward_password].nil?
-      ActiveSupport::MessageEncryptor.new(cookies[:ward_password])
-    else
-      nil
-    end
+  def ward_password
+    # return the encrypted ward password or create a new one from the cookie
+    @ward_password ||= cookies[:ward_password]
   end
 
-  def ward_decryptor_valid?
-    # determine if the ward decryptor is still valid
-    if !ward_decryptor.nil? && ward_decryptor.decrypt_and_verify(current_ward.confirm) == current_ward.unit
+  def ward_password?
+    # determine if the encrypted ward password is still valid
+    if !ward_password.nil? && ActiveSupport::MessageEncryptor.new(ward_password).decrypt_and_verify(current_ward.confirm) == current_ward.unit
       true
     else
       false

@@ -33,7 +33,7 @@
 <% else %>
   <tr>
     <!-- decrypt the activity's family name and let it link to edit the family -->
-    <td style="width:250px;"><%= link_to ward_decryptor.decrypt_and_verify(Family.find(activity.family_id).name), edit_family_path(Family.find(activity.family_id)) %></td>
+    <td style="width:250px;"><%= link_to @ward_decryptor.decrypt_and_verify(Family.find(activity.family_id).name), edit_family_path(Family.find(activity.family_id)) %></td>
     <!-- determine if the activity resulted in a visit or not, link to editing the activity -->
     <td style="width:100px;">
       <% if activity.visit? %>

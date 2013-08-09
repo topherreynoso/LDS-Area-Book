@@ -153,16 +153,16 @@ class UsersController < ApplicationController
     end
 
     def authorized_user
-      # if the user is not the same account that is signed in or an admin or master account then redirect it
+      # if the user is not the same account that is signed in or an admin then redirect it
       @user = User.find(params[:id])
-      unless signed_in? && (current_user?(@user) || ((current_user.admin? && @user.ward_id == current_user.ward_id) || current_user.master?))
+      unless signed_in? && (current_user?(@user) || (current_user.admin? && @user.ward_id == current_user.ward_id && ward_password?))
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end
     end
 
     def admin_user
-      # only allow an admin or master user access, otherwise redirect it
-      unless signed_in? && current_user.admin? && !current_ward.nil?
+      # only allow an admin user access, otherwise redirect it
+      unless signed_in? && current_user.admin? && current_ward? && ward_password?
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end
     end

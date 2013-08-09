@@ -19,26 +19,26 @@
           <% if @selected_family %>
             <tr>
               <td style="width:250px;">
-                <%= link_to ward_decryptor.decrypt_and_verify(@selected_family.name), edit_family_path(@selected_family) %>
+                <%= link_to @ward_decryptor.decrypt_and_verify(@selected_family.name), edit_family_path(@selected_family) %>
               </td>
               <td style="width:150px;">
                 <% if !@selected_family.phone.nil? && @selected_family.phone != "" %>
-                  <%= ward_decryptor.decrypt_and_verify(@selected_family.phone) %>
+                  <%= @ward_decryptor.decrypt_and_verify(@selected_family.phone) %>
                 <% end %>
               </td>
               <td style="width:250px;">
                 <% if !@selected_family.email.nil? && @selected_family.email != "" %>
-                  <%= ward_decryptor.decrypt_and_verify(@selected_family.email) %>
+                  <%= @ward_decryptor.decrypt_and_verify(@selected_family.email) %>
                 <% end %>
               </td>
               <td style="width:250px;">
                 <% if !@selected_family.address.nil? && @selected_family.address != "" %>
-                  <%= ward_decryptor.decrypt_and_verify(@selected_family.address) %>
+                  <%= @ward_decryptor.decrypt_and_verify(@selected_family.address) %>
                 <% end %>
               </td>
               <td style="width:250px;">
                 <% if !@selected_family.children.nil? && @selected_family.children != "" %>
-                  <%= ward_decryptor.decrypt_and_verify(@selected_family.children) %>
+                  <%= @ward_decryptor.decrypt_and_verify(@selected_family.children) %>
                 <% end %>
               </td>
               <td style="width:100px;">

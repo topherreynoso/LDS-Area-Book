@@ -1,15 +1,15 @@
 <tr>
   <!-- decrypt the sensitive information with the decryptor from this session -->
-  <td style="width:250px;"><%= link_to ward_decryptor.decrypt_and_verify(family.name), edit_family_path(family) %></td>
+  <td style="width:250px;"><%= link_to @ward_decryptor.decrypt_and_verify(family.name), edit_family_path(family) %></td>
   <td style="width:250px;">
-    <% if !family.phone.nil? && family.phone != "" %><%= ward_decryptor.decrypt_and_verify(family.phone) %><% end %>
-    <% if !family.email.nil? && family.email != "" %><br><%= ward_decryptor.decrypt_and_verify(family.email) %><% end %>
+    <% if !family.phone.nil? && family.phone != "" %><%= @ward_decryptor.decrypt_and_verify(family.phone) %><% end %>
+    <% if !family.email.nil? && family.email != "" %><br><%= @ward_decryptor.decrypt_and_verify(family.email) %><% end %>
   </td>
 	<td style="width:250px;">
-    <% if !family.address.nil? && family.address != "" %><%= ward_decryptor.decrypt_and_verify(family.address) %><% end %>
+    <% if !family.address.nil? && family.address != "" %><%= @ward_decryptor.decrypt_and_verify(family.address) %><% end %>
   </td>
   <td style="width:250px;">
-    <% if !family.children.nil? && family.children != "" %><%= ward_decryptor.decrypt_and_verify(family.children) %><% end %>
+    <% if !family.children.nil? && family.children != "" %><%= @ward_decryptor.decrypt_and_verify(family.children) %><% end %>
   </td>
   <!-- find the most recent visit and show its date -->
   <td style="width:100px;">

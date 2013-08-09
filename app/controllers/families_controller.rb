@@ -1,17 +1,23 @@
 class FamiliesController < ApplicationController
-  before_action :authorized_user, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy, :import, :confirm]
-  before_action :super_user, only: [:import, :confirm]
+  before_action :authorized_user, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy]
+  before_action :admin_user, only: [:import, :confirm]
 
   def ward
+    # prepare the ward decryptor
+    @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
+
     # find all families that are not investigators or archived
     @families = Family.where("investigator = ? and archived = ?", false, false)
     @families.each do |family|
-      family.encrypted_password = cookies[:ward_password]
+      family.encrypted_password = ward_password
     end
     @families = @families.sort_by(&:decrypted_name).paginate(page: params[:page], :per_page => 8)
   end
 
   def investigators
+    # prepare the ward decryptor
+    @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
+
     # find all families that are investigators and not archived
     @families = Family.where("investigator = ? and archived = ?", true, false)
     @families.each do |family|
@@ -22,13 +28,14 @@ class FamiliesController < ApplicationController
 
   def watch
     # a family was selected to add to the watch list, decrypt all fields and set the ward password in order to re-encrypt and save
+    @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
     if params[:add_family]
       new_family = Family.find(params[:add_family])
-      new_family.name = ward_decryptor.decrypt_and_verify(new_family.name)
-      new_family.email = ward_decryptor.decrypt_and_verify(new_family.email)
-      new_family.phone = ward_decryptor.decrypt_and_verify(new_family.phone)
-      new_family.address = ward_decryptor.decrypt_and_verify(new_family.address)
-      new_family.children = ward_decryptor.decrypt_and_verify(new_family.children)
+      new_family.name = @ward_decryptor.decrypt_and_verify(new_family.name)
+      new_family.email = @ward_decryptor.decrypt_and_verify(new_family.email)
+      new_family.phone = @ward_decryptor.decrypt_and_verify(new_family.phone)
+      new_family.address = @ward_decryptor.decrypt_and_verify(new_family.address)
+      new_family.children = @ward_decryptor.decrypt_and_verify(new_family.children)
       new_family.watched = true
       new_family.encrypted_password = cookies[:ward_password]
       new_family.save
@@ -36,11 +43,11 @@ class FamiliesController < ApplicationController
     # a family was selected to remove from the watch list, decrypt all fields and set the ward password in order to re-encrypt and save
     elsif params[:remove_family]
       remove_family = Family.find(params[:remove_family])
-      remove_family.name = ward_decryptor.decrypt_and_verify(remove_family.name)
-      remove_family.email = ward_decryptor.decrypt_and_verify(remove_family.email)
-      remove_family.phone = ward_decryptor.decrypt_and_verify(remove_family.phone)
-      remove_family.address = ward_decryptor.decrypt_and_verify(remove_family.address)
-      remove_family.children = ward_decryptor.decrypt_and_verify(remove_family.children)
+      remove_family.name = @ward_decryptor.decrypt_and_verify(remove_family.name)
+      remove_family.email = @ward_decryptor.decrypt_and_verify(remove_family.email)
+      remove_family.phone = @ward_decryptor.decrypt_and_verify(remove_family.phone)
+      remove_family.address = @ward_decryptor.decrypt_and_verify(remove_family.address)
+      remove_family.children = @ward_decryptor.decrypt_and_verify(remove_family.children)
       remove_family.watched = false
       remove_family.encrypted_password = cookies[:ward_password]
       remove_family.save
@@ -60,6 +67,10 @@ class FamiliesController < ApplicationController
       family.encrypted_password = cookies[:ward_password]
     end
     @unwatched_families = @unwatched_families .sort_by(&:decrypted_name)
+
+    # if the ward decryptor is not valid, let the user know that they need to reenter the ward password
+    rescue ActiveSupport::MessageVerifier::InvalidSignature
+      redirect_to password_path, notice: 'Your ward password was not valid. Please re-enter your password.'
   end
 
   def import
@@ -120,10 +131,11 @@ class FamiliesController < ApplicationController
   end
 
   def confirm
-    # get all families that were in the import file
+    # get all families that were in the import file and prepare the ward decryptor
     add_families = params[:add_families] if params[:add_families]
     remove_families = params[:remove_families] if params[:remove_families]
     update_families = params[:update_families] if params[:update_families]
+    @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
 
     # if there are families checked to add, create a new family record and fill it with the values and set the ward password for encrypting
     if add_families && add_families.count > 0
@@ -146,11 +158,11 @@ class FamiliesController < ApplicationController
       remove_families.each do |f|
         if f[1][:confirmed_change] == "1"
           family = Family.find(f[1][:id].to_i)
-          family.name = ward_decryptor.decrypt_and_verify(family.name)
-          family.phone = ward_decryptor.decrypt_and_verify(family.phone)
-          family.email = ward_decryptor.decrypt_and_verify(family.email)
-          family.address = ward_decryptor.decrypt_and_verify(family.address)
-          family.children = ward_decryptor.decrypt_and_verify(family.children)
+          family.name = @ward_decryptor.decrypt_and_verify(family.name)
+          family.phone = @ward_decryptor.decrypt_and_verify(family.phone)
+          family.email = @ward_decryptor.decrypt_and_verify(family.email)
+          family.address = @ward_decryptor.decrypt_and_verify(family.address)
+          family.children = @ward_decryptor.decrypt_and_verify(family.children)
           family.confirmed_change = false
           family.archived = true
           family.encrypted_password = cookies[:ward_password]
@@ -164,7 +176,7 @@ class FamiliesController < ApplicationController
       update_families.each do |f|
         if f[1][:confirmed_change] == "1"
           family = Family.find(f[1][:id].to_i)
-          family.name = ward_decryptor.decrypt_and_verify(family.name)
+          family.name = @ward_decryptor.decrypt_and_verify(family.name)
           family.phone = f[1][:phone]
           family.email = f[1][:email]
           family.address = f[1][:address]
@@ -176,6 +188,10 @@ class FamiliesController < ApplicationController
       end
     end
     redirect_to root_path
+
+    # if the ward decryptor is not valid, let the user know that they need to re-enter the ward password
+    rescue ActiveSupport::MessageVerifier::InvalidSignature
+      redirect_to password_path, notice: 'Your ward password was not valid. Please re-enter your password.'
   end
 
   def new
@@ -200,17 +216,22 @@ class FamiliesController < ApplicationController
   end
 
   def edit
-    # find the family for editing and decrypt any fields that aren't empty
+    # find the family for editing, prepare the ward decryptor and decrypt any fields that aren't empty
   	@family = Family.find(params[:id])
-    @name = ward_decryptor.decrypt_and_verify(@family.name)
+    @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
+    @name = @ward_decryptor.decrypt_and_verify(@family.name)
     @phone = @family.phone
     @email = @family.email
     @address = @family.address
     @children = @family.children
-    @phone = ward_decryptor.decrypt_and_verify(@family.phone) if !@family.phone.nil? && @family.phone != ""
-    @email = ward_decryptor.decrypt_and_verify(@family.email) if !@family.email.nil? && @family.email != ""
-    @address = ward_decryptor.decrypt_and_verify(@family.address) if !@family.address.nil? && @family.address != ""
-    @children = ward_decryptor.decrypt_and_verify(@family.children) if !@family.children.nil? && @family.children != ""
+    @phone = @ward_decryptor.decrypt_and_verify(@family.phone) if !@family.phone.nil? && @family.phone != ""
+    @email = @ward_decryptor.decrypt_and_verify(@family.email) if !@family.email.nil? && @family.email != ""
+    @address = @ward_decryptor.decrypt_and_verify(@family.address) if !@family.address.nil? && @family.address != ""
+    @children = @ward_decryptor.decrypt_and_verify(@family.children) if !@family.children.nil? && @family.children != ""
+
+    # if the ward decryptor is not valid, let the user know that they need to re-enter the ward password
+    rescue ActiveSupport::MessageVerifier::InvalidSignature
+      redirect_to password_path, notice: 'Your ward password was not valid. Please re-enter your password.'
   end
 
   def update
@@ -250,17 +271,19 @@ class FamiliesController < ApplicationController
       if signed_in?
         if !current_ward?
           redirect_to root_path, notice: 'You do not have permission to access this area.'
-        elsif !ward_decryptor_valid?
-          redirect_to password_path
+        elsif !ward_password?
+          store_location
+          redirect_to password_path, notice: 'Your ward password was not valid. Please re-enter your password in order to access this area.'
         end
       else
-        redirect_to root_path, notice: 'You do not have permission to access this area.'
+        store_location
+        redirect_to root_path, notice: 'Please sign in to access this area.'
       end
     end
 
-    def super_user
+    def admin_user
       # only allow admins or master users access
-      unless signed_in? && (current_user.admin? || current_user.master?)
+      unless signed_in? && current_user.admin?
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end
     end

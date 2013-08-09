@@ -91,15 +91,15 @@
   			  	      <td style="width:300px;">
                     <label class="checkbox" style="padding:0 0 0 0;">
                       <%= f.check_box :confirmed_change, :style => "margin:3px 5px 0 0;", :id => "archive_family" %>
-                      <%= ward_decryptor.decrypt_and_verify(family.name) %>
+                      <%= @ward_decryptor.decrypt_and_verify(family.name) %>
                     </label>
   			  	      </td>
 			  	        <td style="width:300px;">
-                    <%= ward_decryptor.decrypt_and_verify(family.phone) %><p>
-                    <%= ward_decryptor.decrypt_and_verify(family.email) %>
+                    <%= @ward_decryptor.decrypt_and_verify(family.phone) %><p>
+                    <%= @ward_decryptor.decrypt_and_verify(family.email) %>
                   </td>
-			  	        <td style="width:250px;"><%= ward_decryptor.decrypt_and_verify(family.address) %></td>
-  			  	      <td style="width:250px;"><%= ward_decryptor.decrypt_and_verify(family.children) %></td>
+			  	        <td style="width:250px;"><%= @ward_decryptor.decrypt_and_verify(family.address) %></td>
+  			  	      <td style="width:250px;"><%= @ward_decryptor.decrypt_and_verify(family.children) %></td>
 				        </tr>
                 <!-- add hidden fields for all of the family's attributes -->
 				        <%= f.hidden_field :id %>
@@ -150,23 +150,23 @@
         		    <tr>
   		  	        <td style="width:250px;"><%= family.name %></td>
 		  	          <td style="width:150px;">
-                    <% if family.phone != ward_decryptor.decrypt_and_verify(family.phone_was) %>
-                      <%= ward_decryptor.decrypt_and_verify(family.phone_was) %><% else %><%= family.phone %>
+                    <% if family.phone != @ward_decryptor.decrypt_and_verify(family.phone_was) %>
+                      <%= @ward_decryptor.decrypt_and_verify(family.phone_was) %><% else %><%= family.phone %>
                     <% end %>
                   </td>
 			  	        <td style="width:250px;">
-                    <% if family.email != ward_decryptor.decrypt_and_verify(family.email_was) %>
-                      <%= ward_decryptor.decrypt_and_verify(family.email_was) %><% else %><%= family.email %>
+                    <% if family.email != @ward_decryptor.decrypt_and_verify(family.email_was) %>
+                      <%= @ward_decryptor.decrypt_and_verify(family.email_was) %><% else %><%= family.email %>
                     <% end %>
                   </td>
 			  	        <td style="width:250px;">
-                    <% if family.address != ward_decryptor.decrypt_and_verify(family.address_was)%>
-                      <%= ward_decryptor.decrypt_and_verify(family.address_was) %><% else %><%= family.address %>
+                    <% if family.address != @ward_decryptor.decrypt_and_verify(family.address_was)%>
+                      <%= @ward_decryptor.decrypt_and_verify(family.address_was) %><% else %><%= family.address %>
                     <% end %>
                   </td>
   			  	      <td style="width:250px;">
-                    <% if family.children != ward_decryptor.decrypt_and_verify(family.children_was) %>
-                      <%= ward_decryptor.decrypt_and_verify(family.children_was) %><% else %><%= family.children %>
+                    <% if family.children != @ward_decryptor.decrypt_and_verify(family.children_was) %>
+                      <%= @ward_decryptor.decrypt_and_verify(family.children_was) %><% else %><%= family.children %>
                     <% end %>
                   </td>
   			  	      <td style="width:100px;"><% if family.archived_changed? %><%= family.archived_was %><% else %><%= family.archived %><% end %></td>
@@ -181,22 +181,22 @@
 				  	        </label>
 				  	      </td>
 				  	      <td style="width:150px;"><strong>
-                    <% if family.phone != ward_decryptor.decrypt_and_verify(family.phone_was) %>
+                    <% if family.phone != @ward_decryptor.decrypt_and_verify(family.phone_was) %>
                       <%= family.phone %><% else %>No change
                     <% end %>
                   </strong></td>
 				  	      <td style="width:250px;"><strong>
-                    <% if family.email != ward_decryptor.decrypt_and_verify(family.email_was) %>
+                    <% if family.email != @ward_decryptor.decrypt_and_verify(family.email_was) %>
                       <%= family.email %><% else %>No change
                     <% end %>
                   </strong></td>
 			  	        <td style="width:250px;"><strong>
-                    <% if family.address != ward_decryptor.decrypt_and_verify(family.address_was) %>
+                    <% if family.address != @ward_decryptor.decrypt_and_verify(family.address_was) %>
                       <%= family.address %><% else %>No change
                     <% end %>
                   </strong></td>
   			    	    <td style="width:250px;"><strong>
-                    <% if family.children != ward_decryptor.decrypt_and_verify(family.children_was) %>
+                    <% if family.children != @ward_decryptor.decrypt_and_verify(family.children_was) %>
                       <%= family.children %><% else %>No change
                     <% end %>
                   </strong></td>

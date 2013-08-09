@@ -1,6 +1,7 @@
 class WardsController < ApplicationController
   before_action :signed_in_user, only: [:new, :create, :password, :confirm_password]
-  before_action :super_user, only: [:edit, :destroy, :change_password, :update]
+  before_action :super_user, only: [:destroy]
+  before_action :admin_user, only: [:edit, :change_password, :update]
   before_action :master_user, only: [:index]
 
   def index
@@ -123,7 +124,7 @@ class WardsController < ApplicationController
 
         # set the ward password to allow encryption/decryption of ward information during this user's session
         set_ward_password password
-        redirect_to root_path
+        redirect_back_or root_path
       end
     end
 
@@ -226,19 +227,27 @@ class WardsController < ApplicationController
 
     def signed_in_user
       # only allow access to users that are signed in
-      redirect_to root_path, notice: 'Please sign in to access this area.' unless signed_in?
+      unless signed_in?
+        store_location
+        redirect_to signin_path, notice: 'Please sign in to access this area.'
+      end
     end
 
     def super_user
       # only allow access to admin for the proper ward or master user
       ward = Ward.find(params[:id])
-      unless signed_in? && ((current_user.admin && current_ward_is?(ward)) || current_user.master?)
+      unless signed_in? && ((current_user.admin? && current_ward_is?(ward)) || current_user.master?)
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end
     end
 
+    def admin_user
+      # only allow access to admin users
+      redirect_to root_path, notice: 'You do not have permission to access this area.' unless signed_in? && current_user.admin?
+    end
+
     def master_user
       # only allow access to master users
-      redirect_to root_path, notice: 'You do not have permission to access this area.' unless signed_in? && current_user.master
+      redirect_to root_path, notice: 'You do not have permission to access this area.' unless signed_in? && current_user.master?
     end
 end

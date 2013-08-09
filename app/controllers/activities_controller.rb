@@ -4,6 +4,9 @@ class ActivitiesController < ApplicationController
   def new
   	@activity = Activity.new
 
+    # prepare the ward decryptor
+    @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
+
     # only allow the user to assign activities to families that are not archived
     @families = Family.where("archived = ?", false)
 
@@ -42,6 +45,9 @@ class ActivitiesController < ApplicationController
     # find the activity to edit
     @activity = Activity.find(params[:id])
 
+    # prepare the ward decryptor
+    @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
+
     # find all of the families that are not archived and use the ward password from the session to decrypt all family names
     @families = Family.where("archived = ?", false)
     @families.each do |family|
@@ -65,6 +71,9 @@ class ActivitiesController < ApplicationController
   end
 
   def reports
+    # prepare the ward decryptor
+    @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
+
     # the selected report is for a family, retrieve the family and all activities reported for it
     if params[:family_id]
       @selected_family = Family.find(params[:family_id])
@@ -91,13 +100,14 @@ class ActivitiesController < ApplicationController
 
   def archive
     # a family was selected for archiving, decrypt all fields, set the ward password so the fields can be re-encrypted and saved
+    @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
     if params[:archive_family]
       archive_family = Family.find(params[:archive_family])
-      archive_family.name = ward_decryptor.decrypt_and_verify(archive_family.name)
-      archive_family.email = ward_decryptor.decrypt_and_verify(archive_family.email) if !archive_family.email.nil? && archive_family.email != ""
-      archive_family.phone = ward_decryptor.decrypt_and_verify(archive_family.phone) if !archive_family.phone.nil? && archive_family.phone != ""
-      archive_family.address = ward_decryptor.decrypt_and_verify(archive_family.address) if !archive_family.address.nil? && archive_family.address != ""
-      archive_family.children = ward_decryptor.decrypt_and_verify(archive_family.children) if !archive_family.children.nil? && archive_family.children != ""
+      archive_family.name = @ward_decryptor.decrypt_and_verify(archive_family.name)
+      archive_family.email = @ward_decryptor.decrypt_and_verify(archive_family.email) if !archive_family.email.nil? && archive_family.email != ""
+      archive_family.phone = @ward_decryptor.decrypt_and_verify(archive_family.phone) if !archive_family.phone.nil? && archive_family.phone != ""
+      archive_family.address = @ward_decryptor.decrypt_and_verify(archive_family.address) if !archive_family.address.nil? && archive_family.address != ""
+      archive_family.children = @ward_decryptor.decrypt_and_verify(archive_family.children) if !archive_family.children.nil? && archive_family.children != ""
       archive_family.encrypted_password = cookies[:ward_password]
       archive_family.archived = true
       archive_family.save
@@ -105,11 +115,11 @@ class ActivitiesController < ApplicationController
     # a family was selected for unarchiving, decrypt all fields, set the ward password so the fields can be re-encrypted and saved
     elsif params[:unarchive_id]
       unarchive_family = Family.find(params[:unarchive_id])
-      unarchive_family.name = ward_decryptor.decrypt_and_verify(unarchive_family.name)
-      unarchive_family.email = ward_decryptor.decrypt_and_verify(unarchive_family.email) if !unarchive_family.email.nil? && unarchive_family.email != ""
-      unarchive_family.phone = ward_decryptor.decrypt_and_verify(unarchive_family.phone) if !unarchive_family.phone.nil? && unarchive_family.phone != ""
-      unarchive_family.address = ward_decryptor.decrypt_and_verify(unarchive_family.address) if !unarchive_family.address.nil? && unarchive_family.address != ""
-      unarchive_family.children = ward_decryptor.decrypt_and_verify(unarchive_family.children) if !unarchive_family.children.nil? && unarchive_family.children != ""
+      unarchive_family.name = @ward_decryptor.decrypt_and_verify(unarchive_family.name)
+      unarchive_family.email = @ward_decryptor.decrypt_and_verify(unarchive_family.email) if !unarchive_family.email.nil? && unarchive_family.email != ""
+      unarchive_family.phone = @ward_decryptor.decrypt_and_verify(unarchive_family.phone) if !unarchive_family.phone.nil? && unarchive_family.phone != ""
+      unarchive_family.address = @ward_decryptor.decrypt_and_verify(unarchive_family.address) if !unarchive_family.address.nil? && unarchive_family.address != ""
+      unarchive_family.children = @ward_decryptor.decrypt_and_verify(unarchive_family.children) if !unarchive_family.children.nil? && unarchive_family.children != ""
       unarchive_family.encrypted_password = cookies[:ward_password]
       unarchive_family.archived = false
       unarchive_family.save
@@ -127,6 +137,10 @@ class ActivitiesController < ApplicationController
       @selected_family = Family.find(params[:family_id])
       @activities = @selected_family.activities
     end
+
+    # if the ward decryptor is not valid, let the user know that they need to re-enter the ward password
+    rescue ActiveSupport::MessageVerifier::InvalidSignature
+      redirect_to password_path, notice: 'Your ward password was not valid. Please re-enter your password.'
   end
 
   private
@@ -142,11 +156,13 @@ class ActivitiesController < ApplicationController
       if signed_in?
         if !current_ward?
           redirect_to root_path, notice: 'You do not have permission to access this area.'
-        elsif !ward_decryptor_valid?
-          redirect_to password_path
+        elsif !ward_password?
+          store_location
+          redirect_to password_path, notice: 'Your ward password was not valid. Please re-enter your password in order to access this area.'
         end
       else
-        redirect_to root_path, notice: 'You do not have permission to access this area.'
+        store_location
+        redirect_to signin_path, notice: 'Please sign in to access this area.'
       end
     end
 

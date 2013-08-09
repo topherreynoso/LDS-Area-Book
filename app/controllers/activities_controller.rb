@@ -4,9 +4,6 @@ class ActivitiesController < ApplicationController
   def new
   	@activity = Activity.new
 
-    # prepare the ward decryptor
-    @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
-
     # only allow the user to assign activities to families that are not archived
     @families = Family.where("archived = ?", false)
 
@@ -22,11 +19,8 @@ class ActivitiesController < ApplicationController
     date = params[:activity][:activity_date]
     params[:activity][:activity_date] = Date.strptime(date, "%m/%d/%y")
   	
-    # prepare the new activity record and assign the current user as its author
+    # prepare the new activity and save it, view the family's report or show errors
     @activity = Activity.new(activity_params)
-  	@activity.user_id = current_user.id
-
-    # save the new activity and view the family's report or show errors
     if @activity.save
       redirect_to reports_path(:family_id => @activity.family_id)
     else
@@ -44,9 +38,6 @@ class ActivitiesController < ApplicationController
   def edit
     # find the activity to edit
     @activity = Activity.find(params[:id])
-
-    # prepare the ward decryptor
-    @ward_decryptor = ActiveSupport::MessageEncryptor.new(ward_password)
 
     # find all of the families that are not archived and use the ward password from the session to decrypt all family names
     @families = Family.where("archived = ?", false)

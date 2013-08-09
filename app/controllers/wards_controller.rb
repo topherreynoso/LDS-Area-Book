@@ -205,8 +205,9 @@ class WardsController < ApplicationController
 
     def super_user
       # only allow access to admin for the proper ward or master user
-      ward = Ward.find(params[:id])
-      unless (current_user.admin? && current_ward? && current_ward_is?(ward) && ward_password?) || current_user.master?
+      ward = nil
+      ward = Ward.find(params[:id]) if params[:id]
+      unless current_user.master? || (current_user.admin? && current_ward? && current_ward_is?(ward) && ward_password?)
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end
     end

@@ -13,6 +13,7 @@ AreaBook::Application.routes.draw do
   match '/contact',          to: 'static_pages#contact',   via: 'get' 
   match '/new_user',   	     to: 'users#new', 		   		   via: 'get'
   match '/all_users',        to: 'users#all',              via: 'get'
+  match '/verify_user',      to: 'users#verify',           via: 'get'
   match '/new_ward',         to: 'wards#new',              via: 'get'
   match '/password',         to: 'wards#password',         via: 'get'
   match '/change_password',  to: 'wards#change_password',  via: 'post'

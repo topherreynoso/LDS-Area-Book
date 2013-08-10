@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130802082844) do
+ActiveRecord::Schema.define(version: 20130810160636) do
 
   create_table "activities", force: true do |t|
     t.integer  "family_id"
@@ -44,6 +44,15 @@ ActiveRecord::Schema.define(version: 20130802082844) do
 
   add_index "families", ["archived"], name: "index_families_on_archived"
   add_index "families", ["investigator", "archived"], name: "archived_ward_list"
+  add_index "families", ["investigator", "archived"], name: "by_archived_ward_list"
+  add_index "families", ["investigator", "archived"], name: "by_investigator_list"
+  add_index "families", ["investigator", "archived"], name: "by_ward_list"
+  add_index "families", ["investigator", "archived"], name: "index_archived_ward_list"
+  add_index "families", ["investigator", "archived"], name: "index_by_archived_ward_list"
+  add_index "families", ["investigator", "archived"], name: "index_by_investigator_list"
+  add_index "families", ["investigator", "archived"], name: "index_by_ward_list"
+  add_index "families", ["investigator", "archived"], name: "index_investigator_list"
+  add_index "families", ["investigator", "archived"], name: "index_ward_list"
   add_index "families", ["investigator", "archived"], name: "investigator_list"
   add_index "families", ["investigator", "archived"], name: "ward_list"
   add_index "families", ["investigator"], name: "index_families_on_investigator"
@@ -57,10 +66,11 @@ ActiveRecord::Schema.define(version: 20130802082844) do
     t.string   "password_digest"
     t.string   "remember_token"
     t.boolean  "admin",           default: false
-    t.boolean  "email_confirmed", default: true
+    t.boolean  "email_confirmed", default: false
     t.boolean  "master",          default: false
     t.integer  "ward_id"
     t.boolean  "ward_confirmed",  default: false
+    t.string   "auth_code"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

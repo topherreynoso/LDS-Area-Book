@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :signed_in, only: [:edit, :destroy, :update, :index, :all]
+  before_action :email_verified, only: [:destroy, :index, :all]
   before_action :correct_user, only: [:edit]
   before_action :correct_user_or_master, only: [:destroy]
   before_action :correct_user_or_admin, only: [:update]
@@ -37,6 +38,18 @@ class UsersController < ApplicationController
     # the update is for a user's own account
     if current_user?(@user)
 
+      # the user has updated their account with a new email address or requested to resend email verification
+      email_change = false
+      if (params[:user][:email] && @user.email != params[:user][:email])
+        # make sure their email is not confirmed, set a new auth code and skip validations
+        email_change = true
+        @user.email_confirmed = false
+        @user.auth_code = SecureRandom.hex(6)
+        @user.skip_validation = true
+        @user.save
+        @user.skip_validation = false
+      end
+
       # the request is to join a new ward, make sure the ward is not confirmed and the user is not an admin since they are requesting access
       if params[:user][:ward_id] && params[:user][:ward_id] != @user.ward_id
         @user.skip_validation = true
@@ -52,14 +65,17 @@ class UsersController < ApplicationController
         # if this is a request to access a new ward or leave a ward, let the user know that the request has been made, otherwise go to root
         if ward_request == true
           if @user.ward_id != nil
-            redirect_to root_path, :flash => { :success => 'Your request has been submitted. An admin will respond to your request soon.' }
+            flash[:success] = 'Your request has been submitted. An admin will respond to your request soon.'
           else
             set_ward nil
-            redirect_to root_path, :flash => { :success => 'Your account is no longer associated with a ward.' }
+            flash[:success] = 'Your account is no longer associated with a ward.'
           end
+        elsif email_change
+          flash[:success] = 'A verification was sent to your new email. Please follow the link in it to verify.'
         else
-          redirect_to root_path, :flash => { :success => 'Your account has been updated.' }
+          flash[:success] = 'Your account has been updated.'
         end
+        redirect_to root_path
       else
         render 'edit'
       end
@@ -101,10 +117,12 @@ class UsersController < ApplicationController
     # only allow new users to create user accounts
     if !signed_in?
 
-      # if the new account is successfully created, send to the root page otherwise show errors
+      # set the email auth code and, if the new account is successfully created, send an email to the root page otherwise show errors
+      @user.auth_code = SecureRandom.hex(6)
       if @user.save
         sign_in @user
-        flash[:success] = "Welcome to LDS Area Book"
+        flash[:success] = "Welcome to LDS Area Book. Please verify your email by following the link we sent to your address."
+        UserMailer.user_email_verification(@user.id).deliver
         redirect_to root_path
       else
         render 'new'
@@ -125,6 +143,40 @@ class UsersController < ApplicationController
       flash[:success] = "User account was deleted."
       render 'index'
     end 
+  end
+
+  def verify
+    # find the user verifying their account
+    @user = User.find(params[:id])
+
+    # the user has requested resending a verification email
+    if params[:resend]
+      UserMailer.user_email_verification(@user.id).deliver
+      flash[:success] = "An email was sent to your account. Follow the link in the email to verify your address."
+
+    # the user is verifying their email
+    else
+
+      # make sure that the auth code submitted matches the user's auth code
+      if @user && @user.auth_code = params[:auth_code]
+
+        # change the user's status to email confirmed and skip the validation so a password is not required to change it
+        @user.email_confirmed = true
+        @user.skip_validation = true
+
+        # as long as the user saves properly, let the user know or show the error
+        if @user.save
+          sign_in User.find(@user.id)
+          flash[:success] = "Your user email has been verified."
+        else
+          flash[:error] = "There was an error. Please try verifying your user email again."
+        end
+        @user.skip_validation = false
+      else
+        flash[:error] = "Your user email verification code does not match. Please resend a verification email and try again."
+      end
+    end
+    redirect_to root_path
   end
 
   private
@@ -154,6 +206,12 @@ class UsersController < ApplicationController
       end
     end
 
+    def email_verified
+      unless current_user.email_confirmed?
+        redirect_to root_path, notice: 'You must verify your email address before you can access this area.'
+      end
+    end
+
     def correct_user
       # if the user is not the same account that is signed in or a master account then redirect it
       @user = User.find(params[:id])
@@ -169,7 +227,8 @@ class UsersController < ApplicationController
     def correct_user_or_admin
       # if it is not the user's own account or if the signed in account is not authorized to administer the user's ward then redirect to root
       @user = User.find(params[:id])
-      @ward = Ward.find(@user.ward_id)
+      @ward = nil
+      Ward.find(@user.ward_id) if !@user.ward_id.nil?
       unless current_user?(@user) || (current_user.admin? && current_ward_is?(@ward) && ward_password?)
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end

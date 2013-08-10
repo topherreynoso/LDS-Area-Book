@@ -10,10 +10,11 @@
 #  password_digest :string(255)
 #  remember_token  :string(255)
 #  admin           :boolean          default(FALSE)
-#  email_confirmed :boolean          default(TRUE)
+#  email_confirmed :boolean          default(FALSE)
 #  master          :boolean          default(FALSE)
 #  ward_id         :integer
 #  ward_confirmed  :boolean          default(FALSE)
+#  auth_code       :string(255)
 #
 
 class User < ActiveRecord::Base
@@ -37,9 +38,19 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true, :unless => :skip_validation
   validates :password, length: { minimum: 6 }, :unless => :skip_validation
 
+  # verify if the user changed their email address
+  after_update :verify_email_after_change
+
   # sort users alphabetically
   default_scope order: 'name ASC'
 
+  def verify_email_after_change
+    # if the user email changed then send out a verification email
+    if (self.email_changed?)
+      UserMailer.user_email_verification(self.id).deliver
+    end      
+  end
+  
   private
 
     def create_remember_token

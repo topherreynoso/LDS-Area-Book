@@ -1,7 +1,16 @@
 <div class="container" style="margin-top:20px;">
   <fullbody class="span11" style="min-height:520px;">
+    <!-- the user is signed in but has not verified their email address so give them a resend verification button -->
+    <% if signed_in? && !current_user.email_confirmed? %>
+      <h1 style="margin:130px 50px 50px 50px;">Verify Your Email Address</h1>
+      <center>
+        <h4>In order to view any section of the area book, you need to verify your email address.</h4>
+        <h4>An email was sent to your account. Please follow the link in order to verify your account.</h4>
+        <h4 style="margin-bottom:40px;">Resend a verification email or go to your account settings to change your email.</h4>
+        <%= link_to "Resend Verification", verify_user_path(:id => current_user.id, :resend => true), :class => "btn btn-primary" %>
+      </center>
     <!-- the user is signed in but has not been given access to any ward area book -->
-    <% if signed_in? && current_ward.nil? && !current_user.master? %>
+    <% elsif signed_in? && current_ward.nil? %>
       <h1 style="margin-bottom:20px;">Request Access to a Ward</h1>
       <div class="row">
         <div class="span11">

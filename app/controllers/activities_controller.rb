@@ -145,7 +145,9 @@ class ActivitiesController < ApplicationController
     def authorized_user
       # make sure the user is signed in and is an authorized user
       if signed_in?
-        if !current_ward?
+        if !current_user.email_confirmed?
+          redirect_to root_path, notice: 'You must verify your email address before you can access this area.'
+        elsif !current_ward?
           redirect_to root_path, notice: 'You do not have permission to access this area.'
         elsif !ward_password?
           store_location

@@ -1,0 +1,5 @@
+development:
+  host_address: localhost:3000
+
+production:
+  host_address: secure.ldsareabook.org

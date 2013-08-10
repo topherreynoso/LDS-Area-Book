@@ -1,5 +1,5 @@
 class WardsController < ApplicationController
-  before_action :signed_in_user, only: [:new, :create, :password, :confirm_password, :destroy, :edit, :change_password, :update, :index]
+  before_action :signed_in_and_verified, only: [:new, :create, :password, :confirm_password, :destroy, :edit, :change_password, :update, :index]
   before_action :super_user, only: [:destroy, :edit, :change_password, :update, :index]
   before_action :admin_user, only: [:edit, :change_password, :update]
   before_action :master_user, only: [:index]
@@ -195,11 +195,13 @@ class WardsController < ApplicationController
       params.require(:ward).permit(:name, :unit, :confirm, :confirm_again)
     end
 
-    def signed_in_user
+    def signed_in_and_verified
       # only allow access to users that are signed in
-      unless signed_in?
+      if !signed_in?
         store_location
         redirect_to signin_path, notice: 'Please sign in to access this area.'
+      elsif !current_user.email_confirmed?
+        redirect_to root_path, notice: 'You must verify your email address before you can access this area.'
       end
     end
 

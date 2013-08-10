@@ -10,10 +10,11 @@
 #  password_digest :string(255)
 #  remember_token  :string(255)
 #  admin           :boolean          default(FALSE)
-#  email_confirmed :boolean          default(TRUE)
+#  email_confirmed :boolean          default(FALSE)
 #  master          :boolean          default(FALSE)
 #  ward_id         :integer
 #  ward_confirmed  :boolean          default(FALSE)
+#  auth_code       :string(255)
 #
 
 require 'spec_helper'

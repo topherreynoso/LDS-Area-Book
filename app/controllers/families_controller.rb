@@ -1,5 +1,5 @@
 class FamiliesController < ApplicationController
-  before_action :signed_in, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy, :import, :confirm]
+  before_action :signed_in_and_verified, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy, :import, :confirm]
   before_action :authorized_user, only: [:ward, :investigators, :watch, :new, :create, :edit, :update, :destroy]
   before_action :admin_user, only: [:import, :confirm]
 
@@ -270,11 +270,13 @@ class FamiliesController < ApplicationController
 
     # Before filters
 
-    def signed_in
+    def signed_in_and_verified
       # if the user is not signed in then redirect to the sign in path
-      unless signed_in?
+      if !signed_in?
         store_location
         redirect_to signin_path, notice: 'You must sign in to access this area.'
+      elsif !current_user.email_confirmed?
+        redirect_to root_path, notice: 'You must verify your email address before you can access this area.'
       end
     end
 

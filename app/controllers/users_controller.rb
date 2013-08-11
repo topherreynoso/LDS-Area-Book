@@ -10,12 +10,38 @@ class UsersController < ApplicationController
   def all
     # show a system-wide user list
     @is_all_users = true
-    @users = User.all.paginate(page: params[:page], :per_page => 8)
+
+    # start with all users
+    @users = User.all
+    
+    # the user selected a range of letters so find all users in that range
+    if params[:scope]
+      @all_users = @users
+      @users = []
+      @all_users.each do |user|
+        @users << user if params[:scope].include?(user.name[0,1])
+      end
+    end
+
+    # paginate the users
+    @users = @users.paginate(page: params[:page], :per_page => 8)
   end
 
   def index
     # only show the users in the current ward
-    @users = User.where(:ward_id => current_ward.id).paginate(page: params[:page], :per_page => 8)
+    @users = User.where(:ward_id => current_ward.id)
+
+    # the user selected a range of letters so find all users in that range
+    if params[:scope]
+      @all_users = @users
+      @users = []
+      @all_users.each do |user|
+        @users << user if params[:scope].include?(user.name[0,1])
+      end
+    end
+
+    # paginate the users
+    @users = @users.paginate(page: params[:page], :per_page => 8)
   end
 
   def new

@@ -1,0 +1,50 @@
+<div class="tabbable tabs-right">
+  <ul class="nav nav-tabs" style="margin-top:-480px; margin-right:8px; text-align:right; font-size:0.8em;">
+  	<% @fullpath = request.fullpath %>
+    <% if !@fullpath.include?("scope") %>
+	  <li class="active" style="margin-left:20px;"><%= link_to "All", request.fullpath.split("?")[0] %></li>
+    <% else %>
+  	  <li style="margin-left:20px;"><%= link_to "All", request.fullpath.split("?")[0] %></li>
+    <% end %>
+    <% if @fullpath.include?("AaBbCc") %>
+	  <li class="active" style="margin-left:20px;"><%= link_to "A-C", request.fullpath.split("?")[0]+"?scope=AaBbCc" %></li>
+    <% else %>
+  	  <li style="margin-left:20px;"><%= link_to "A-C", request.fullpath.split("?")[0]+"?scope=AaBbCc" %></li>
+    <% end %>
+    <% if @fullpath.include?("DdEeFf") %>
+	  <li class="active" style="margin-left:20px;"><%= link_to "D-F", request.fullpath.split("?")[0]+"?scope=DdEeFf" %></li>
+    <% else %>
+  	  <li style="margin-left:20px;"><%= link_to "D-F", request.fullpath.split("?")[0]+"?scope=DdEeFf" %></li>
+    <% end %>
+    <% if @fullpath.include?("GgHhIi") %>
+	  <li class="active" style="margin-left:20px;"><%= link_to "G-I", request.fullpath.split("?")[0]+"?scope=GgHhIi" %></li>
+    <% else %>
+  	  <li style="margin-left:20px;"><%= link_to "G-I", request.fullpath.split("?")[0]+"?scope=GgHhIi" %></li>
+    <% end %>
+    <% if @fullpath.include?("JjKkLlMm") %>
+	  <li class="active" style="margin-left:20px;"><%= link_to "J-M", request.fullpath.split("?")[0]+"?scope=JjKkLlMm" %></li>
+    <% else %>
+  	  <li style="margin-left:20px;"><%= link_to "J-M", request.fullpath.split("?")[0]+"?scope=JjKkLlMm" %></li>
+    <% end %>
+    <% if @fullpath.include?("NnOoPp") %>
+	  <li class="active" style="margin-left:20px;"><%= link_to "N-P", request.fullpath.split("?")[0]+"?scope=NnOoPp" %></li>
+    <% else %>
+  	  <li style="margin-left:20px;"><%= link_to "N-P", request.fullpath.split("?")[0]+"?scope=NnOoPp" %></li>
+    <% end %>
+    <% if @fullpath.include?("QqRrSsTt") %>
+	  <li class="active" style="margin-left:20px;"><%= link_to "Q-T", request.fullpath.split("?")[0]+"?scope=QqRrSsTt" %></li>
+    <% else %>
+  	  <li style="margin-left:20px;"><%= link_to "Q-T", request.fullpath.split("?")[0]+"?scope=QqRrSsTt" %></li>
+    <% end %>
+    <% if @fullpath.include?("UuVvWw") %>
+	  <li class="active" style="margin-left:20px;"><%= link_to "U-W", request.fullpath.split("?")[0]+"?scope=UuVvWw" %></li>
+    <% else %>
+  	  <li style="margin-left:20px;"><%= link_to "U-W", request.fullpath.split("?")[0]+"?scope=UuVvWw" %></li>
+    <% end %>
+    <% if @fullpath.include?("XxYyZz") %>
+	  <li class="active" style="margin-left:20px;"><%= link_to "X-Z", request.fullpath.split("?")[0]+"?scope=XxYyZz" %></li>
+    <% else %>
+  	  <li style="margin-left:20px;"><%= link_to "X-Z", request.fullpath.split("?")[0]+"?scope=XxYyZz" %></li>
+    <% end %>
+  </ul>
+</div>

@@ -1,5 +1,9 @@
-<div class="container" style="margin-top:20px;">
-  <fullbody class="span11" style="min-height:520px;">
+<div class="container" style="margin-left:5px; margin-top:20px;">
+<!-- since the user is signed in but not been given access to a ward, set it up to request ward access -->
+<% if signed_in? && current_ward.nil? %>
+  <div class="row">
+<% end %>
+  <fullbody class="span11" style="height:520px;">
     <!-- the user is signed in but has not verified their email address so give them a resend verification button -->
     <% if signed_in? && !current_user.email_confirmed? %>
       <h1 style="margin:130px 50px 50px 50px;">Verify Your Email Address</h1>
@@ -51,4 +55,9 @@
  	    </center>
     <% end %>
   </fullbody>
+  <!-- show alphabetical options for sorting if the user is signed in but has no assigned ward -->
+  <% if signed_in? && current_ward.nil? %>
+      <%= render 'layouts/alphabetically' %>
+    </div>
+  <% end %>
 </div>

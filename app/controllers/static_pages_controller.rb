@@ -6,7 +6,19 @@ class StaticPagesController < ApplicationController
       if !current_ward.nil? || current_user.master?
         redirect_to ward_list_path
       else
-        @wards = Ward.paginate(page: params[:page], :per_page => 8)
+        @wards = Ward.all
+
+        # the user selected a range of letters so find all wards in that range
+        if params[:scope]
+          @all_wards = @wards
+          @wards = []
+          @all_wards.each do |ward|
+            @wards << ward if params[:scope].include?(ward.name[0,1])
+          end
+        end
+
+        # paginate the wards
+        @wards = @wards.paginate(page: params[:page], :per_page => 8)
       end
     else
       @new_auth_code = SecureRandom.hex(6)

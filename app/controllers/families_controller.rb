@@ -9,10 +9,24 @@ class FamiliesController < ApplicationController
 
     # find all families that are not investigators or archived
     @families = Family.where("investigator = ? and archived = ?", false, false)
+
+    # use the ward password from the user's session to decrypt and sort by family names
     @families.each do |family|
       family.encrypted_password = ward_password
     end
-    @families = @families.sort_by(&:decrypted_name).paginate(page: params[:page], :per_page => 8)
+    @families = @families.sort_by(&:decrypted_name)
+
+    # the user selected a range of letters so find all families in that range
+    if params[:scope]
+      @all_families = @families
+      @families = []
+      @all_families.each do |family|
+        @families << family if params[:scope].include?(family.decrypted_name[0,1])
+      end
+    end
+
+    # paginate the families
+    @families = @families.paginate(page: params[:page], :per_page => 8)
   end
 
   def investigators
@@ -21,10 +35,24 @@ class FamiliesController < ApplicationController
 
     # find all families that are investigators and not archived
     @families = Family.where("investigator = ? and archived = ?", true, false)
+
+    # use the ward password from the user's session to decrypt and sort by family names
     @families.each do |family|
       family.encrypted_password = cookies[:ward_password]
     end
-    @families = @families.sort_by(&:decrypted_name).paginate(page: params[:page], :per_page => 8)
+    @families = @families.sort_by(&:decrypted_name)
+
+    # the user selected a range of letters so find all families in that range
+    if params[:scope]
+      @all_families = @families
+      @families = []
+      @all_families.each do |family|
+        @families << family if params[:scope].include?(family.decrypted_name[0,1])
+      end
+    end
+
+    # paginate the families
+    @families = @families.paginate(page: params[:page], :per_page => 8)
   end
 
   def watch
@@ -60,7 +88,18 @@ class FamiliesController < ApplicationController
       family.encrypted_password = cookies[:ward_password]
     end
     @watched_families = @watched_families.sort_by(&:decrypted_name)
-    @families = @watched_families.paginate(page: params[:page], :per_page => 8)
+
+    # the user selected a range of letters so find all families in that range or just show all families
+    if params[:scope]
+      @families = []
+      @watched_families.each do |family|
+        @families << family if params[:scope].include?(family.decrypted_name[0,1])
+      end
+    else
+      @families = @watched_families
+    end
+
+    @families = @families.paginate(page: params[:page], :per_page => 8)
 
     # get all families that are not being watched so they can be added, set the ward password so their names can be decrypted
     @unwatched_families = Family.where("watched = ? and archived = ?", false, false)

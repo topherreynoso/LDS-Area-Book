@@ -6,7 +6,19 @@ class WardsController < ApplicationController
 
   def index
     # get all wards
-    @wards = Ward.paginate(page: params[:page], :per_page => 7)
+    @wards = Ward.all
+
+    # the user selected a range of letters so find all wards in that range
+    if params[:scope]
+      @all_wards = @wards
+      @wards = []
+      @all_wards.each do |ward|
+        @wards << ward if params[:scope].include?(ward.name[0,1])
+      end
+    end
+
+    # paginate the wards
+    @wards = @wards.paginate(page: params[:page], :per_page => 7)
   end
 
   def new

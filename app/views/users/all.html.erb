@@ -1,19 +1,23 @@
 <% provide(:title, 'System Users') %>
 <%= render 'layouts/tabs' %>
-<div class="container">
-  <fullbody class="span11" style="height:480px;">
-    <h1>System Users</h1>
-    <ul class="users" style="height:380px;">
-      <!-- show all users -->
-      <% if !@users.nil? %>
-        <%= render @users %>
-      <% end %>
-    </ul>
-    <div class="span8 pull-right" style="text-align: right;">
-      <!-- show pagination -->
-      <% if !@users.nil? %>
-        <%= will_paginate @users, :inner_window => 2, :outer_window => 1, style: "margin: 10px 20px 0 0;" %>
-      <% end %>
-    </div>
-  </fullbody>
+<div class="container" style="margin-left:5px;">
+  <div class="row">
+    <fullbody class="span11" style="height:480px;">
+      <h1>System Users</h1>
+      <ul class="users" style="height:380px;">
+        <!-- show all users -->
+        <% if !@users.nil? %>
+          <%= render @users %>
+        <% end %>
+      </ul>
+      <div class="span8 pull-right" style="text-align: right;">
+        <!-- show pagination -->
+        <% if !@users.nil? %>
+          <%= will_paginate @users, :inner_window => 2, :outer_window => 1, style: "margin: 10px 20px 0 0;" %>
+        <% end %>
+      </div>
+    </fullbody>
+    <!-- show the alphabetical list to quickly find users -->
+    <%= render 'layouts/alphabetically' %>
+  </div>
 </div>

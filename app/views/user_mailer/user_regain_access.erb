@@ -1,0 +1,22 @@
+<html>
+  <head>
+	<title>Greetings from LDS Area Book</title>
+  </head>
+  <body>
+	<center>
+	<table style="width: 555px; margin: 10px auto; border: 1px black solid;">
+	  <tr><td style="background: #dfdfdf; text-align: center;"><h2 style="margin: 8px auto 8px auto;">Regain Access to Your Account</h2></td></tr>
+	  <tr>
+		<td style="text-align: left; padding: 5px 10px;">
+		  <p>Let's get your access back.</p>
+		  <p><strong>LDS Area Book</strong> received a request to help you access your account. You can follow the link below to access your account and reset your password.</p>
+		  <p><center><%= link_to "click here", reset_url(:id => @user.id, :auth_code => @user.auth_code, :host => AppConfig['host_address']) %></p>
+		  <p>If you cannot select the link above, copy and paste the address below into your internet browser.</p>
+		  <p><%= link_to "#{reset_url(:id => @user.id, :auth_code => @user.auth_code, :host => AppConfig['host_address'])}".html_safe, reset_url(:id => @user.id, :auth_code => @user.auth_code, :host => AppConfig['host_address']) %></p>
+		  <p>We look forward to seeing you on LDS Area Book!</center></p>
+		</td>
+	  </tr>
+	</table>
+	</center>
+  </body>
+</html>

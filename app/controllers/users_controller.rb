@@ -34,46 +34,53 @@ class UsersController < ApplicationController
     # get the user record, assume that the update is not a request to join a new ward
     @user = User.find(params[:id])
     ward_request = false
+    old_email = @user.email
 
     # the update is for a user's own account
     if current_user?(@user)
 
-      # the user has updated their account with a new email address or requested to resend email verification
-      email_change = false
-      if (params[:user][:email] && @user.email != params[:user][:email])
-        # make sure their email is not confirmed, set a new auth code and skip validations
-        email_change = true
-        @user.email_confirmed = false
-        @user.auth_code = SecureRandom.hex(6)
+      # the request is to join or leave a ward, make sure the ward is not confirmed and the user is not an admin
+      if params[:user][:ward_id] && params[:user][:ward_id] != @user.ward_id
+        ward_request = true
+        @user.ward_confirmed = false
+        @user.ward_id = params[:user][:ward_id]
+        @user.admin = false if params[:user][:ward_id] == nil
         @user.skip_validation = true
         @user.save
         @user.skip_validation = false
       end
 
-      # the request is to join a new ward, make sure the ward is not confirmed and the user is not an admin since they are requesting access
-      if params[:user][:ward_id] && params[:user][:ward_id] != @user.ward_id
-        @user.skip_validation = true
-        @user.ward_confirmed = false
-        ward_request = true
-        @user.admin = false if ward_request && params[:user][:ward_id] == nil
-      end
-
       # udpate the record and sign the user back in so updates take effect, otherwise show the errors
       if @user.update_attributes(user_params)
-        sign_in User.find(@user.id)
+        
+        # the user has updated their account with a new email address or requested to resend email verification
+        if params[:user][:email] && old_email != params[:user][:email]
+          
+          # make sure their email is not confirmed, set a new auth code and skip validations
+          email_change = true
+          @user.email_confirmed = false
+          @user.auth_code = SecureRandom.hex(6)
+          @user.skip_validation = true
+          @user.save
+          @user.skip_validation = false
+        end
 
-        # if this is a request to access a new ward or leave a ward, let the user know that the request has been made, otherwise go to root
-        if ward_request == true
-          if @user.ward_id != nil
-            flash[:success] = 'Your request has been submitted. An admin will respond to your request soon.'
-          else
-            set_ward nil
-            flash[:success] = 'Your account is no longer associated with a ward.'
-          end
-        elsif email_change
+        sign_in User.find(@user.id)
+        if email_change
           flash[:success] = 'A verification was sent to your new email. Please follow the link in it to verify.'
         else
           flash[:success] = 'Your account has been updated.'
+        end
+        redirect_to root_path
+      
+      # if this is a request to access or leave a ward, let the user know the request has been made, otherwise go to root
+      elsif ward_request
+        sign_in User.find(@user.id)
+        if @user.ward_id != nil
+          flash[:success] = 'Your request has been submitted. An admin will respond to your request soon.'
+        else
+          set_ward nil
+          flash[:success] = 'Your account is no longer associated with a ward.'
         end
         redirect_to root_path
       else
@@ -179,6 +186,41 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
+  def reset
+    # the user has followed an email link to regain access to their account
+    if params[:id]
+      # verify that user auth code is correct, sign them in and send them to the edit user page or let them know there was an error
+      @user = User.find(params[:id])
+      if params[:auth_code] && params[:auth_code] == @user.auth_code
+        sign_in @user
+        redirect_to edit_user_path(current_user)
+      else
+        redirect_to root_path, notice: 'Something was not right. Try resending an email to regain access.'
+      end
+    end
+  end
+
+  def send_reset
+    # the user has requested access to their account, verify that an account is associated with that email address
+    if params[:email]
+      @user = User.find_by_email(params[:email])
+
+      # create a new auth code and send the user an email with instructions on how to regain access
+      if !@user.nil?
+        @user.auth_code = SecureRandom.hex(6)
+        @user.skip_validation = true
+        @user.save
+        @user.skip_validation = false
+        UserMailer.user_regain_access(@user.id).deliver
+        redirect_to root_path, notice: 'An email was sent to help you regain access to your account.'
+      
+      # no account is associated with that email so send them back to re-enter it
+      else
+        redirect_to reset_path, notice: 'There is no account associated with that email. Please enter a valid email address.'
+      end
+    end
+  end
+
   private
 
     def user_params
@@ -207,6 +249,7 @@ class UsersController < ApplicationController
     end
 
     def email_verified
+      # if their email address has not been verified then send them to the root page
       unless current_user.email_confirmed?
         redirect_to root_path, notice: 'You must verify your email address before you can access this area.'
       end
@@ -228,7 +271,7 @@ class UsersController < ApplicationController
       # if it is not the user's own account or if the signed in account is not authorized to administer the user's ward then redirect to root
       @user = User.find(params[:id])
       @ward = nil
-      Ward.find(@user.ward_id) if !@user.ward_id.nil?
+      @ward = Ward.find(@user.ward_id) if !@user.ward_id.nil?
       unless current_user?(@user) || (current_user.admin? && current_ward_is?(@ward) && ward_password?)
         redirect_to root_path, notice: 'You do not have permission to access this area.'
       end

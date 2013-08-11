@@ -6,4 +6,9 @@ class UserMailer < ActionMailer::Base
   	mail(:to => @user.email, :subject => "LDS Area Book - Verify Your Email", :content_type => "text/html")
   end
 
+  def user_regain_access(user_id)
+  	@user = User.find(user_id)
+  	mail(:to => @user.email, :subject => "LDS Area Book - Regain Access", :content_type => "text/html")
+  end
+
 end

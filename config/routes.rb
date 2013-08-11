@@ -16,6 +16,8 @@ AreaBook::Application.routes.draw do
   match '/new_user',   	     to: 'users#new', 		   		   via: 'get'
   match '/all_users',        to: 'users#all',              via: 'get'
   match '/verify_user',      to: 'users#verify',           via: 'get'
+  match '/reset',            to: 'users#reset',            via: 'get'
+  match '/send_reset',       to: 'users#send_reset',       via: 'post'
   match '/new_ward',         to: 'wards#new',              via: 'get'
   match '/password',         to: 'wards#password',         via: 'get'
   match '/change_password',  to: 'wards#change_password',  via: 'post'

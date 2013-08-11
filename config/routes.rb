@@ -10,7 +10,9 @@ AreaBook::Application.routes.draw do
 
   match '/help',      	     to: 'static_pages#help',  	   via: 'get'
   match '/tutorial',         to: 'static_pages#tutorial',  via: 'get'
-  match '/contact',          to: 'static_pages#contact',   via: 'get' 
+  match '/contact',          to: 'static_pages#contact',   via: 'get'
+  match '/terms',            to: 'static_pages#terms',     via: 'get'
+  match '/privacy',          to: 'static_pages#privacy',   via: 'get'
   match '/new_user',   	     to: 'users#new', 		   		   via: 'get'
   match '/all_users',        to: 'users#all',              via: 'get'
   match '/verify_user',      to: 'users#verify',           via: 'get'

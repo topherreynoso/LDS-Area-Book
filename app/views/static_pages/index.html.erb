@@ -3,7 +3,7 @@
 <% if signed_in? && current_ward.nil? %>
   <div class="row">
 <% end %>
-  <fullbody class="span11" style="height:520px;">
+  <fullbody class="span11" style="position:relative; z-index:2; height:520px;">
     <!-- the user is signed in but has not verified their email address so give them a resend verification button -->
     <% if signed_in? && !current_user.email_confirmed? %>
       <h1 style="margin:130px 50px 50px 50px;">Verify Your Email Address</h1>

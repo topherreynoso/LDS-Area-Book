@@ -77,7 +77,11 @@ module SessionsHelper
 
   def current_ward
     # retrieve the current ward or use the cookie to find it
-    @current_ward ||= Ward.find_by(ward_token: cookies[:ward_token])
+    if @current_ward.nil?
+      self.current_ward = Ward.find_by(ward_token: cookies[:ward_token])
+      Apartment::Database.switch(@current_ward.unit)
+    end
+    return @current_ward
   end
 
   def current_ward?
@@ -124,7 +128,7 @@ module SessionsHelper
     
   # if the ward decryptor is not valid, let the user know that they need to reenter the ward password
   rescue ActiveSupport::MessageVerifier::InvalidSignature
-    redirect_to password_path, notice: 'Your ward password was not valid. Please re-enter your password.'
+    redirect_to password_path
   end
 
 end

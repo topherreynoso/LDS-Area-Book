@@ -77,7 +77,7 @@ module SessionsHelper
 
   def current_ward
     # retrieve the current ward or use the cookie to find it
-    if @current_ward.nil?
+    if @current_ward.nil? && !@current_user.nil?
       self.current_ward = Ward.find_by(ward_token: cookies[:ward_token])
       Apartment::Database.switch(@current_ward.unit)
     end

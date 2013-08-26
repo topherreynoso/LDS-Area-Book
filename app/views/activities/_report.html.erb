@@ -1,7 +1,7 @@
 <!-- if there are no activites for display or a family has been selected -->
 <% if !@activities || @selected_family %>
   <div class="row">
-    <div class="span11" style="position:relative; overflow:hidden;" id="family_info">
+    <div class="span11" style="position:relative; overflow:hidden;" id="info_x">
       <table class="table table-condensed">
         <!-- set up the header for the family information -->
         <thead style="width:1100px;">  
@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <!-- if a family was selected, show family information -->
-        <tbody style="height:50px; width:1100px; overflow:auto;">
+        <tbody style="height:50px; width:1100px; position:relative; overflow:hidden;" id="info_y">
           <% if @selected_family %>
             <tr>
               <td style="width:250px;">
@@ -52,12 +52,12 @@
     </div>
   </div>
   <div class="row">
-    <div class="span11" style="position:relative; overflow:hidden;" id="family_notes">
+    <div class="span11" style="position:relative; overflow:hidden;" id="notes_x">
       <table class="table table-condensed">
         <!-- set up the header for the family notes -->
         <thead style="width:1100px;"><tr><th style="width:1100px;">Family Notes</th></tr></thead>
         <!-- display the family notes -->
-        <tbody style="width:1100px; height:30px; overflow:auto;">
+        <tbody style="width:1100px; height:30px; position:relative; overflow:hidden;" id="notes_y">
           <% if @selected_family && !@selected_family.notes.nil? %>
             <td style="width:1100px;"><%= @selected_family.notes %></td>
           <% end %>
@@ -66,7 +66,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="span11" style="position:relative; overflow:hidden;" id="family_history">
+    <div class="span11" style="position:relative; overflow:hidden;" id="history_x">
       <table class="table table-condensed table-hover">
         <!-- set up the header for the activity reports -->
         <thead style="width:1200px;">  
@@ -79,7 +79,7 @@
           </tr>  
         </thead>
         <!-- display any activities that have been selected -->
-        <tbody style="width:1200px; height:221px; overflow:auto;">
+        <tbody style="width:1200px; height:221px; position:relative; overflow:hidden;" id="history_y">
           <% if @activities && @activities.count > 0 %> 
             <%= render @activities %>
           <% end %>
@@ -90,15 +90,18 @@
   <!-- prepare the scrollbars for each section -->
   <script>
     $(document).ready(function() {
-      $('#family_info').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
-      $('#family_notes').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
-      $('#family_history').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+      $('#info_x').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+      $('#info_y').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+      $('#notes_x').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+      $('#notes_y').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+      $('#history_x').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+      $('#history_y').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
     });
   </script>
 <!-- if there are activities but no family was selected -->
 <% else %>
   <div class="row">
-    <div class="span11" style="position:relative; overflow:hidden;" id="activities">
+    <div class="span11" style="position:relative; overflow:hidden;" id="activities_x">
       <!-- determine the proper title for the report -->
       <center><h5>
         <% if @report_date %>
@@ -130,7 +133,7 @@
           </tr>  
         </thead>
         <!-- display any activities that have been selected -->
-        <tbody style="width:1450px; height:357px; overflow:auto;"> 
+        <tbody style="width:1450px; height:357px; position:relative; overflow:hidden;" id="activities_y"> 
           <% if @activities && @activities.count > 0 %>
             <%= render @activities %>
           <% end %>
@@ -140,7 +143,8 @@
   </div>
   <script>
     $(document).ready(function() {
-      $('#activities').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+      $('#activities_x').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+      $('#activities_y').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
     });
   </script>
 <% end %>

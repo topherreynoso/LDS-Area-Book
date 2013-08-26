@@ -4,7 +4,7 @@
   <div class="row">
     <fullbody class="span11" style="position:relative; z-index:2; height:480px;">
       <h1>Ward Users</h1>
-      <ul class="users" style="height:380px;">
+      <ul class="users" style="height:380px; position:relative; overflow:hidden;" id="users">
         <!-- show all users -->
         <% if !@users.nil? %>
           <%= render @users %>
@@ -21,3 +21,8 @@
     <%= render 'layouts/alphabetically' %>
   </div>
 </div>
+<script>
+  $(document).ready(function() {
+    $('#users').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+  });
+</script>

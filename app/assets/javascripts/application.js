@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require perfect-scrollbar
+//= require jquery.mousewheel
 //= require bootstrap
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker/core

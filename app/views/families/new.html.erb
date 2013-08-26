@@ -9,14 +9,20 @@
         <%= render 'shared/error_messages' %>
         <%= f.label :name, "Family Name (e.g. Smith, Joe & Jane)" %>
         <%= f.text_field :name, :class => "span5" %>
-        <%= f.label :phone, "Phone (e.g. 123-456-7890)" %>
-        <%= f.text_field :phone, :class => "span2" %>
-        <%= f.label :email %>
-        <%= f.text_field :email, :class => "span5" %>
+        <div class="row">
+          <div class="span2"><%= f.label :phone %></div>
+          <div class="span3"><%= f.label :email %></div>
+        </div>
+        <div class="row">
+          <div class="span2"><%= f.text_field :phone, :class => "span2" %></div>
+          <div class="span3"><%= f.text_field :email, :class => "span3" %></div>
+        </div>
         <%= f.label :address, "Address (street only, e.g. 1234 Street St. #23)" %>
         <%= f.text_field :address, :class => "span5" %>
         <%= f.label :children, "Names of Children (if applicable)" %>
         <%= f.text_field :children, :class => "span5" %>
+        <%= f.label :notes, "Notes (max 200 characters)" %>
+        <%= f.text_field :notes, :class => "span5" %>
         <div class="row" style="margin-bottom:30px;">
           <div class="span1">
             <%= f.label :investigator, "Investigator?" %>

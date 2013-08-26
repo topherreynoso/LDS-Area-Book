@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="span11" style="overflow: auto;">
+  <div class="span11" style="position:relative; overflow:hidden;" id="families_x">
     <table class="table table-condensed table-hover">
       <!-- set up the header for each family that will be listed -->
       <thead style="width:1700px;">
@@ -13,10 +13,16 @@
           <th style="width:500px;">Most Recent Notes</th>
         </tr>
       </thead>
-      <tbody style="height:397px;">
+      <tbody style="height:397px; position:relative; overflow:hidden;" id="families_y">
         <!-- show each family in the list -->
         <%= render @families %>
       </tbody>
     </table>
   </div>
 </div>
+<script>
+  $(document).ready(function() {
+    $('#families_x').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+    $('#families_y').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+  });
+</script>

@@ -18,7 +18,7 @@
       <div class="row">
         <div class="span11">
           <!-- show each ward in the database -->
-          <ul class="users" style="height:365px;">
+          <ul class="users" style="height:365px; position:relative; overflow:hidden;" id="wards">
             <%= render @wards %>
           </ul>
           <!-- show pagination -->
@@ -32,3 +32,8 @@
     <%= render 'layouts/alphabetically' %>
   </div>
 </div>
+<script>
+  $(document).ready(function() {
+    $('#wards').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+  });
+</script>

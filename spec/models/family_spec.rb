@@ -14,6 +14,7 @@
 #  watched          :boolean          default(FALSE)
 #  archived         :boolean          default(FALSE)
 #  confirmed_change :boolean          default(FALSE)
+#  notes            :string(255)
 #
 
 require 'spec_helper'

@@ -267,6 +267,7 @@ class FamiliesController < ApplicationController
     @email = @family.email
     @address = @family.address
     @children = @family.children
+    @notes = @family.notes
     @phone = @ward_decryptor.decrypt_and_verify(@family.phone) if !@family.phone.nil? && @family.phone != ""
     @email = @ward_decryptor.decrypt_and_verify(@family.email) if !@family.email.nil? && @family.email != ""
     @address = @ward_decryptor.decrypt_and_verify(@family.address) if !@family.address.nil? && @family.address != ""
@@ -304,7 +305,7 @@ class FamiliesController < ApplicationController
   private
 
     def family_params
-      params.require(:family).permit(:name, :phone, :email, :address, :children, :investigator)
+      params.require(:family).permit(:name, :phone, :email, :address, :children, :notes, :investigator)
     end
 
     # Before filters

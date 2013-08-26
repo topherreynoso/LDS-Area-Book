@@ -14,6 +14,7 @@
 #  watched          :boolean          default(FALSE)
 #  archived         :boolean          default(FALSE)
 #  confirmed_change :boolean          default(FALSE)
+#  notes            :string(255)
 #
 
 class Family < ActiveRecord::Base
@@ -24,6 +25,7 @@ class Family < ActiveRecord::Base
   # make sure that each family can have many activities (which are destroyed with the family) and at least a name
   has_many :activities, dependent: :destroy
   validates :name,  presence: true
+  validates :notes, length: { maximum: 200 }
 
   # encrypt sensitive data before saving to the database
   before_save :encrypt_data

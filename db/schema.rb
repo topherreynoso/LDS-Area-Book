@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130810160636) do
+ActiveRecord::Schema.define(version: 20130825174619) do
 
   create_table "activities", force: true do |t|
     t.integer  "family_id"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20130810160636) do
     t.boolean  "watched",          default: false
     t.boolean  "archived",         default: false
     t.boolean  "confirmed_change", default: false
+    t.string   "notes"
   end
 
   add_index "families", ["archived"], name: "index_families_on_archived"

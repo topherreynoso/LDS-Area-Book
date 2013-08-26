@@ -1,34 +1,31 @@
 <!-- if there are no activites for display or a family has been selected -->
 <% if !@activities || @selected_family %>
   <div class="row">
-    <div class="span11" style="overflow: auto;">
+    <div class="span11" style="position:relative; overflow:hidden;" id="family_info">
       <table class="table table-condensed">
         <!-- set up the header for the family information -->
-        <thead style="width:1250px;">  
+        <thead style="width:1100px;">  
           <tr>
             <th style="width:250px;">Family Name</th>  
-            <th style="width:150px;">Family Phone</th>  
-            <th style="width:250px;">Family Email</th>
+            <th style="width:250px;">Family Contact Info</th>
             <th style="width:250px;">Family Address</th>
             <th style="width:250px;">Child Names</th>
             <th style="width:100px;">Member?</th>
           </tr>
         </thead>
         <!-- if a family was selected, show family information -->
-        <tbody style="height:50px; width:1250px;">
+        <tbody style="height:50px; width:1100px; overflow:auto;">
           <% if @selected_family %>
             <tr>
               <td style="width:250px;">
                 <%= link_to @ward_decryptor.decrypt_and_verify(@selected_family.name), edit_family_path(@selected_family) %>
               </td>
-              <td style="width:150px;">
+              <td style="width:250px;">
                 <% if !@selected_family.phone.nil? && @selected_family.phone != "" %>
                   <%= @ward_decryptor.decrypt_and_verify(@selected_family.phone) %>
                 <% end %>
-              </td>
-              <td style="width:250px;">
                 <% if !@selected_family.email.nil? && @selected_family.email != "" %>
-                  <%= @ward_decryptor.decrypt_and_verify(@selected_family.email) %>
+                  <br><%= @ward_decryptor.decrypt_and_verify(@selected_family.email) %>
                 <% end %>
               </td>
               <td style="width:250px;">
@@ -55,7 +52,21 @@
     </div>
   </div>
   <div class="row">
-    <div class="span11" style="overflow: auto;">
+    <div class="span11" style="position:relative; overflow:hidden;" id="family_notes">
+      <table class="table table-condensed">
+        <!-- set up the header for the family notes -->
+        <thead style="width:1100px;"><tr><th style="width:1100px;">Family Notes</th></tr></thead>
+        <!-- display the family notes -->
+        <tbody style="width:1100px; height:30px; overflow:auto;">
+          <% if @selected_family && !@selected_family.notes.nil? %>
+            <td style="width:1100px;"><%= @selected_family.notes %></td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span11" style="position:relative; overflow:hidden;" id="family_history">
       <table class="table table-condensed table-hover">
         <!-- set up the header for the activity reports -->
         <thead style="width:1200px;">  
@@ -68,7 +79,7 @@
           </tr>  
         </thead>
         <!-- display any activities that have been selected -->
-        <tbody style="width:1200px; height:300px;">
+        <tbody style="width:1200px; height:221px; overflow:auto;">
           <% if @activities && @activities.count > 0 %> 
             <%= render @activities %>
           <% end %>
@@ -76,10 +87,18 @@
       </table>
     </div>
   </div>
+  <!-- prepare the scrollbars for each section -->
+  <script>
+    $(document).ready(function() {
+      $('#family_info').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+      $('#family_notes').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+      $('#family_history').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+    });
+  </script>
 <!-- if there are activities but no family was selected -->
 <% else %>
   <div class="row">
-    <div class="span11" style="overflow: auto;">
+    <div class="span11" style="position:relative; overflow:hidden;" id="activities">
       <!-- determine the proper title for the report -->
       <center><h5>
         <% if @report_date %>
@@ -111,7 +130,7 @@
           </tr>  
         </thead>
         <!-- display any activities that have been selected -->
-        <tbody style="width:1450px; height:357px;"> 
+        <tbody style="width:1450px; height:357px; overflow:auto;"> 
           <% if @activities && @activities.count > 0 %>
             <%= render @activities %>
           <% end %>
@@ -119,4 +138,9 @@
       </table>
     </div>
   </div>
+  <script>
+    $(document).ready(function() {
+      $('#activities').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
+    });
+  </script>
 <% end %>

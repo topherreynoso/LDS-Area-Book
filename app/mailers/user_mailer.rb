@@ -24,6 +24,11 @@ class UserMailer < ActionMailer::Base
   	mail(:to => @admin_emails, :subject => "A New User Requested Access", :content_type => "text/html")
   end
 
+  def user_access_status(user_id)
+    @user = User.find(user_id)
+    mail(:to => @user.email, :subject => "LDS Area Book - Area Book Access Changed", :content_type => "text/html")
+  end
+
   def user_email_admin(user_id, ward_id, message)
   	@user = User.find(user_id)
   	@admins = User.where(:ward_id => ward_id).where(:admin => true)

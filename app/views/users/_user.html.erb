@@ -54,10 +54,12 @@
       </div>
       <!-- allow the admin user to make or revoke other users' admin access -->
       <div class="span2">
-        <% if user.admin? %>
+        <% if user.ward_confirmed && user.admin? %>
          <%= link_to "Revoke Admin", user_path(user, "user[admin]" => false), :method => :put, :class => "btn btn-small btn-warning", confirm: "Are you sure you want to revoke this user's administrative rights?", "data-confirm-fade" => true, "data-confirm-title" => "Revoke #{user.name}'s Admin Rights", "data-confirm-proceed" => "Revoke", "data-confirm-proceed-class" => "btn-warning" %> 
-        <% else %>
+        <% elsif user.ward_confirmed %>
           <%= link_to "Make Admin", user_path(user, "user[admin]" => true), :method => :put, :class => "btn btn-small btn-warning", confirm: "Are you sure you want to make this user an administrator?", "data-confirm-fade" => true, "data-confirm-title" => "Make #{user.name} an Admin", "data-confirm-proceed" => "Proceed", "data-confirm-proceed-class" => "btn-warning" %>
+        <% else %>
+          &nbsp
         <% end %>
       </div>
     <% end %>

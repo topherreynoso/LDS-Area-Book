@@ -132,6 +132,7 @@ class UsersController < ApplicationController
         if @user.update_attributes(update_params)
           @user.skip_validation = false
           if ward_request
+            UserMailer.user_access_status(@user.id).deliver
             redirect_to users_path, :flash => { :success => "The user's ward status was successfully updated." }
           else
             redirect_to users_path, :flash => { :success => 'The user account was successfully updated.'}

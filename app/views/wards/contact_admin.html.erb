@@ -1,0 +1,15 @@
+<% provide(:title, "Contact Ward Admin") %> 
+<div class="container" style="margin-left:5px; margin-top:20px;">
+  <fullbody class="span11" style="min-height:520px;">
+    <!-- the user wants to contact a ward admin -->
+    <h1 style="margin:100px 30px 30px 30px;">Contact <%= @ward.name %> Admin</h1>
+    <center>
+      <h4 style="margin:0 0 20px 0">Please enter a message for this ward's administrator.</h4>
+      <%= form_tag email_admin_path do %>
+        <%= text_area_tag :message, nil, :placeholder => "your message", :class => "span5", :rows => 6 %><br>
+        <%= hidden_field_tag :id, @ward.id %>
+        <%= submit_tag "Send Message", :class => "btn btn-medium btn-primary", style: "margin:10px 0 0 0;" %>
+      <% end %>
+    </center>
+  </fullbody>
+</div>

@@ -2,7 +2,7 @@
   <!-- get the first administrator from the ward so we can display their contact info -->
   <% admin = User.where(:ward_id => ward.id).where(:admin => true).first %>
   <!-- a master user is viewing a list of all wards, display each ward's info -->
-  <% if current_user.master? %>
+  <% if current_user.master? && request.fullpath.include?("/wards") %>
     <div class="span3"><%= ward.name %></div>
     <div class="span1"><%= ward.unit %></div>
     <!-- if there is an admin, then show their name and email address -->
@@ -28,16 +28,16 @@
   <% else %>
     <div class="span3"><%= ward.name %></div>
     <!-- if there is an admin, then show their name and email address -->
-    <div class="span2">
+    <div class="span4">
       <% if !admin.nil? %>
         <%= admin.name %>
       <% else %>
         &nbsp
       <% end %>
     </div>
-    <div class="span4">
+    <div class="span2">
       <% if !admin.nil? %>
-        <%= mail_to admin.email, admin.email %>
+        <%= link_to "Contact Admin", contact_admin_path("id" => ward.id), :class => "btn btn-small btn-primary" %>
       <% else %>
         &nbsp
       <% end %>

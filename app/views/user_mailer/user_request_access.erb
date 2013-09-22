@@ -1,0 +1,20 @@
+<html>
+  <head>
+	<title>Greetings from LDS Area Book</title>
+  </head>
+  <body>
+	<center>
+	<table style="width: 555px; margin: 10px auto; border: 1px black solid;">
+	  <tr><td style="background: #dfdfdf; text-align: center;"><h2 style="margin: 8px auto 8px auto;">A New User Requested Access to Your Area Book</h2></td></tr>
+	  <tr>
+		<td style="text-align: left; padding: 5px 10px;">
+		  <p>As the administrator of your area book, you can respond to access requests from users.</p>
+		  <p><strong>LDS Area Book</strong> received a request from a new user to access your area book. You should only grant access to users who you know and who are authorized to access your ward area book information. To respond to this request, use the link below:</p>
+		  <p><center><%= link_to "LDS Area Book", root_url(:host => AppConfig['host_address']) %></center></p>
+		  <p>If you authorize this user to access your area book, remember to send them your area book password as well.</p>
+		</td>
+	  </tr>
+	</table>
+	</center>
+  </body>
+</html>

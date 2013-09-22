@@ -1,5 +1,5 @@
 class WardsController < ApplicationController
-  before_action :signed_in_and_verified, only: [:new, :create, :password, :confirm_password, :destroy, :edit, :change_password, :update, :index]
+  before_action :signed_in_and_verified, only: [:new, :create, :password, :confirm_password, :destroy, :edit, :change_password, :update, :index, :contact_admin, :email_admin]
   before_action :super_user, only: [:destroy, :edit, :change_password, :update, :index]
   before_action :admin_user, only: [:edit, :change_password, :update]
   before_action :master_user, only: [:index]
@@ -198,6 +198,25 @@ class WardsController < ApplicationController
   # if the decryptor is not valid, let the user know that the password was invalid
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     redirect_to edit_ward_path(current_ward), notice: 'The current password you entered was invalid.'
+  end
+
+  def contact_admin
+    # retrieve the ward record with the admin to be contacted
+    @ward = Ward.find(params[:id])
+  end
+
+  def email_admin
+    # the user wants to contact a ward admin so make sure that there is one
+    admin = User.where(:ward_id => params[:id]).where(:admin => true).first
+    if !admin.nil?
+      # send the user's message to the administrator
+      UserMailer.user_email_admin(current_user.id, params[:id], params[:message]).deliver
+      redirect_to root_path, notice: "Your message was emailed to the administrator, #{admin.name}."
+      
+    # no admin is associated with that ward
+    else
+      redirect_to root_path, notice: 'There is no administrator associated with that ward. Your message was not sent.'
+    end
   end
 
   private

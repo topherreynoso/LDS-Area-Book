@@ -103,6 +103,7 @@ class UsersController < ApplicationController
       elsif ward_request
         sign_in User.find(@user.id)
         if @user.ward_id != nil
+          UserMailer.user_request_access(@user.ward_id).deliver
           flash[:success] = 'Your request has been submitted. An admin will respond to your request soon.'
         else
           set_ward nil

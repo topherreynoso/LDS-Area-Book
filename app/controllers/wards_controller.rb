@@ -98,7 +98,7 @@ class WardsController < ApplicationController
     Apartment::Database.drop(ward.unit)
 
     # if the deleted ward is the current_ward, make sure that there is no ward set in this session and go to the root page
-    set_ward nil if ward == current_ward
+    set_ward nil if !current_user.master? || (current_user.master? && ward == current_ward)
     ward.destroy
     flash[:success] = "The ward and all of its records were successfully deleted."
     redirect_to root_path

@@ -26,7 +26,7 @@ class UserMailer < ActionMailer::Base
 
   def user_access_status(user_id)
     @user = User.find(user_id)
-    mail(:to => @user.email, :subject => "LDS Area Book - Area Book Access Changed", :content_type => "text/html")
+    mail(:to => @user.email, :subject => "Area Book Access Changed", :content_type => "text/html")
   end
 
   def user_email_admin(user_id, ward_id, message)

@@ -120,7 +120,9 @@ class UsersController < ApplicationController
       # only allow the proper list of updateable attributes in, let admins and master users skip validation requirements
       if signed_in? && (current_user.admin? || current_user.master?)
         @user.skip_validation = true
-        ward_request = true if params[:user][:ward_id] && params[:user][:ward_id] != @user.ward_id
+        if (params[:user][:ward_id] && params[:user][:ward_id] != @user.ward_id) || (params[:user][:ward_confirmed] && params[:user][:ward_confirmed] != @user.ward_confirmed)
+          ward_request = true
+        end
         update_params = nil
         if current_user.master?
           update_params = master_user_params

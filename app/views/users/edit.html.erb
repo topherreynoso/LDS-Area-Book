@@ -40,26 +40,28 @@
                   <%= f.submit "Save changes", class: "btn btn-medium btn-primary" %>
                 </div>
             <% end %>
-                <% if !@user.ward_id.nil? && current_user?(@user) %>
-                  <div class="span2">
-                    <!-- set up a button to let the user either leave their confirmed ward or rescind a request to join a ward -->
-                    <%= form_for(@user) do |f| %>
-                      <%= f.hidden_field :ward_confirmed, :value => false %>
-                      <%= f.hidden_field :ward_id, :value => nil %>
-                      <%= f.hidden_field :admin, :value => false %>
-                      <% if @user.ward_confirmed %>
-                        <%= f.submit "Leave Ward", class: "btn btn-medium btn-warning", confirm: "If you leave this ward you will lose access to its area book. Are you sure you want to leave?", "data-confirm-fade" => true, "data-confirm-title" => "Leave This Ward", "data-confirm-proceed" => "Leave", "data-confirm-proceed-class" => "btn-warning" %>
-                      <% else %>
-                        <%= f.submit "Rescind Ward", class: "btn btn-medium btn-warning", confirm: "Are you sure you want to rescind your request to access this ward's area book?", "data-confirm-fade" => true, "data-confirm-title" => "Rescind Your Request", "data-confirm-proceed" => "Rescind", "data-confirm-proceed-class" => "btn-warning" %>
-                      <% end %>
+            <% if current_user?(@user) %>
+              <% if !@user.ward_id.nil? %>
+                <div class="span2">
+                  <!-- set up a button to let the user either leave their confirmed ward or rescind a request to join a ward -->
+                  <%= form_for(@user) do |f| %>
+                    <%= f.hidden_field :ward_confirmed, :value => false %>
+                    <%= f.hidden_field :ward_id, :value => nil %>
+                    <%= f.hidden_field :admin, :value => false %>
+                    <% if @user.ward_confirmed %>
+                      <%= f.submit "Leave Ward", class: "btn btn-medium btn-warning", confirm: "If you leave this ward you will lose access to its area book. Are you sure you want to leave?", "data-confirm-fade" => true, "data-confirm-title" => "Leave This Ward", "data-confirm-proceed" => "Leave", "data-confirm-proceed-class" => "btn-warning" %>
+                    <% else %>
+                      <%= f.submit "Rescind Ward", class: "btn btn-medium btn-warning", confirm: "Are you sure you want to rescind your request to access this ward's area book?", "data-confirm-fade" => true, "data-confirm-title" => "Rescind Your Request", "data-confirm-proceed" => "Rescind", "data-confirm-proceed-class" => "btn-warning" %>
                     <% end %>
-                  </div>
-                  <!-- allow a user to delete their own account -->
-                  <div class="span1">
-                    <%= link_to "Delete", @user, method: :delete, class: "btn btn-medium btn-danger", confirm: "Deleting your account is a permanent action. You will lose access to any ward area book you are a member of. Are you sure you want to permanently delete your account?", "data-confirm-fade" => true, "data-confirm-title" => "Delete #{@user.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
-                  </div>
-                <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+              <!-- allow a user to delete their own account -->
+              <div class="span1">
+                <%= link_to "Delete", @user, method: :delete, class: "btn btn-medium btn-danger", confirm: "Deleting your account is a permanent action. You will lose access to any ward area book you are a member of. Are you sure you want to permanently delete your account?", "data-confirm-fade" => true, "data-confirm-title" => "Delete #{@user.name}", "data-confirm-proceed" => "Delete", "data-confirm-proceed-class" => "btn-danger" %>
               </div>
+            <% end %>
+          </div>
         </div>
       </div>
     </fullbody>

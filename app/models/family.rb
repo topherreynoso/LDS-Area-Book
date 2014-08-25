@@ -95,9 +95,12 @@ class Family < ActiveRecord::Base
 
         # go three columns over and look for the next child, adding it to children, until there are no more children names listed
         loop do
-          break if i > 56
-          children += ", #{row[i]}" if !row[i].nil? && row[i] != ""
-          i += 3
+          if row[i].nil? || row[i] == ""
+            break
+          else
+            children += ", #{row[i]}"
+            i += 3
+          end
         end
         new_info["children"] = children
       end

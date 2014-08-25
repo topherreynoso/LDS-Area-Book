@@ -130,7 +130,7 @@
 	  <div class="row">
   	  <div class="span11" style="position:relative; overflow:hidden;" id="update_x">
         <table class="table table-condensed table-hover">
-          <!-- set up the header for each family that can be updated -->
+          <!-- set up the header for each participant that can be updated -->
           <thead style="width:1450px;">
             <tr>
               <th style="width:250px;">Family Name</th>
@@ -144,9 +144,9 @@
         	  </tr>
       	  </thead>
       	  <tbody style="width:1450px; height:300px; position:relative; overflow:hidden;" id="update_y">
-            <!-- add each family and its current and updated information along with a checkbox to select it for updating -->
-      	 	  <% @update_families.each_with_index do |family,i| %>
-      	 	    <%= fields_for "update_families[#{i}]", family do |f| %>
+            <!-- add each participant and its current and updated information along with a checkbox to select it for updating -->
+      	 	  <% @update_participants.each_with_index do |participant,i| %>
+      	 	    <%= fields_for "update_participants[#{i}]", participant do |f| %>
         		    <tr>
   		  	        <td style="width:250px;"><%= family.name %></td>
 		  	          <td style="width:150px;">
@@ -227,30 +227,20 @@
 <script>
   $('#add_tip').tooltip({ 
     placement: 'right',
-    title: 'Suggested families to add to the ward. These families are not found in the area book. Make sure there is not a misspelled name that already exists.'
+    title: 'Suggested participants to add to the company. These participants are not currently in the company records. Make sure there is not a misspelled name that already exists.'
   });
   $('#archive_tip').tooltip({ 
     placement: 'right',
-    title: 'Families suggested for archiving. These families are not found in the imported ward list. Make sure they are not investigators before archiving.'
+    title: 'Participants suggested for archiving. These participants were not found in the imported list.'
   });
   $('#update_tip').tooltip({ 
     placement: 'right',
-    title: 'Updates suggested for existing families. Current information will be listed first and updated information is listed in bold below the family name.'
+    title: 'Updates suggested for existing participants. Current information will be listed first and updated information is listed in bold below.'
   });
 </script>
 <!-- add a javascript to select and unselect all families in each category -->
 <script type='text/javascript'>
-    $('#check_all_new').on("click", function(){ $('input[id="add_family"]').click(); });
-    $('#check_all_archive').on("click", function(){ $('input[id="archive_family"]').click(); });
-    $('#check_all_update').on("click", function(){ $('input[id="update_family"]').click(); });
-</script>
-<script>
-  $(document).ready(function() {
-    $('#add_x').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
-    $('#add_y').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
-    $('#archive_x').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
-    $('#archive_y').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
-    $('#update_x').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
-    $('#update_y').perfectScrollbar({wheelSpeed:30, wheelPropagation:true});
-  });
+    $('#check_all_new').on("click", function(){ $('input[id="add_participant"]').click(); });
+    $('#check_all_archive').on("click", function(){ $('input[id="archive_participant"]').click(); });
+    $('#check_all_update').on("click", function(){ $('input[id="update_participant"]').click(); });
 </script>

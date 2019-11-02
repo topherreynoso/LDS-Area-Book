@@ -154,7 +154,7 @@ GEM
     uglifier (1.0.3)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
-    will_paginate (3.0.4)
+    will_paginate (3.2.1)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -184,4 +184,4 @@ DEPENDENCIES
   turbolinks (= 1.0.0)
   twitter-bootstrap-rails-confirm
   uglifier (= 1.0.3)
-  will_paginate (= 3.0.4)
+  will_paginate (= 3.2.1)

@@ -1,12 +1,12 @@
 GIT
-  remote: git://github.com/heroku/rails3_serve_static_assets.git
-  revision: 84910ceb4ca2851d650e66d3b22f5008acf253f8
+  remote: https://github.com/heroku/rails3_serve_static_assets.git
+  revision: 825284e2db1ecebf9b6a61f4322864fb398c5733
   specs:
     rails3_serve_static_assets (0.0.1)
 
 GIT
-  remote: git://github.com/heroku/rails_log_stdout.git
-  revision: 01b5bcc572e3baed1618f4068920dd83bd491fb2
+  remote: https://github.com/heroku/rails_log_stdout.git
+  revision: 868ae69489c05f8905650a27f0954c22ea0b9573
   specs:
     rails_log_stdout (0.0.1)
 
@@ -150,7 +150,7 @@ GEM
     turbolinks (1.0.0)
       coffee-rails
     twitter-bootstrap-rails-confirm (1.0.1)
-    tzinfo (0.3.37)
+    tzinfo (0.3.61)
     uglifier (1.0.3)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
